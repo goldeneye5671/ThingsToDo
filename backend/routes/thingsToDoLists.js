@@ -147,18 +147,6 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
 router.delete("/:id", expressAsyncHandler(async (req, res) => {
     const listToDelete = await db.ThingsToDoList.findByPk(req.params.id);
     if (listToDelete) {
-        const listTagJoinsToDelete = await db.ThingsToDoListTagJoins.findAll({
-            where: {
-                thingsToDoListId: req.params.id
-            }
-        })
-
-        console.log("List to be deleted: ", listTagJoinsToDelete)
-
-        for (let listTagJoin in listTagJoinsToDelete) {
-            await listTagJoin.destroy();
-        }
-
         await listToDelete.destroy()
         res.json({"status": "deleted"})
     } else {
