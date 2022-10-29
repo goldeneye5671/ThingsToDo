@@ -145,9 +145,39 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
 }))
 
 router.delete("/:id", expressAsyncHandler(async (req, res) => {
-    const listToDelete = await db.ThingsToDoList.findByPk(req.params.id);
+    const listToDelete = await db.ThingsToDoList.findByPk(req.params.id,
+        {
+            include: [
+                db.ThingsToDoListTag
+            ]
+        }
+    )
+    const listTagsToDelete = await db.ThingsToDoListTagJoins.findAll({
+        where: {
+            thingsToDoListId: req.params.id
+        }
+    });
+
+    const listThingsToDoToDelete = await db.ThingsToDoTOThingsToDoListJoins.findAll({
+        where: {
+            thingToDoListId: req.params.id
+        }
+    })
+
     if (listToDelete) {
+        if (listTagsToDelete) {
+            for (let listTagToDelete of listTagsToDelete) {
+                await listTagToDelete.destroy()
+            }
+        }
+
+        if (listThingsToDoToDelete) {
+            for (let listThingToDoDoDelete of listThingsToDoToDelete) {
+                await listThingToDoDoDelete.destroy()
+            }
+        }
         await listToDelete.destroy()
+        // await listToDelete.destroy()
         res.json({"status": "deleted"})
     } else {
         throw new Error(`Cannot find thing to do list with the id of ${req.params.id}`)

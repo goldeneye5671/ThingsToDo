@@ -26,11 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         through: "ThingsToDoListTagJoins",
         otherKey: "thingsToDoListTagId",
         foreignKey: "thingsToDoListId",
-        // onDelete: "CASCADE",
-        // hooks: true
       }
     )
 
+    // ThingsToDoList.hasMany(models.ThingsToDoListTagJoins, {foreignKey: "thingsToDoListId", onDelete: 'CASCADE', hooks: true })
     // associations can be defined here
   };
   return ThingsToDoList;

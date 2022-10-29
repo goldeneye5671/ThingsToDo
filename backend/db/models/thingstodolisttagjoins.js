@@ -5,12 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     thingsToDoListTagId: DataTypes.INTEGER
   }, {});
   ThingsToDoListTagJoins.associate = function(models) {
+    // ThingsToDoListTagJoins.belongsTo(models.ThingsToDoList,
+    //   {
+    //     foreignKey: "thingsToDoListId"
+    //   })
     // associations can be defined here
-    ThingsToDoListTagJoins.belongsTo(models.ThingsToDoList, {
-      foreignKey: "thingsToDoListId",
-      onDelete: "CASCADE",
-      hooks: true
-    })
   };
   return ThingsToDoListTagJoins;
 };

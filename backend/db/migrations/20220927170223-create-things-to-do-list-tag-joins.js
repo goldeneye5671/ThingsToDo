@@ -10,11 +10,11 @@ module.exports = {
       },
       thingsToDoListId: {
         type: Sequelize.INTEGER,
-        references: {model: "ThingsToDoLists"}
+        references: {model: "ThingsToDoLists"},
       },
       thingsToDoListTagId: {
         type: Sequelize.INTEGER,
-        references: {model: "ThingsToDoListTags"}
+        references: {model: "ThingsToDoListTags"},
       },
       createdAt: {
         allowNull: false,

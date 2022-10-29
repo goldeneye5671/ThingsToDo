@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: "thingsToDoListId",
         foreignKey: "thingsToDoListTagId"
       })
+
     // associations can be defined here
   };
   return ThingsToDoListTag;
