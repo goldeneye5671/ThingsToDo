@@ -95,7 +95,7 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
 //handles only adding new tags to the list
 router.post("/:id/add-thing-to-do", expressAsyncHandler(async (req, res) => {
     // Gets all of the things to do from the list
-    const existingThingsToDo = db.ThingsToDoTOThingsToDoListJoins.;
+    // const existingThingsToDo = db.ThingsToDoTOThingsToDoListJoins.;
     // Adds all of the given things to do to the list if they are not already in the list
 }));
 

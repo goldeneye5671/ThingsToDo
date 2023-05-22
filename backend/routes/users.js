@@ -79,7 +79,7 @@ router.get('/:id/lists', asyncHandler(async (req, res) => {
 // PATCH - is to change the resource partially with the data sent from the user
 
 router.patch("/:id", asyncHandler(async (req, res) => {
-    const updateUser = req.body.updateUser;
+    const updateUser = req.body;
     const user = await db.User.findByPk(req.params.id)
     // NOTE - Need an update here so that only an admin or the peron that owns this user can update this
     if (updateUser) {
