@@ -16,13 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       {
         through:"ThingsToDoTOThingsToDoListJoins",
         otherKey: "thingToDoId",
-        foreignKey: "thingToDoListId"
+        foreignKey: "thingToDoListId",
       }
     )
 
     ThingsToDoList.belongsToMany(
       models.ThingsToDoListTag, 
       {
+        // through: {
+        //   model:"ThingsToDoListTagJoins",
+        //   attributes: ["createdAt", "updatedAt"]
+        // },
         through: "ThingsToDoListTagJoins",
         otherKey: "thingsToDoListTagId",
         foreignKey: "thingsToDoListId",

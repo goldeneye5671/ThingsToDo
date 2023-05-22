@@ -41,25 +41,25 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
 }))
 
 router.patch("/:id", expressAsyncHandler(async (req, res) => {
-    const updatedInfo = req.body
-    const updatedThingTag = await db.ThingsToDoListTag.findByPk(req.params.id);
-    if (updatedThingTag && updatedInfo) {
-        updatedThingTag.update(updatedInfo)
-        res.json(updatedThingTag)
+    const {updatedTagName} = req.body
+    const tagToUpdate = await db.ThingsToDoListTag.findByPk(req.params.id);
+    if (tagToUpdate && updatedTagName) {
+       await tagToUpdate.update({
+            name: updatedTagName
+       })
+       res.json(tagToUpdate)
     } else {
         throw new Error(`Error finding the thing tag with the id ${req.params.id}. Please try again`)
     }
 }))
 
 router.delete("/:id", expressAsyncHandler(async (req, res) => {
-    console.log("Hit route")
-    const deletedThingTag = await db.ThingsToDoListTag.findByPk(req.body.params);
-    console.log("Got the thing to delete")
+    const deletedThingTag = await db.ThingsToDoListTag.findByPk(req.params.id);
     if (deletedThingTag) {
         await deletedThingTag.destroy()
-        // res.json(deletedThingTag)
-        console.log("destroyed")
-        res.json({status: "deleted"})
+        res.json(deletedThingTag)
+    } else {
+        res.status(500).json({message: "The requested resource could not be found"})
     }
 }))
 

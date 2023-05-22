@@ -22,6 +22,7 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
         include: [
             db.ThingsToDoListTag,
             db.User,
+            db.ThingsToDo
         ]
     })
     res.json(oneThingsToDoList)
@@ -48,12 +49,18 @@ router.post("/", expressAsyncHandler(async (req, res) => {
 
         // gets the updated list with all tags added
         const getThingToDoList = await db.ThingsToDoList.findByPk(createdThingToDoList.id, {
+            // include: [
+            //     db.ThingsToDoListTag,
+            //     db.User
+            // ]
             include: [
-                db.ThingsToDoListTag,
-                db.User
+                {
+                    model: db.ThingsToDoListTag,
+                    // All this does is tell me what attribute I want to include that go through the joins table. If I don't want anything I just leave it blank
+                    through:{attributes: []} //"thingsToDoListId","createdAt", "updatedAt"]}   
+                }
             ]
         })
-
         if (getThingToDoList) {
             console.log(getThingToDoList)
             res.json(getThingToDoList)
@@ -65,40 +72,86 @@ router.post("/", expressAsyncHandler(async (req, res) => {
     }
 }))
 
-
-/**
- * 
-    {
-    "listName": "Test Name",
-    "listDescription": "Test Desc",
-    "listTagIds": {
-            "add": [],
-            "remove": []
-        }
-    }
- */
+//handles only changing the name and description of the list
 router.patch("/:id", expressAsyncHandler(async (req, res) => {
-    const {listName, listDescription, listTagIds} = req.body
-    const createdThingToDoList = await db.ThingsToDoList.findByPk(req.params.id, {
-        include: [
-            db.ThingsToDoListTag
-        ]
-    })
+    const thingToDoList = await db.ThingsToDoList.findByPk(req.params.id);
+    if (thingsToDoList) {
+        
+        const listName = req.body.listName ?? thingToDoList.listName
+        const listDescription = req.body.listDescription ?? thingToDoList.listDescription
 
-    if (listName && listDescription) {
-        createdThingToDoList.update({
+        thingsToDoList.update({
             listName,
             listDescription
         })
     } else {
-        throw new Error(`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}`)
+        res.status(500).json({message: "the resource could not be found"})
     }
 
-    // Does the list exist
-    if (createdThingToDoList) {
-        // go through each list tag in the add property
-        for (let listTagId of listTagIds.add) {
-            console.log("IN LOOP \n")
+    const updatedThingsToDoList = await db.ThingsToDoList.findByPk(req.params.id)
+    res.json(updatedThingsTODoList)
+}))
+
+//handles only adding new tags to the list
+router.post("/:id/add-thing-to-do", expressAsyncHandler(async (req, res) => {
+    // Gets all of the things to do from the list
+    const existingThingsToDo = db.ThingsToDoTOThingsToDoListJoins.;
+    // Adds all of the given things to do to the list if they are not already in the list
+}));
+
+//handles only removing existing tags to the list
+
+//handles only adding new thingsToDo to the list
+
+//handles only removing existing thingsToDo from the list
+
+/**
+ * This function only deletes the list and anything associated with the list
+ */
+router.delete("/:id", expressAsyncHandler(async (req, res) => {
+
+    const listToDelete = await db.ThingsToDoList.findByPk(req.params.id)
+
+    if (listToDelete) {
+        try{
+            await db.ThingsToDoTOThingsToDoListJoins.destroy({
+                where: {
+                    thingToDoListId: req.params.id
+                }
+            })
+
+            await db.ThingsToDoListTagJoins.destroy({
+                where: {
+                    thingsToDoListId: req.params.id
+                }
+            })
+        
+            await listToDelete.destroy()
+
+            res.json({
+                message: "Resource deleted"
+            })
+        }catch(e) {
+            console.log(e)
+            res.json({message: "There was an issue deleting the resource"})
+        }
+    } else{
+        res.status(500).json({
+            message: "Cannot find the resource specified. Please verify that the id is correct"
+        })
+    }
+}))
+
+
+// Need 4 routes, 2 for adding and deleting tags, 2 for adding and deleting the actual thingtodo
+
+//Adding many tag to a list 
+router.post("/:id/tags", expressAsyncHandler(async (req, res) => {
+    // Expecting a list of tags, even if it is one
+    const {listTagIds} = req.body
+    if (listTagIds && listTagIds > 0) {
+
+        for (let listTagId of listTagIds) {
             // get the tag from the db
             const checkTag = await db.ThingsToDoListTag.findByPk(listTagId)
                 // Checks to see if the tag doesn't exist yet exists
@@ -116,8 +169,21 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
                     throw new Error ("This tag does not exist")
                 }
         }
-        // go through each of the tags with the list, 
-        for (let listTagId of listTagIds.remove) {
+    } else if (req.body.listOfTags.length <= 0){
+        throw new Error("Parameter has no tags to add")
+    } else {
+        throw new Error("Parameter not found")
+    }
+    
+}))
+
+
+// removing many tag from a list
+router.delete("/:id/tags", expressAsyncHandler(async (req, res) => {
+    // Expecting a list of tags, even if it is one
+    const {listTagIds} = req.body
+    if (listTagIds && listTagIds.length > 0) {
+        for (let listTagId of listTagIds) {
             // See if the listTagId is associated with the list and remove it if it is
             let listTag = createdThingToDoList.ThingsToDoListTags.find((el, i) => el.id === listTagId)
             if (listTag) {
@@ -127,62 +193,26 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
                         thingsToDoListTagId: listTag.id
                     }
                 })
-
+    
                 listTagConnection.destroy()
             }
         }
-        const updatedThingsToDoList = await db.ThingsToDoList.findByPk(req.params.id, {
-            include: [
-                db.ThingsToDoListTag
-            ]
-        })
-        
-        res.json(updatedThingsToDoList)
+    } else if (listTagIds.length <= 0) {
+        throw new Error("Parameter has no tags to add")
     } else {
-        throw new Error(`Error: Params didn't find a list with an id of ${req.params.id}`)
-    }
-
-}))
-
-router.delete("/:id", expressAsyncHandler(async (req, res) => {
-    const listToDelete = await db.ThingsToDoList.findByPk(req.params.id,
-        {
-            include: [
-                db.ThingsToDoListTag
-            ]
-        }
-    )
-    const listTagsToDelete = await db.ThingsToDoListTagJoins.findAll({
-        where: {
-            thingsToDoListId: req.params.id
-        }
-    });
-
-    const listThingsToDoToDelete = await db.ThingsToDoTOThingsToDoListJoins.findAll({
-        where: {
-            thingToDoListId: req.params.id
-        }
-    })
-
-    if (listToDelete) {
-        if (listTagsToDelete) {
-            for (let listTagToDelete of listTagsToDelete) {
-                await listTagToDelete.destroy()
-            }
-        }
-
-        if (listThingsToDoToDelete) {
-            for (let listThingToDoDoDelete of listThingsToDoToDelete) {
-                await listThingToDoDoDelete.destroy()
-            }
-        }
-        await listToDelete.destroy()
-        // await listToDelete.destroy()
-        res.json({"status": "deleted"})
-    } else {
-        throw new Error(`Cannot find thing to do list with the id of ${req.params.id}`)
+        throw new Error("Parameter not found")
     }
 }))
 
 
+// Adding many things to a list
+router.post("/:id/ThingToDo", expressAsyncHandler(async (req, res) => {
+    // Expecting a list of ThingsToDo, even if it is one
+}))
+
+
+// removing many things from a list
+router.delete("/:id/ThingToDo", expressAsyncHandler(async (req, res) => {
+    // Expecting a list of ThingsToDo, even if it is one
+}))
 module.exports = router

@@ -135,4 +135,14 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
     }
 }))
 
+router.delete("/:id", expressAsyncHandler(async (req, res) => {
+    const thingToDelete = await db.ThingsToDo.findByPk(req.params.id);
+    if (thingToDelete) {
+        await thingToDelete.destroy();
+        res.json({"status": "deleted"})
+    } else {
+        throw new Error("Cannot find thing to do to delete")
+    }
+}))
+
 module.exports = router
