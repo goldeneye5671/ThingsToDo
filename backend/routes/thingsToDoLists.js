@@ -108,15 +108,15 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
 
 
 //handles only adding new tags to the list
+//TODO: Only allow the user that owns the list to add a tag to it
 router.post("/:listId/tag/add/:tagId", expressAsyncHandler(async (req, res, next) => {
+
     try {
     //grabs the tag from the joins if it exits
     const thingsToDoListTagJoinsAss = await db.ThingsToDoListTagJoins.findOne({
         where: {
-            [Op.and]: {
-                thingsToDoListId: req.params.listId,
-                thingsToDoListTagId: req.params.tagId
-            }
+            thingsToDoListId: req.params.listId,
+            thingsToDoListTagId: req.params.tagId
         }
     })
 
@@ -141,7 +141,8 @@ router.post("/:listId/tag/add/:tagId", expressAsyncHandler(async (req, res, next
     } catch (e) {
         next(e);
     }
-}));
+}
+));
 //handles only removing existing tags to the list
 router.delete("/:listId/tags/:tagId", expressAsyncHandler(async (req, res) => {
 
