@@ -5,7 +5,7 @@ const {Op} = require("sequelize")
 
 router.get("/", expressAsyncHandler(async (req, res, next) => {
     try {
-        const allBusinesses = await db.Businesses.findAll()
+        const allBusinesses = await db.Business.findAll()
         res.json(allBusinesses)
     } catch (e) {
         next(e)
