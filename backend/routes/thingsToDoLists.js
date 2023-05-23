@@ -167,6 +167,38 @@ router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res
     }
 }))
 //handles only adding new thingsToDo to the list
+router.post("/:listId/thingToDo/add/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        // find the connection if it exists
+        const thingToDoListTOthingAss = await db.ThingsToDoTOThingsToDoListJoins.findOne({
+            where: {
+                thingToDoListId: parseInt(req.params.listId),
+                thingToDoId: parseInt(req.params.thingToDoId)
+            }
+        });
+
+        const thingsToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId));
+
+        console.log(thingsToDoList && !thingToDoListTOthingAss)
+        if (thingsToDoList && !thingToDoListTOthingAss) {
+            await db.ThingsToDoTOThingsToDoListJoins.create({
+                thingToDoListId: parseInt(req.params.listId),
+                thingToDoId: parseInt(req.params.thingToDoId)
+            })
+        }
+        const updatedThingToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId), {
+            include: [
+                db.ThingsToDoListTag,
+                db.ThingsToDo
+            ]
+        });
+
+        res.json(updatedThingToDoList)
+    } catch (e) {
+        next(e)
+    }
+}))
+
 
 //handles only removing existing thingsToDo from the list
 router.delete("/:listId/thingToDo/remove/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
@@ -177,8 +209,6 @@ router.delete("/:listId/thingToDo/remove/:thingToDoId", expressAsyncHandler(asyn
                 thingToDoId: parseInt(req.params.thingToDoId)
             }
         });
-        
-        console.log(thingToDoListTOthingAss)
 
         const thingToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId))
 
