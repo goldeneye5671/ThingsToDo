@@ -3,7 +3,7 @@ const expressAsyncHandler = require("express-async-handler")
 const Op = require("sequelize")
 const db = require("../db/models");
 
-
+// Get one list
 router.get("/", expressAsyncHandler(async (req, res) => {
     const allThingsToDoLists = await db.ThingsToDoList.findAll({
         include: [
@@ -17,7 +17,7 @@ router.get("/", expressAsyncHandler(async (req, res) => {
     }
 }))
 
-
+// Fet all lists
 router.get("/:id", expressAsyncHandler(async (req, res) => {
     const oneThingsToDoList = await db.ThingsToDoList.findByPk(req.params.id, {
         include: [
@@ -29,6 +29,7 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
     res.json(oneThingsToDoList)
 }))
 
+// Create one list
 router.post("/", expressAsyncHandler(async (req, res) => {
     const {listName, listDescription, listTagIds, userId} = req.body
     if (listName && listDescription && userId) {
@@ -73,7 +74,7 @@ router.post("/", expressAsyncHandler(async (req, res) => {
     }
 }))
 
-//handles only changing the name and description of the list
+// updated one list
 router.patch("/:id", expressAsyncHandler(async (req, res) => {
     const thingToDoList = await db.ThingsToDoList.findByPk(req.params.id);
     if (thingsToDoList) {
@@ -144,6 +145,7 @@ router.post("/:listId/tag/add/:tagId", expressAsyncHandler(async (req, res, next
     }
 }
 ));
+
 //handles only removing existing tags to the list
 router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res, next) => {
     // get the connection that represents the tag being associated with the list
@@ -166,6 +168,7 @@ router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res
         next(e)
     }
 }))
+
 //handles only adding new thingsToDo to the list
 router.post("/:listId/thingToDo/add/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
     try {
@@ -198,7 +201,6 @@ router.post("/:listId/thingToDo/add/:thingToDoId", expressAsyncHandler(async (re
         next(e)
     }
 }))
-
 
 //handles only removing existing thingsToDo from the list
 router.delete("/:listId/thingToDo/remove/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
@@ -267,77 +269,4 @@ router.delete("/:id", expressAsyncHandler(async (req, res) => {
     }
 }))
 
-
-// Need 4 routes, 2 for adding and deleting tags, 2 for adding and deleting the actual thingtodo
-
-//Adding many tag to a list 
-router.post("/:id/tags", expressAsyncHandler(async (req, res) => {
-    // Expecting a list of tags, even if it is one
-    const {listTagIds} = req.body
-    if (listTagIds && listTagIds > 0) {
-
-        for (let listTagId of listTagIds) {
-            // get the tag from the db
-            const checkTag = await db.ThingsToDoListTag.findByPk(listTagId)
-                // Checks to see if the tag doesn't exist yet exists
-                if (checkTag){
-                    // check if the tag is on the list
-                    if (!createdThingToDoList.ThingsToDoListTags.find((el, i) => el.id === checkTag.id)) {
-                        await db.ThingsToDoListTagJoins.create({
-                            thingsToDoListId: createdThingToDoList.id,
-                            thingsToDoListTagId: listTagId
-                        })
-                    }
-                    // add the tag to the list
-                    
-                } else {
-                    throw new Error ("This tag does not exist")
-                }
-        }
-    } else if (req.body.listOfTags.length <= 0){
-        throw new Error("Parameter has no tags to add")
-    } else {
-        throw new Error("Parameter not found")
-    }
-    
-}))
-
-
-// removing many tag from a list
-router.delete("/:id/tags", expressAsyncHandler(async (req, res) => {
-    // Expecting a list of tags, even if it is one
-    const {listTagIds} = req.body
-    if (listTagIds && listTagIds.length > 0) {
-        for (let listTagId of listTagIds) {
-            // See if the listTagId is associated with the list and remove it if it is
-            let listTag = createdThingToDoList.ThingsToDoListTags.find((el, i) => el.id === listTagId)
-            if (listTag) {
-                // get the connection and delete it
-                const listTagConnection = await db.ThingsToDoListTagJoins.findOne({
-                    where: {
-                        thingsToDoListTagId: listTag.id
-                    }
-                })
-    
-                listTagConnection.destroy()
-            }
-        }
-    } else if (listTagIds.length <= 0) {
-        throw new Error("Parameter has no tags to add")
-    } else {
-        throw new Error("Parameter not found")
-    }
-}))
-
-
-// Adding many things to a list
-router.post("/:id/ThingToDo", expressAsyncHandler(async (req, res) => {
-    // Expecting a list of ThingsToDo, even if it is one
-}))
-
-
-// removing many things from a list
-router.delete("/:id/ThingToDo", expressAsyncHandler(async (req, res) => {
-    // Expecting a list of ThingsToDo, even if it is one
-}))
 module.exports = router
