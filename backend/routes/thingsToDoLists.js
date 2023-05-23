@@ -100,7 +100,27 @@ router.post("/:id/add-thing-to-do", expressAsyncHandler(async (req, res) => {
 }));
 
 //handles only removing existing tags to the list
-
+router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res, next) => {
+    // get the connection that represents the tag being associated with the list
+    try {
+        const thingsToDoListTagAss = await db.ThingsToDoListTagJoins.findOne({
+            where: {
+                thingToDoListId: parseInt(req.params.listId),
+                thingToDoListTagId: parseInt(req.params.tagId)
+            }
+        })
+    
+        if (thingsToDoListTagAss) {
+            await thingsToDoListTagAss.destroy()
+            await res.json({message: "resource deleted"})
+        } else {
+            res.status(500).json({message: "resource could not be found"})
+        }
+    
+    } catch (e) {
+        next(e)
+    }
+}))
 //handles only adding new thingsToDo to the list
 
 //handles only removing existing thingsToDo from the list
