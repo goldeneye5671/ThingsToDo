@@ -12,8 +12,17 @@ router.get("/", expressAsyncHandler(async (req, res, next) => {
     }
 }))
 
-router.get("/:businessId", expressAsyncHandler(async () => {
+router.get("/:businessId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const businessByPk = await db.Business.findByPk(parseInt(req.params.businessId));
+        if (businessByPk) {
+            res.json(businessByPk)
+        } else {
+            res.status(500).json({message: "Resource could not be found"})
+        }
+    } catch (e) {
 
+    }
 }))
 
 
