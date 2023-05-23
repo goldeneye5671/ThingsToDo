@@ -3,6 +3,14 @@ const expressAsyncHandler = require("express-async-handler")
 const db = require("../db/models")
 const {Op} = require("sequelize")
 
+router.get("/", expressAsyncHandler(async () => {
+
+}))
+
+router.get("/:businessId", expressAsyncHandler(async () => {
+    
+}))
+
 
 router.post("/", expressAsyncHandler(async (req, res, next) => {
     try {
