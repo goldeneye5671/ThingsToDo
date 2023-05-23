@@ -31,46 +31,29 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
 
 // Create one list
 router.post("/", expressAsyncHandler(async (req, res) => {
-    const {listName, listDescription, listTagIds, userId} = req.body
-    if (listName && listDescription && userId) {
-        // Creates the new list
-        const createdThingToDoList = await db.ThingsToDoList.create({userId, listName, listDescription});
-        
-        // Adds any tags to be associated with the list
-        for (let listTagId of listTagIds){
-            // gets the tag from the db if it exists
-            const checkTag = await db.ThingsToDoListTag.findByPk(listTagId)
-            // Checks to see if the tag exists
-            if (checkTag){
-                const addedTagAssociation = await db.ThingsToDoListTagJoins.create({
-                    thingsToDoListId: createdThingToDoList.id,
-                    thingsToDoListTagId: listTagId
-                })
+    try {
+        const {listName, listDescription, userId} = req.body
+        if (userId && listName && listDescription) {
+            const createdThingToDoList = await db.ThingsToDoList.create({userId, listName, listDescription});
+            const getThingToDoList = await db.ThingsToDoList.findByPk(createdThingToDoList.id, {
+                include: [
+                    {
+                        model: db.ThingsToDoListTag,
+                        through:{attributes: []}   
+                    }
+                ]
+            })
+            if (getThingToDoList) {
+                res.json(getThingToDoList)
+            } else {
+                throw new Error("New list was not created successfully")
             }
+        } else {
+            throw new Error(`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}, userId: ${userId}`)
         }
 
-        // gets the updated list with all tags added
-        const getThingToDoList = await db.ThingsToDoList.findByPk(createdThingToDoList.id, {
-            // include: [
-            //     db.ThingsToDoListTag,
-            //     db.User
-            // ]
-            include: [
-                {
-                    model: db.ThingsToDoListTag,
-                    // All this does is tell me what attribute I want to include that go through the joins table. If I don't want anything I just leave it blank
-                    through:{attributes: []} //"thingsToDoListId","createdAt", "updatedAt"]}   
-                }
-            ]
-        })
-        if (getThingToDoList) {
-            console.log(getThingToDoList)
-            res.json(getThingToDoList)
-        } else {
-            throw new Error("New list was not created successfully")
-        }
-    } else {
-        throw new Error(`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}, userId: ${userId}`)
+    } catch (e) {
+
     }
 }))
 
