@@ -92,14 +92,61 @@ router.patch("/:id", expressAsyncHandler(async (req, res) => {
     res.json(updatedThingsTODoList)
 }))
 
-//handles only adding new tags to the list
-router.post("/:id/add-thing-to-do", expressAsyncHandler(async (req, res) => {
-    // Gets all of the things to do from the list
-    // const existingThingsToDo = db.ThingsToDoTOThingsToDoListJoins.;
-    // Adds all of the given things to do to the list if they are not already in the list
-}));
+/**
+ * These two routes should handle deleting only one tag at a time. In the UI, the user will see a tag with an X next to it, and then
+ * will click the X to remove it, therefore it doesn't make sense to have a bulk delete. Upon deleting a list, the api should be able
+ * to delete the connection between the list and the tag with a single SQL query that looks something like:
+ * 
+ * db.ThingsToDoListTagJoins.delete({
+ *  where: {
+ *   ThingstToDoListId: req.params.id
+ *  }
+ * })
+ * 
+ * This would delete all of the connections between the list and the tags in one querry
+ */
 
+
+//handles only adding new tags to the list
+//TODO: Only allow the user that owns the list to add a tag to it
+router.post("/:listId/tag/add/:tagId", expressAsyncHandler(async (req, res, next) => {
+
+    try {
+    //grabs the tag from the joins if it exits
+    const thingsToDoListTagJoinsAss = await db.ThingsToDoListTagJoins.findOne({
+        where: {
+            thingsToDoListId: req.params.listId,
+            thingsToDoListTagId: req.params.tagId
+        }
+    })
+
+    //grabs the tag from the db if it exists
+    const thingsToDoListTag = await db.ThingsToDoListTag.findByPk(req.params.tagId);
+
+    if (!thingsToDoListTagJoinsAss && thingsToDoListTag) {
+        await db.ThingsToDoListTagJoins.create({
+            thingsToDoListId: req.params.listId,
+            thingsToDoListTagId: req.params.tagId
+        })
+    }
+
+    res.json(await db.ThingsToDoList.findByPk(req.params.listId, {
+        include: [
+            {
+                model: db.ThingsToDoListTag,
+                through: {attributes: []}
+            }
+        ]
+    }))
+    } catch (e) {
+        next(e);
+    }
+}
+));
 //handles only removing existing tags to the list
+router.delete("/:listId/tags/:tagId", expressAsyncHandler(async (req, res) => {
+
+}))
 
 //handles only adding new thingsToDo to the list
 
