@@ -17,11 +17,12 @@ router.get("/", expressAsyncHandler(async (req, res) => {
     }
 }))
 
+
 router.get("/:id", expressAsyncHandler(async (req, res) => {
     const oneThingsToDoList = await db.ThingsToDoList.findByPk(req.params.id, {
         include: [
-            db.ThingsToDoListTag,
             db.User,
+            db.ThingsToDoListTag,
             db.ThingsToDo
         ]
     })
@@ -168,6 +169,36 @@ router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res
 //handles only adding new thingsToDo to the list
 
 //handles only removing existing thingsToDo from the list
+router.delete("/:listId/thingToDo/remove/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
+    try{
+        const thingToDoListTOthingAss = await db.ThingsToDoTOThingsToDoListJoins.findOne({
+            where: {
+                thingToDoListId: parseInt(req.params.listId),
+                thingToDoId: parseInt(req.params.thingToDoId)
+            }
+        });
+        
+        console.log(thingToDoListTOthingAss)
+
+        const thingToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId))
+
+        if (thingToDoList && thingToDoListTOthingAss) {
+            await thingToDoListTOthingAss.destroy();
+            const updatedThingToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId), {
+                include: [
+                    db.ThingsToDoListTag,
+                    db.ThingsToDo
+                ]
+            });
+            res.json(updatedThingToDoList)
+        } else {
+            res.status(500).json({message: "could not find resource with the given ids"})
+        }
+    } catch(e) {
+        next(e)
+    }
+}))
+
 
 /**
  * This function only deletes the list and anything associated with the list
