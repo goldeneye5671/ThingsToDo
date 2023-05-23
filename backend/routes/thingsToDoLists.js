@@ -105,8 +105,8 @@ router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res
     try {
         const thingsToDoListTagAss = await db.ThingsToDoListTagJoins.findOne({
             where: {
-                thingToDoListId: parseInt(req.params.listId),
-                thingToDoListTagId: parseInt(req.params.tagId)
+                thingsToDoListId: parseInt(req.params.listId),
+                thingsToDoListTagId: parseInt(req.params.tagId)
             }
         })
     
