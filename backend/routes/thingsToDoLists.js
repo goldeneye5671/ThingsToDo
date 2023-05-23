@@ -33,27 +33,28 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
 router.post("/", expressAsyncHandler(async (req, res) => {
     try {
         const {listName, listDescription, userId} = req.body
-        if (userId && listName && listDescription) {
-            const createdThingToDoList = await db.ThingsToDoList.create({userId, listName, listDescription});
-            const getThingToDoList = await db.ThingsToDoList.findByPk(createdThingToDoList.id, {
-                include: [
-                    {
-                        model: db.ThingsToDoListTag,
-                        through:{attributes: []}   
-                    }
-                ]
-            })
-            if (getThingToDoList) {
-                res.json(getThingToDoList)
-            } else {
-                throw new Error("New list was not created successfully")
-            }
+        if (!userId && !listName && !listDescription) {
+            throw new Error(`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}, userId: ${userId}`)   
+        }
+
+        const createdThingToDoList = await db.ThingsToDoList.create({userId, listName, listDescription});
+        const getThingToDoList = await db.ThingsToDoList.findByPk(createdThingToDoList.id, {
+            include: [
+                {
+                    model: db.ThingsToDoListTag,
+                    through:{attributes: []}   
+                }
+            ]
+        })
+        if (getThingToDoList) {
+            res.json(getThingToDoList)
         } else {
-            throw new Error(`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}, userId: ${userId}`)
+            throw new Error("New list was not created successfully")
         }
 
     } catch (e) {
-
+        console.error(e);
+        res.status(500).json({ error: "An error occurred" });
     }
 }))
 
