@@ -170,34 +170,30 @@ router.delete("/:listId/tag/remove/:tagId", expressAsyncHandler( async (req, res
 router.post("/:listId/thingToDo/add/:thingToDoId", expressAsyncHandler(async (req, res, next) => {
     try {
         // find the connection if it exists
-        const thingsToDoListTagAss = await db.ThingsToDoTOThingsToDoListJoins.findOne({
+        const thingToDoListTOthingAss = await db.ThingsToDoTOThingsToDoListJoins.findOne({
             where: {
                 thingToDoListId: parseInt(req.params.listId),
-                thingToDoId: parseInt(req.params.thingsToDoId)
+                thingToDoId: parseInt(req.params.thingToDoId)
             }
-        })
+        });
 
         const thingsToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId));
 
-        if (thingsToDoList && !thingsToDoListTagAss) {
+        console.log(thingsToDoList && !thingToDoListTOthingAss)
+        if (thingsToDoList && !thingToDoListTOthingAss) {
             await db.ThingsToDoTOThingsToDoListJoins.create({
-                thingsToDoListId: parseInt(req.params.listId),
+                thingToDoListId: parseInt(req.params.listId),
                 thingToDoId: parseInt(req.params.thingToDoId)
             })
         }
-
-        res.json(await db.ThingsToDoList.getByPk(parseInt(req.params.listId), {
+        const updatedThingToDoList = await db.ThingsToDoList.findByPk(parseInt(req.params.listId), {
             include: [
-                {
-                    model: db.ThingsToDo,
-                    through: {attributes: []}
-                },
-                {
-                    model: db.ThingsToDoListTags,
-                    through: {attributes: []}
-                }
+                db.ThingsToDoListTag,
+                db.ThingsToDo
             ]
-        }))
+        });
+
+        res.json(updatedThingToDoList)
     } catch (e) {
         next(e)
     }
