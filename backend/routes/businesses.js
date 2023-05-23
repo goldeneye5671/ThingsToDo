@@ -3,12 +3,17 @@ const expressAsyncHandler = require("express-async-handler")
 const db = require("../db/models")
 const {Op} = require("sequelize")
 
-router.get("/", expressAsyncHandler(async () => {
-
+router.get("/", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const allBusinesses = await db.Businesses.findAll()
+        res.json(allBusinesses)
+    } catch (e) {
+        next(e)
+    }
 }))
 
 router.get("/:businessId", expressAsyncHandler(async () => {
-    
+
 }))
 
 
