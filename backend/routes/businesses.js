@@ -52,4 +52,35 @@ router.post("/", expressAsyncHandler(async (req, res, next) => {
     }
 }))
 
+
+router.patch("/:businessId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const businessToUpdate = await db.Business.findByPk(parseInt(req.params.businessId));
+        if (businessToUpdate) {
+            const name = req.body.name ?? businessToUpdate.name;
+            const primaryPhoto = req.body.primaryPhoto ?? businessToUpdate.primaryPhoto;
+            const address = req.body.address ?? businessToUpdate.address;
+            const city = req.body.city ?? businessToUpdate.city;
+            const stateProvince= req.body.stateProvince ?? businessToUpdate.stateProvince;
+            const country = req.body.country ?? businessToUpdate.country;
+            const zipcode = req.body.zipcode ?? businessToUpdate.zipcode;
+
+            await businessToUpdate.update({
+                name,
+                primaryPhoto,
+                address,
+                city,
+                stateProvince,
+                country,
+                zipcode
+            })
+
+            res.json(await db.Business.findByPk(req.params.businessId))
+        } else {
+            res.status(500).json({message: "The resource couldn't be found"})
+        }
+    } catch (e) {
+        next(e)
+    }
+}))
 module.exports = router
