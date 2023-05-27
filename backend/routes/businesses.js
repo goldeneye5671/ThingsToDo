@@ -5,7 +5,17 @@ const {Op} = require("sequelize")
 
 router.get("/", expressAsyncHandler(async (req, res, next) => {
     try {
-        const allBusinesses = await db.Business.findAll()
+        const allBusinesses = await db.Business.findAll({
+            include: [
+                {
+                    model: db.BusinessPhoto,
+                },
+                {
+                    model: db.ThingsToDo,
+                    through: {attributes: []}
+                }
+            ]
+        })
         res.json(allBusinesses)
     } catch (e) {
         next(e)
@@ -14,14 +24,26 @@ router.get("/", expressAsyncHandler(async (req, res, next) => {
 
 router.get("/:businessId", expressAsyncHandler(async (req, res, next) => {
     try {
-        const businessByPk = await db.Business.findByPk(parseInt(req.params.businessId));
+        const businessByPk = await db.Business.findByPk(parseInt(req.params.businessId),
+        {
+            include: [
+                {
+                    model: db.BusinessPhoto,
+                },
+                {
+                    model: db.ThingsToDo,
+                    through: {attributes: []}
+                }
+            ]
+        });
+
         if (businessByPk) {
             res.json(businessByPk)
         } else {
             res.status(500).json({message: "Resource could not be found"})
         }
     } catch (e) {
-
+        next(e)
     }
 }))
 
@@ -75,7 +97,18 @@ router.patch("/:businessId", expressAsyncHandler(async (req, res, next) => {
                 zipcode
             })
 
-            res.json(await db.Business.findByPk(req.params.businessId))
+            res.json(await db.Business.findByPk(req.params.businessId,
+                {
+                    include: [
+                        {
+                            model: db.BusinessPhoto,
+                        },
+                        {
+                            model: db.ThingsToDo,
+                            through: {attributes: []}
+                        }
+                    ]
+                }))
         } else {
             res.status(500).json({message: "The resource couldn't be found"})
         }
@@ -123,4 +156,96 @@ router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
         next(e)
     }
 }))
+
+
+//These routes are for the joins table for the things to do. There will only be a create and delete
+
+router.post("/:businessId/add-thingtodo/:thingId", expressAsyncHandler(async (req, res, next) => {
+    try {
+
+        const existingBusiness = await db.Business.findByPk(parseInt(req.params.businessId));
+        const existingThingToDo = await db.ThingsToDo.findByPk(parseInt(req.params.thingId));
+        const existingConnection = await db.ThingsToDoBusinessJoin.findOne({
+            where: {
+                businessId: parseInt(req.params.businessId),
+                thingsToDoId: parseInt(req.params.thingId)
+            }
+        });
+
+        if (existingConnection) {
+            throw new Error("Business already has this thing to do")
+        }
+
+        if (existingBusiness && existingThingToDo) {
+            const newConnection = await db.ThingsToDoBusinessJoin.create({
+                thingsToDoId: parseInt(req.params.thingId),
+                businessId: parseInt(req.params.businessId)
+            })
+
+            const updatedBusiness = await db.Business.findByPk(parseInt(req.params.businessId), {
+                include: [
+                    {
+                        model: db.ThingsToDo,
+                        through: {attributes: []}
+                    },
+                    {
+                        model: db.BusinessPhoto,
+                    }
+                ]
+            })
+
+            res.json(updatedBusiness);
+        } else {
+            throw new Error("Could not find a business or Thing to do with the given ids");
+        }
+    } catch (e) {
+        next(e)
+    }
+}))
+
+router.delete("/:businessId/remove-thingtodo/:thingId", expressAsyncHandler(async(req, res, next) => {
+    try {
+
+        const existingBusiness = await db.Business.findByPk(parseInt(req.params.businessId));
+        const existingThingToDo = await db.ThingsToDo.findByPk(parseInt(req.params.thingId));
+        const existingConnection = await db.ThingsToDoBusinessJoin.findOne({
+            where: {
+                businessId: parseInt(req.params.businessId),
+                thingsToDoId: parseInt(req.params.thingId)
+            }
+        });
+
+        if (!existingConnection) {
+            throw new Error("Business does not have this thing to do")
+        }
+
+        if (existingBusiness && existingThingToDo) {
+            await db.ThingsToDoBusinessJoin.destroy({
+                where:{
+                    thingsToDoId: parseInt(req.params.thingId),
+                    businessId: parseInt(req.params.businessId)
+                }
+            });
+
+            const updatedBusiness = await db.Business.findByPk(parseInt(req.params.businessId), {
+                include: [
+                    {
+                        model: db.ThingsToDo,
+                        through: {attributes: []}
+                    },
+                    {
+                        model: db.BusinessPhoto,
+                    }
+                ]
+            })
+
+            res.json(updatedBusiness);
+        } else {
+            throw new Error("Could not find a business or Thing to do with the given ids");
+        }
+    } catch (e) {
+        next(e)
+    }
+}));
+
 module.exports = router

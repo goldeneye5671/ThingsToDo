@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       thingName: {
-        type: Sequelize.STRING(128)
+        type: Sequelize.STRING(128),
+        unique: true
       },
       thingDescription: {
         type: Sequelize.TEXT
