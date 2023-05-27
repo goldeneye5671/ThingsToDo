@@ -107,7 +107,7 @@ router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
     
         await db.Business.destroy({
             where: {
-                businessId: parseInt(req.params.id)
+                id: parseInt(req.params.businessId)
             }
         })
     
