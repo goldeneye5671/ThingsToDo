@@ -93,27 +93,32 @@ router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
      * 3) Business itself
      */
     try{
-        await db.ThingsToDoBusinessJoin.destroy({
-            where: {
-                businessId: parseInt(req.params.businessId)
-            }
-        });
-    
-        await db.BusinessPhoto.destroy({
-            where: {
-                businessId: parseInt(req.params.businessId)
-            }
-        })
-    
-        await db.Business.destroy({
-            where: {
-                id: parseInt(req.params.businessId)
-            }
-        })
-    
-        res.json({
-            message: "Everything associated with this business have been deleted"
-        })
+        //Also only want do delete if the business exists
+        if (await db.Business.findByPk(parseInt(req.params.businessId))) {
+            await db.ThingsToDoBusinessJoin.destroy({
+                where: {
+                    businessId: parseInt(req.params.businessId)
+                }
+            });
+        
+            await db.BusinessPhoto.destroy({
+                where: {
+                    businessId: parseInt(req.params.businessId)
+                }
+            })
+        
+            await db.Business.destroy({
+                where: {
+                    id: parseInt(req.params.businessId)
+                }
+            })
+        
+            res.json({
+                message: "Everything associated with this business have been deleted"
+            })
+        } else {
+            throw new Error("Resource could not be found")
+        }
     } catch (e) {
         next(e)
     }
