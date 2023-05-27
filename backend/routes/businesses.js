@@ -136,12 +136,25 @@ router.post("/:businessId/add-thingtodo/:thingId", expressAsyncHandler(async (re
          *   2a. Add connection
          *   2b. Return the original business with the new connection
          * 3. If the connection does exist
-         *   3a. Tell user through an error that there is already a connection to this thing to do for this business
+         *   3a. return the existing connection
          */
 
-        await db.ThingsToDoBusinessJoin.findByPk(parseInt(req.params.businessId, {
-            where
-        }))
+        const existingConnection = await db.ThingsToDoBusinessJoin.findByPk(parseInt(req.params.businessId, {
+            where: {
+                thingToDoId: parseInt(req.params.thingId)
+            }
+        }));
+
+        if (!existingConnection) {
+            //create connection here
+            const newConnection = await db.ThingsToDoBusinessJoin.create({
+                
+            })
+            //get the updated connection
+            //return it to the user
+        } else {
+            //return the connection to the user
+        }
     } catch (e) {
         next(e)
     }
