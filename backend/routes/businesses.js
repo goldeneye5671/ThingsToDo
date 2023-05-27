@@ -83,4 +83,39 @@ router.patch("/:businessId", expressAsyncHandler(async (req, res, next) => {
         next(e)
     }
 }))
+
+
+router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
+    /**
+     * What needs to get deleted :
+     * 1) ThingsToDoToBusinessJoins
+     * 2) Business Photos
+     * 3) Business itself
+     */
+    try{
+        await db.ThingsToDoBusinessJoin.destroy({
+            where: {
+                businessId: parseInt(req.params.businessId)
+            }
+        });
+    
+        await db.BusinessPhoto.destroy({
+            where: {
+                businessId: parseInt(req.params.businessId)
+            }
+        })
+    
+        await db.Business.destroy({
+            where: {
+                businessId: parseInt(req.params.id)
+            }
+        })
+    
+        res.json({
+            message: "Everything associated with this business have been deleted"
+        })
+    } catch (e) {
+        next(e)
+    }
+}))
 module.exports = router
