@@ -204,7 +204,48 @@ router.post("/:businessId/add-thingtodo/:thingId", expressAsyncHandler(async (re
 }))
 
 router.delete("/:businessId/remove-thingtodo/:thingId", expressAsyncHandler(async(req, res, next) => {
+    try {
 
+        const existingBusiness = await db.Business.findByPk(parseInt(req.params.businessId));
+        const existingThingToDo = await db.ThingsToDo.findByPk(parseInt(req.params.thingId));
+        const existingConnection = await db.ThingsToDoBusinessJoin.findOne({
+            where: {
+                businessId: parseInt(req.params.businessId),
+                thingsToDoId: parseInt(req.params.thingId)
+            }
+        });
+
+        if (!existingConnection) {
+            throw new Error("Business does not have this thing to do")
+        }
+
+        if (existingBusiness && existingThingToDo) {
+            await db.ThingsToDoBusinessJoin.destroy({
+                where:{
+                    thingsToDoId: parseInt(req.params.thingId),
+                    businessId: parseInt(req.params.businessId)
+                }
+            });
+
+            const updatedBusiness = await db.Business.findByPk(parseInt(req.params.businessId), {
+                include: [
+                    {
+                        model: db.ThingsToDo,
+                        through: {attributes: []}
+                    },
+                    {
+                        model: db.BusinessPhoto,
+                    }
+                ]
+            })
+
+            res.json(updatedBusiness);
+        } else {
+            throw new Error("Could not find a business or Thing to do with the given ids");
+        }
+    } catch (e) {
+        next(e)
+    }
 }));
 
 module.exports = router

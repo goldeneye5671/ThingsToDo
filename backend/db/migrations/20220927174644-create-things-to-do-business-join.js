@@ -10,7 +10,7 @@ module.exports = {
       },
       thingsToDoId: {
         type: Sequelize.INTEGER,
-        references: {model: "ThingsToDos"}
+        references: {model: "ThingsToDos"},
       },
       businessId: {
         type: Sequelize.INTEGER,
@@ -24,6 +24,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }).then(() => {
+      return queryInterface.addConstraint('ThingsToDoBusinessJoins', {
+        fields: ['businessId', 'thingsToDoId'],
+        type: 'unique',
+        name: 'unique_business_thingsToDo'
+      });
     });
   },
   down: (queryInterface, Sequelize) => {
