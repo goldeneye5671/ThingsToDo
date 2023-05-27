@@ -100,19 +100,38 @@ router.get("/:id", expressAsyncHandler(async (req, res) => {
     }
 }))
 
-router.post("/", expressAsyncHandler(async (req, res) => {
-    
-    const {thingName, thingDescription} = req.body
+router.post("/", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const {thingName, thingDescription} = req.body
 
-    const newThingToDo = await db.ThingsToDo.create({
-        thingName,
-        thingDescription
-    })
+        if (
+            (!thingName || !thingDescription)
+            ||
+            (!(typeof thingName === 'string' && typeof thingDescription === 'string'))) {
+            throw new Error(`The parameters were not valid:\n\tthingName: ${thingName}\n\tthingDescription: ${thingDescription} `)
+        }
 
-    if (newThingToDo) {
-        res.json(newThingToDo)
-    } else {
-        throw new Error("Error creating ThingToDo. Please try again")
+        const existingThingToDo = await db.ThingsToDo.findOne({
+            where: {
+                thingName
+            }
+        })
+
+        if (!existingThingToDo) {
+            const newThingToDo = await db.ThingsToDo.create({
+                thingName,
+                thingDescription
+            })
+            if (newThingToDo) {
+                res.status(201).json(newThingToDo)
+            } else {
+                throw new Error("Error creating ThingToDo. Please try again")
+            }
+        } else {
+            res.json(existingThingToDo)
+        }
+    }catch (e) {
+        next (e)
     }
 }))
 

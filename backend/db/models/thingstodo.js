@@ -1,7 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ThingsToDo = sequelize.define('ThingsToDo', {
-    thingName: DataTypes.STRING(128),
+    thingName: {
+      type: DataTypes.STRING(128),
+      unique: true
+    },
     thingDescription: DataTypes.TEXT,
   }, {});
   ThingsToDo.associate = function(models) {

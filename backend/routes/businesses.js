@@ -5,7 +5,17 @@ const {Op} = require("sequelize")
 
 router.get("/", expressAsyncHandler(async (req, res, next) => {
     try {
-        const allBusinesses = await db.Business.findAll()
+        const allBusinesses = await db.Business.findAll({
+            include: [
+                {
+                    model: db.BusinessPhoto,
+                },
+                {
+                    model: db.ThingsToDo,
+                    through: {attributes: []}
+                }
+            ]
+        })
         res.json(allBusinesses)
     } catch (e) {
         next(e)
@@ -14,14 +24,26 @@ router.get("/", expressAsyncHandler(async (req, res, next) => {
 
 router.get("/:businessId", expressAsyncHandler(async (req, res, next) => {
     try {
-        const businessByPk = await db.Business.findByPk(parseInt(req.params.businessId));
+        const businessByPk = await db.Business.findByPk(parseInt(req.params.businessId),
+        {
+            include: [
+                {
+                    model: db.BusinessPhoto,
+                },
+                {
+                    model: db.ThingsToDo,
+                    through: {attributes: []}
+                }
+            ]
+        });
+
         if (businessByPk) {
             res.json(businessByPk)
         } else {
             res.status(500).json({message: "Resource could not be found"})
         }
     } catch (e) {
-
+        next(e)
     }
 }))
 
@@ -75,7 +97,18 @@ router.patch("/:businessId", expressAsyncHandler(async (req, res, next) => {
                 zipcode
             })
 
-            res.json(await db.Business.findByPk(req.params.businessId))
+            res.json(await db.Business.findByPk(req.params.businessId,
+                {
+                    include: [
+                        {
+                            model: db.BusinessPhoto,
+                        },
+                        {
+                            model: db.ThingsToDo,
+                            through: {attributes: []}
+                        }
+                    ]
+                }))
         } else {
             res.status(500).json({message: "The resource couldn't be found"})
         }
@@ -129,36 +162,49 @@ router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
 
 router.post("/:businessId/add-thingtodo/:thingId", expressAsyncHandler(async (req, res, next) => {
     try {
-        /**
-         * Steps:
-         * 1. Check for an existing connection
-         * 2. If the connection doesn't exists
-         *   2a. Add connection
-         *   2b. Return the original business with the new connection
-         * 3. If the connection does exist
-         *   3a. return the existing connection
-         */
 
-        const existingConnection = await db.ThingsToDoBusinessJoin.findByPk(parseInt(req.params.businessId, {
+        const existingBusiness = await db.Business.findByPk(parseInt(req.params.businessId));
+        const existingThingToDo = await db.ThingsToDo.findByPk(parseInt(req.params.thingId));
+        const existingConnection = await db.ThingsToDoBusinessJoin.findOne({
             where: {
-                thingToDoId: parseInt(req.params.thingId)
+                businessId: parseInt(req.params.businessId),
+                thingsToDoId: parseInt(req.params.thingId)
             }
-        }));
+        });
 
-        if (!existingConnection) {
-            //create connection here
+        if (existingConnection) {
+            throw new Error("Business already has this thing to do")
+        }
+
+        if (existingBusiness && existingThingToDo) {
             const newConnection = await db.ThingsToDoBusinessJoin.create({
-                
+                thingsToDoId: parseInt(req.params.thingId),
+                businessId: parseInt(req.params.businessId)
             })
-            //get the updated connection
-            //return it to the user
+
+            const updatedBusiness = await db.Business.findByPk(parseInt(req.params.businessId), {
+                include: [
+                    {
+                        model: db.ThingsToDo,
+                        through: {attributes: []}
+                    },
+                    {
+                        model: db.BusinessPhoto,
+                    }
+                ]
+            })
+
+            res.json(updatedBusiness);
         } else {
-            //return the connection to the user
+            throw new Error("Could not find a business or Thing to do with the given ids");
         }
     } catch (e) {
         next(e)
     }
 }))
 
-router.delete()
+router.delete("/:businessId/remove-thingtodo/:thingId", expressAsyncHandler(async(req, res, next) => {
+
+}));
+
 module.exports = router

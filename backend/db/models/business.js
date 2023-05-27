@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "businessId"
       })
 
-      Business.belongsToMany(models.ThingsToDo, {
-        through: "ThingsToDoBusinessJoins",
-        otherKey: "thingsToDoId",
-        foreignKey: "businessId"
-      })
+    Business.belongsToMany(models.ThingsToDo, {
+      through: "ThingsToDoBusinessJoins",
+      otherKey: "thingsToDoId",
+      foreignKey: "businessId"
+    })
   };
   return Business;
 };
