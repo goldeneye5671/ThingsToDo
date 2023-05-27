@@ -123,4 +123,29 @@ router.delete("/:businessId", expressAsyncHandler(async (req, res, next) => {
         next(e)
     }
 }))
+
+
+//These routes are for the joins table for the things to do. There will only be a create and delete
+
+router.post("/:businessId/add-thingtodo/:thingId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        /**
+         * Steps:
+         * 1. Check for an existing connection
+         * 2. If the connection doesn't exists
+         *   2a. Add connection
+         *   2b. Return the original business with the new connection
+         * 3. If the connection does exist
+         *   3a. Tell user through an error that there is already a connection to this thing to do for this business
+         */
+
+        await db.ThingsToDoBusinessJoin.findByPk(parseInt(req.params.businessId, {
+            where
+        }))
+    } catch (e) {
+        next(e)
+    }
+}))
+
+router.delete()
 module.exports = router
