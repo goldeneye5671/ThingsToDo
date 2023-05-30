@@ -248,4 +248,111 @@ router.delete("/:businessId/remove-thingtodo/:thingId", expressAsyncHandler(asyn
     }
 }));
 
+router.get("/:businessId/photos", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const business = await db.Business.findByPk(parseInt(req.params.businessId))
+        if (business) {
+            const photos = await db.BusinessPhoto.findAll({
+                where: {
+                    businessId: parseInt(req.params.businessId)
+                }
+            })
+        
+            if (photos.length > 0) {
+                res.json(photos)
+            } else {
+                res.json({Message: "Business does not have any photos"})
+            }
+        } else {
+            throw new Error("Business does not exist")
+        }
+    } catch (e) {
+        next (e)
+    }
+}))
+
+router.get("/:businessId/photos/:photoId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const business = await db.Business.findByPk(parseInt(req.params.businessId))
+        if (business) {
+            const photo = await db.BusinessPhoto.findByPk(parseInt(req.params.photoId), {
+                where: {
+                    businessId: parseInt(req.params.businessId),
+                }
+            })
+
+            if (photo) {
+                res.json(photo)
+            } else {
+                throw new Error("Resource not found")
+            }
+        } else {
+            throw new Error("Resource not found")
+        }
+    } catch {
+        next(e);
+    }
+}))
+
+router.post("/:businessId/photos", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const {
+            name,
+            alt,
+            url
+        } = req.body;
+
+        const business = await db.Business.findByPk(parseInt(req.params.businessId))
+        if (business) {
+            const photo = await db.BusinessPhoto.findOne({
+                where: {
+                    businessId: parseInt(req.params.businessId),
+                    name,
+                    alt,
+                    url
+                }
+            })
+            if (!photo) {
+                const newBusinessPhoto = await db.BusinessPhoto.create({
+                    businessId: parseInt(req.params.businessId),
+                    name,
+                    alt,
+                    url
+                })
+                res.json(newBusinessPhoto)
+            } else {
+                throw new Error("Photo with the given information already exists")
+            }
+        } else {
+            throw new Error("Resource not found")
+        }
+    } catch (e) {
+        next(e)
+    }
+}));
+
+
+router.delete("/:businessId/photos/:photoId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const businessPhoto = await db.BusinessPhoto.findByPk(parseInt(req.params.photoId), {
+            where: {
+                businessId: parseInt(req.params.businessId)
+            }
+        })
+
+        if (businessPhoto){
+            await businessPhoto.destroy();
+            res.json(
+                {
+                    message: "Resource deleted"
+                }
+            )
+        } else {
+            throw new Error("Resource not found")
+        }
+    } catch (e) {
+        next(e)
+    }
+}))
+
 module.exports = router
