@@ -20,12 +20,17 @@ router.post("/",expressAsyncHandler(async (req, res, next) => {
             description,
         } = req.body
 
+        const upvotes = 0
+        const downvotes = 0
+
         if (userId && thingToDoId && headline && description) {
             const newDesc = await db.CustomDescription.create({
                 userId,
                 thingToDoId,
                 headline,
-                description
+                description,
+                upvotes,
+                downvotes
             })
     
             res.json(newDesc)

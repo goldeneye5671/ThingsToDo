@@ -4,7 +4,7 @@ const db = require("../db/models");
 
 router.get("/", expressAsyncHandler(async (req, res, next) => {
     try {
-        res.json(await db.CustomExperience.findAll())
+        res.json(await db.Experience.findAll())
     } catch (e) {
         next(e)
     }
@@ -12,7 +12,7 @@ router.get("/", expressAsyncHandler(async (req, res, next) => {
 
 router.get("/:experienceId", expressAsyncHandler(async (req, res, next) => {
     try {
-        const experience = await db.CustomExperience.findOne(parseInt(req.params.experienceId))
+        const experience = await db.Experience.findByPk(parseInt(req.params.experienceId))
         if (experience) {
             res.json(experience)
         } else {
@@ -32,15 +32,22 @@ router.post("/", expressAsyncHandler(async (req, res, next) => {
             description
         } = req.body;
 
+        const upvotes = 0;
+        const downvotes = 0;
+
         if (userId && thingToDoId && title && description) {
-            const newExperience = await db.CustomExperience.create({
+            const newExperience = await db.Experience.create({
                 userId,
                 thingToDoId,
                 title,
-                description
+                description,
+                upvotes,
+                downvotes
             })
 
             res.json(newExperience)
+        } else {
+            throw new Error("Could not create experience. Invalid params provided")
         }
         
     } catch (e) {
@@ -50,7 +57,7 @@ router.post("/", expressAsyncHandler(async (req, res, next) => {
 
 router.patch("/:experienceId", expressAsyncHandler(async (req, res, next) => {
     try {
-        const experience = await db.CustomExperience.findByPk(parseInt(req.params.experienceId));
+        const experience = await db.Experience.findByPk(parseInt(req.params.experienceId));
         if (experience) {
             const title = req.body.title ?? experience.title;
             const description = req.body.description ?? experience.description
@@ -60,7 +67,7 @@ router.patch("/:experienceId", expressAsyncHandler(async (req, res, next) => {
                 description
             })
             
-            req.json(await db.CustomExperience.findByPk(parseInt(req.params.experienceId)));
+            req.json(await db.Experience.findByPk(parseInt(req.params.experienceId)));
         } else {
             throw new Error("Resource not found")
         }
@@ -71,7 +78,7 @@ router.patch("/:experienceId", expressAsyncHandler(async (req, res, next) => {
 
 router.delete("/:experienceId", expressAsyncHandler(async (req, res, next) => {
     try {
-        const experience = await db.CustomExperience.findByPk(parseInt(req.params.experienceId));
+        const experience = await db.Experience.findByPk(parseInt(req.params.experienceId));
         if (experience) {
             await experience.destroy()
             res.json({
