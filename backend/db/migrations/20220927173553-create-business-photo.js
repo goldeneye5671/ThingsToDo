@@ -1,37 +1,37 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('BusinessPhotos', {
+    return queryInterface.createTable("BusinessPhotos", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(30),
       },
       alt: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       businessId: {
         type: Sequelize.INTEGER,
-        references: {model: "Businesses"}
+        references: { model: "Businesses" },
       },
       url: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('BusinessPhotos');
-  }
+    return queryInterface.dropTable("BusinessPhotos");
+  },
 };
