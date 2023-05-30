@@ -248,4 +248,61 @@ router.delete("/:businessId/remove-thingtodo/:thingId", expressAsyncHandler(asyn
     }
 }));
 
+router.post("/:businessId/photos", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const {
+            name,
+            alt,
+            url
+        } = req.body;
+
+        const photo = db.BusinessPhoto.findOne({
+            where: {
+                businessId: parseInt(req.params.businessId),
+                name,
+                alt,
+                url
+            }
+        })
+
+        if (!photo) {
+            const newBusinessPhoto = await db.BusinessPhoto.create({
+                businessId: parseInt(req.params.businessId),
+                name,
+                alt,
+                url
+            })
+            res.json(newBusinessPhoto)
+        } else {
+            throw new Error("Photo with the given information already exists")
+        }
+    } catch (e) {
+        next(e)
+    }
+}));
+
+
+router.delete("/:businessId/photos/:photoId", expressAsyncHandler(async (req, res, next) => {
+    try {
+        const businessPhoto = await db.BusinessPhoto.findByPk(parseInt(req.params.photoId), {
+            where: {
+                businessId: parseInt(req.params.businessId)
+            }
+        })
+
+        if (businessPhoto){
+            await businessPhoto.destroy();
+            res.json(
+                {
+                    message: "Resource deleted"
+                }
+            )
+        } else {
+            throw new Error("Resource not found")
+        }
+    } catch (e) {
+        next(e)
+    }
+}))
+
 module.exports = router
