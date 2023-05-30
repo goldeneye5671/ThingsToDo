@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler")
 const db = require("../db/models");
-const { el } = require("@faker-js/faker");
 
 
 router.get("/", expressAsyncHandler(async (req, res, next) => {
@@ -21,12 +20,17 @@ router.post("/",expressAsyncHandler(async (req, res, next) => {
             description,
         } = req.body
 
+        const upvotes = 0
+        const downvotes = 0
+
         if (userId && thingToDoId && headline && description) {
             const newDesc = await db.CustomDescription.create({
                 userId,
                 thingToDoId,
                 headline,
-                description
+                description,
+                upvotes,
+                downvotes
             })
     
             res.json(newDesc)
