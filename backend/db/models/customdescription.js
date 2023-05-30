@@ -1,21 +1,25 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const CustomDescription = sequelize.define('CustomDescription', {
-    userId: DataTypes.INTEGER,
-    thingToDoId: DataTypes.INTEGER,
-    headline: DataTypes.STRING(256),
-    description: DataTypes.TEXT,
-    upvotes: DataTypes.INTEGER,
-    downvotes: DataTypes.INTEGER
-  }, {});
-  CustomDescription.associate = function(models) {
+  const CustomDescription = sequelize.define(
+    "CustomDescription",
+    {
+      userId: DataTypes.INTEGER,
+      thingToDoId: DataTypes.INTEGER,
+      headline: DataTypes.STRING(256),
+      description: DataTypes.TEXT,
+      upvotes: DataTypes.INTEGER,
+      downvotes: DataTypes.INTEGER,
+    },
+    {}
+  );
+  CustomDescription.associate = function (models) {
     CustomDescription.belongsTo(models.User, {
-      foreignKey: "userId"
-    })
+      foreignKey: "userId",
+    });
 
     CustomDescription.belongsTo(models.ThingsToDo, {
-      foreignKey: "thingToDoId"
-    })
+      foreignKey: "thingToDoId",
+    });
     // associations can be defined here
   };
   return CustomDescription;

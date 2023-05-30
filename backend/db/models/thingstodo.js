@@ -1,37 +1,40 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const ThingsToDo = sequelize.define('ThingsToDo', {
-    thingName: {
-      type: DataTypes.STRING(128),
-      unique: true
+  const ThingsToDo = sequelize.define(
+    "ThingsToDo",
+    {
+      thingName: {
+        type: DataTypes.STRING(128),
+        unique: true,
+      },
+      thingDescription: DataTypes.TEXT,
     },
-    thingDescription: DataTypes.TEXT,
-  }, {});
-  ThingsToDo.associate = function(models) {
-
+    {}
+  );
+  ThingsToDo.associate = function (models) {
     ThingsToDo.hasMany(models.Experience, {
-      foreignKey: "thingToDoId"
-    })
+      foreignKey: "thingToDoId",
+    });
 
     ThingsToDo.hasMany(models.ThingRating, {
-      foreignKey: "thingId"
-    })
+      foreignKey: "thingId",
+    });
 
     ThingsToDo.hasMany(models.CustomDescription, {
-      foreignKey: "thingToDoId"
-    })
+      foreignKey: "thingToDoId",
+    });
 
     ThingsToDo.belongsToMany(models.Business, {
       through: "ThingsToDoBusinessJoin",
       otherKey: "businessId",
-      foreignKey: "thingsToDoId"
-    })
+      foreignKey: "thingsToDoId",
+    });
 
     ThingsToDo.belongsToMany(models.ThingsToDoList, {
-      through:"ThingsToDoTOThingsToDoListJoins",
+      through: "ThingsToDoTOThingsToDoListJoins",
       otherKey: "thingToDoListId",
-      foreignKey: "thingToDoId"
-    })
+      foreignKey: "thingToDoId",
+    });
     // associations can be defined here
   };
   return ThingsToDo;
