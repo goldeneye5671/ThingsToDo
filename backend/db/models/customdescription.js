@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const CustomDescription = sequelize.define('CustomDescription', {
     userId: DataTypes.INTEGER,
     thingToDoId: DataTypes.INTEGER,
+    headline: DataTypes.STRING(256),
     description: DataTypes.TEXT,
     upvotes: DataTypes.INTEGER,
     downvotes: DataTypes.INTEGER

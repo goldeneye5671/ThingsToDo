@@ -12,6 +12,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: {model: "Users"}
       },
+      headline: {
+        type: Sequelize.STRING(256),
+      },
       thingToDoId: {
         type: Sequelize.INTEGER,
         references: {model: "ThingsToDos"}

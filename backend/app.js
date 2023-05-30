@@ -17,6 +17,7 @@ const thingsToDoListTagRouter = require("./routes/thingsToDoListTags")
 const thingsToDoListRouter = require("./routes/thingsToDoLists")
 const thingsToDoRouter = require("./routes/thingsToDo")
 const businessesRouter = require("./routes/businesses")
+const descriptionsRouter = require("./routes/customDescriptions")
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use("/api/thingtodolisttag", thingsToDoListTagRouter)
 app.use("/api/thingstodolists", thingsToDoListRouter)
 app.use("/api/thingstodo", thingsToDoRouter)
 app.use("/api/businesses", businessesRouter)
+app.use("/api/descriptions", descriptionsRouter)
 
 app.use((err, _req, _res, next) => {
     // check if error is a Sequelize error:
