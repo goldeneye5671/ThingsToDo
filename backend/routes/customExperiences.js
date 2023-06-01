@@ -18,7 +18,10 @@ router.get(
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
-				parseInt(req.params.experienceId)
+				parseInt(req.params.experienceId),
+				{
+					include: [db.ExperiencePhoto],
+				}
 			);
 			if (experience) {
 				res.json(experience);
@@ -114,11 +117,23 @@ router.get(
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
-				parseInt(req.params.experienceId)
+				parseInt(req.params.experienceId),
+				{
+					include: [db.ExperiencePhoto],
+				}
 			);
-			if (experience) {
+
+
+			if (experience && experience.ExperiencePhotos.length) {
+				res.json(experience.ExperiencePhotos);
+			} else if (!experience.ExperiencePhotos.length) {
+				throw new Error("The experience has no photos");
+			} else {
+				throw new Error("Resource not found");
 			}
-		} catch (e) {}
+		} catch (e) {
+			next(e);
+		}
 	})
 );
 
@@ -129,22 +144,15 @@ router.get(
 			const experience = await db.Experience.findByPk(
 				parseInt(req.params.experienceId),
 				{
-					include: [
-						{
-							model: db.ExperiencePhoto,
-							through: { attributes: [] },
-						},
-					],
+					include: [db.ExperiencePhoto],
 				}
 			);
 
-			const photo = experience.ExperiencePhoto.find(
-				(photo) => photo.id === parseInt(req.params.photoId)
-			);
+			const photo = experience.ExperiencePhotos.find(photo => photo.photoId === parseInt(req.params.photoId))
 
 			if (photo) {
 				res.json(photo);
-			} else if (experience.ExperiencePhoto.length) {
+			} else if (experience.ExperiencePhotos.length) {
 				throw new Error("Photo could not be found");
 			} else {
 				throw new Error("No photos exist for this experience");
@@ -166,13 +174,13 @@ router.post(
 					include: [
 						{
 							model: db.ExperiencePhoto,
-							through: { attributes: [] },
+
 						},
 					],
 				}
 			);
 
-			const photo = experience.ExperiencePhoto.find(
+			const photo = experience.ExperiencePhotos.find(
 				(photo) => photo.url === url
 			);
 
@@ -195,23 +203,33 @@ router.delete(
 	"/:experienceId/photos/:photoId",
 	expressAsyncHandler(async (req, res, next) => {
 		try {
+      const transaction = await db.sequelize.transaction()
 			const experience = await db.Experience.findByPk(
 				parseInt(req.params.experienceId),
 				{
 					include: [
 						{
 							model: db.ExperiencePhoto,
-							through: { attributes: [] },
 						},
 					],
 				}
 			);
-			const photo = experience.ExperiencePhoto.find(
-				(photo) => photo.id === parseInt(req.params.photoId)
+			const photo = experience.ExperiencePhotos.find(
+				(photo) => photo.photoId === parseInt(req.params.photoId)
 			);
 			if (photo) {
-				await db.ExperiencePhoto.destroy();
+				await db.ExperiencePhoto.destroy({
+          where: {
+            photoId: photo.photoId,
+            experienceId: parseInt(req.params.experienceId)
+          },
+          individualHooks: true,
+          transaction,
+        });
+        await transaction.commit()
+        res.json({message: "Resource deleted"})
 			} else {
+        await transaction.rollback()
 				throw new Error("Resource not found");
 			}
 		} catch (e) {
