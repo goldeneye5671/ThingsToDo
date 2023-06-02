@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
@@ -10,7 +10,9 @@ module.exports = {
     in different states and countries
 
     */
-      return queryInterface.bulkInsert('Businesses', [
+    return queryInterface.bulkInsert(
+      "Businesses",
+      [
         {
           name: "Rainbow Skateland",
           primaryPhoto: "",
@@ -20,7 +22,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Lasertron",
@@ -31,7 +33,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Nortown Center",
@@ -42,7 +44,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Ronas",
@@ -53,7 +55,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Master Chong's Tae Kwan Do",
@@ -64,7 +66,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Queen City Fine Arts",
@@ -75,7 +77,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "UB Language Learning Lab",
@@ -86,7 +88,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Buffalo Public Schools Adult Education Center",
@@ -97,7 +99,7 @@ module.exports = {
           country: "United States",
           zipcode: 14225,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Six Flags: Darien Lake",
@@ -108,7 +110,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Great Pumpkin Farm",
@@ -119,7 +121,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Niagara County Produce",
@@ -130,7 +132,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "The Salon Professional Academy",
@@ -141,7 +143,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Frightworld",
@@ -152,7 +154,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Antique World & Flea Market",
@@ -163,7 +165,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Holiday Valley Resort",
@@ -174,7 +176,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Grand Island Fun Center",
@@ -185,7 +187,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Recording Connection",
@@ -196,7 +198,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Niagara Riding Stables",
@@ -207,7 +209,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Letchworth State Park",
@@ -218,7 +220,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Pierce-Arrow Museum",
@@ -229,7 +231,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Buffalo AKG Art Museum",
@@ -240,7 +242,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Buffalo Museum of Science",
@@ -251,7 +253,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Buffalo Zoo",
@@ -262,7 +264,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Delaware Park",
@@ -273,7 +275,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Maid of the Mist",
@@ -284,7 +286,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Monaco's Violin Shop",
@@ -295,7 +297,7 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Northtown Music",
@@ -306,10 +308,11 @@ module.exports = {
           country: "",
           zipcode: 0,
           createdAt: new Date(),
-          updatedAt: new Date()
-        }
-
-      ], {});
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {
@@ -319,6 +322,6 @@ module.exports = {
 
       Example:
       */
-   return queryInterface.bulkDelete('Businesses', null, {});
-  }
+    return queryInterface.bulkDelete("Businesses", null, {});
+  },
 };
