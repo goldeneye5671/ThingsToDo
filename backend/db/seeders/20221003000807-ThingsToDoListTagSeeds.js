@@ -1,5 +1,14 @@
 "use strict";
 
+const ThingsToDoListTags = require("./generatrors/ThingsToDoListTagsGenerator");
+
+const numberOfTags = 20;
+const generatedTags = [];
+
+for (let i = 0; i < numberOfTags; i++) {
+  generatedTags.push(new ThingsToDoListTags());
+}
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -10,62 +19,7 @@ module.exports = {
       
     */
 
-    return queryInterface.bulkInsert(
-      "ThingsToDoListTags",
-      [
-        {
-          name: "Creativity",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Art",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Science",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Computing",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Outdoors",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Adventure",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Sports",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Music",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Dance",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          name: "Rights",
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ],
-      {}
-    );
+    return queryInterface.bulkInsert("ThingsToDoListTags", generatedTags, {});
   },
 
   down: (queryInterface, Sequelize) => {
