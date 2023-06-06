@@ -1,8 +1,9 @@
 "use strict";
 
 const ThingsToDoList = require("./generatrors/ThingsToDoListGenerator")
+const {configuration} = require("./generatrors/Config")
 
-const numberOfLists = 150;
+const numberOfLists = configuration.maxThingsToDo;
 const generatedLists = []
 
 for (let i = 0; i < numberOfLists; i++) {

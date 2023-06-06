@@ -1,20 +1,18 @@
 "use strict";
-const User = require("./generatrors/UserGenerator")
 
-const numberOfUsers = 50
-const generatedUsers = []
+const User = require("./generatrors/UserGenerator");
+const configuration = require("./generatrors/Config");
+
+const numberOfUsers = configuration.maxUsers;
+const generatedUsers = [];
 
 for (let i = 0; i < numberOfUsers; i++) {
-  generatedUsers.push(new User())
+  generatedUsers.push(new User());
 }
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert(
-      "Users",
-      generatedUsers,
-      {}
-    );
+    return queryInterface.bulkInsert("Users", generatedUsers, {});
   },
 
   down: (queryInterface, Sequelize) => {

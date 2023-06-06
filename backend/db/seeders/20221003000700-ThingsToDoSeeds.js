@@ -1,12 +1,13 @@
 "use strict";
 
-const ThingsToDo = require("./generatrors/ThingsToDoGenerator")
+const ThingsToDo = require("./generatrors/ThingsToDoGenerator");
+const configuration = require("./generatrors/Config");
 
-const numberOfThings = 200;
+const numberOfThings = configuration.maxThingsToDoLists;
 const generatedThings = [];
 
 for (let i = 0; i < numberOfThings; i++) {
-  generatedThings.push(new ThingsToDo())
+  generatedThings.push(new ThingsToDo());
 }
 
 module.exports = {
@@ -40,11 +41,7 @@ module.exports = {
      *  Car Maintenance
      */
     // }
-    return queryInterface.bulkInsert(
-      "ThingsToDos",
-      generatedThings,
-      {}
-    );
+    return queryInterface.bulkInsert("ThingsToDos", generatedThings, {});
   },
 
   down: (queryInterface, Sequelize) => {

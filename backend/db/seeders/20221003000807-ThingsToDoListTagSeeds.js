@@ -1,8 +1,9 @@
 "use strict";
 
 const ThingsToDoListTags = require("./generatrors/ThingsToDoListTagsGenerator");
+const configuration = require("./generatrors/Config");
 
-const numberOfTags = 20;
+const numberOfTags = configuration.maxThingsToDoTags;
 const generatedTags = [];
 
 for (let i = 0; i < numberOfTags; i++) {

@@ -1,12 +1,13 @@
 "use strict";
 
-const CustomDescription = require("./generatrors/CustomDescriptions")
+const CustomDescription = require("./generatrors/CustomDescriptions");
+const configuration = require("./generatrors/Config");
 
-const generatedCustomDescriptions = []
-const numberOfCustomDescriptions = 200
+const generatedCustomDescriptions = [];
+const numberOfCustomDescriptions = configuration.maxCustomDescription;
 
 for (let i = 0; i < numberOfCustomDescriptions; i++) {
-  generatedCustomDescriptions.push(new CustomDescription())
+  generatedCustomDescriptions.push(new CustomDescription());
 }
 
 module.exports = {

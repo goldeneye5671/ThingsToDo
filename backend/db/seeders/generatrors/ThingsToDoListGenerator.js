@@ -1,4 +1,5 @@
 const { faker } = require("@faker-js/faker");
+const { configuration } = require("./Config");
 
 class ThingsToDoList {
   constructor(
@@ -17,7 +18,7 @@ class ThingsToDoList {
       userId ??
       faker.number.int({
         min: 1,
-        max: 50,
+        max: configuration.maxUsers,
       });
     this.createdAt = new Date();
     this.updatedAt = new Date();
