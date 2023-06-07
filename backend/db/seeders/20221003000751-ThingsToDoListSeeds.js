@@ -12,14 +12,6 @@ for (let i = 0; i < numberOfLists; i++) {
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-
-    */
-
     return queryInterface.bulkInsert(
       "ThingsToDoLists",
       generatedLists,

@@ -7,30 +7,22 @@ const numberOfTags = configuration.maxThingsToDoTags;
 const generatedTags = [];
 
 for (let i = 0; i < numberOfTags; i++) {
-  generatedTags.push(new ThingsToDoListTags());
+	generatedTags.push(new ThingsToDoListTags());
 }
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.bulkInsert("ThingsToDoListTags", generatedTags, {});
+	},
 
-      Example:
-      
-    */
-
-    return queryInterface.bulkInsert("ThingsToDoListTags", generatedTags, {});
-  },
-
-  down: (queryInterface, Sequelize) => {
-    /*
+	down: (queryInterface, Sequelize) => {
+		/*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
 
       Example:
       
     */
-    return queryInterface.bulkDelete("ThingsToDoListTags", null, {});
-  },
+		return queryInterface.bulkDelete("ThingsToDoListTags", null, {});
+	},
 };

@@ -3,7 +3,8 @@ const configuration = {
   maxUsers: 50,
   maxThingsToDo: 200,
   maxThingsToDoLists: 150,
-  maxThingsToDoTags: 20
+  maxThingsToDoTags: 20,
+  maxExperiences: 300,
 };
 
 modules.export = configuration;

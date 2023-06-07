@@ -7,5 +7,7 @@ class ThingsToDoListTagJoins {
     ) {
         this.listId = listId ?? faker.number.int()
         this.thingToDoId = thingToDoLIstTagId ?? faker.number.int();
+        this.createdAt = new Date()
+        this.updatedAt = new Date()
     }
 }

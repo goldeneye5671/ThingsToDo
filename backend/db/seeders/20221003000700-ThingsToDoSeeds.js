@@ -13,14 +13,6 @@ for (let i = 0; i < numberOfThings; i++) {
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-
-    */
-    // {
-    /*
      *  Backpacking
      *  Music Creation
      *  Learn An Instrument
@@ -40,7 +32,6 @@ module.exports = {
      *  Become a Day Trader
      *  Car Maintenance
      */
-    // }
     return queryInterface.bulkInsert("ThingsToDos", generatedThings, {});
   },
 

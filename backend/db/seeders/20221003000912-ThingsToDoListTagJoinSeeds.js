@@ -1,34 +1,31 @@
 "use strict";
 
+const {configuration} = require("./generatrors/Config")
+const ThingsToDoListTagJoins = require('./generatrors/ThingsToDoListTagJoinsGenerator')
+
+const generatedThingsToDoTagJoins = []
+const numberOfJoins = configuration.maxThingsToDoTags
+
+for (let i = 0; i < numberOfJoins; i++) {
+  generatedThingsToDoTagJoins.push(new ThingsToDoListTagJoins())
+}
+
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.bulkInsert(
+			"ThingsToDoListTagJoins",
+			generatedThingsToDoTagJoins,
+			{}
+		);
+	},
 
-      Example:
-      */
-    return queryInterface.bulkInsert(
-      "ThingsToDoListTagJoins",
-      [
-        {
-          thingsToDoListId: 1,
-          thingsToDoListTagId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ],
-      {}
-    );
-  },
-
-  down: (queryInterface, Sequelize) => {
-    /*
+	down: (queryInterface, Sequelize) => {
+		/*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
 
       Example:
       */
-    return queryInterface.bulkDelete("ThingsToDoListTagJoins", null, {});
-  },
+		return queryInterface.bulkDelete("ThingsToDoListTagJoins", null, {});
+	},
 };
