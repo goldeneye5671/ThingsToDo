@@ -12,6 +12,7 @@ const isProduction = environment === "production";
 
 console.log("Prod: ", isProduction);
 
+const sessionRoutes = require("./routes/session")
 const userRoutes = require("./routes/users");
 const thingsToDoListTagRouter = require("./routes/thingsToDoListTags");
 const thingsToDoListRouter = require("./routes/thingsToDoLists");
@@ -48,7 +49,7 @@ app.use(
 // app.use('/', indexRoutes);
 
 app.use(restoreUser);
-
+app.use("/api/session", sessionRoutes)
 app.use("/api/users", userRoutes);
 app.use("/api/thingtodolisttag", thingsToDoListTagRouter);
 app.use("/api/thingstodolists", thingsToDoListRouter);

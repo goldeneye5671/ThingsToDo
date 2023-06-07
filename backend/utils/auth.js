@@ -2,8 +2,6 @@ const jwt = require("jsonwebtoken");
 const { jwtConfig } = require("../config");
 const { User } = require("../db/models");
 
-console.log(jwtConfig);
-
 const { secret, expiresIn } = jwtConfig;
 
 const setTokenCookie = (res, user) => {
