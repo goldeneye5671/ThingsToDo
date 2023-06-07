@@ -38,3 +38,6 @@ class CustomExperiences {
         this.updatedAt = new Date()
     }
 }
+
+
+module.exports = CustomExperiences

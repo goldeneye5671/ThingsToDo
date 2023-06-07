@@ -11,3 +11,5 @@ class ThingsToDoListTagJoins {
         this.updatedAt = new Date()
     }
 }
+
+module.exports = ThingsToDoListTagJoins
