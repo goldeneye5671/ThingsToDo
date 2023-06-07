@@ -10,7 +10,6 @@ for (let i = 0; i < configuration.maxExperiencePhotos; i++) {
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {
-
 		return queryInterface.bulkInsert(
 			"ExperiencePhotos",
 			generatedExperiencePhotos,

@@ -6,6 +6,8 @@ const configuration = {
 	maxThingsToDoTags: 20,
 	maxExperiences: 300,
 	maxExperiencePhotos: 250,
+  maxBusinesses: 250,
+  maxBusinessJoins: 150
 };
 
 modules.export = configuration;
