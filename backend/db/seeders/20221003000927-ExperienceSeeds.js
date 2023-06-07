@@ -1,6 +1,6 @@
 "use strict";
 
-const { configuration } = require("./generatrors/Config");
+const configuration  = require("./generatrors/counter");
 const CustomExperiences = require("./generatrors/CustomExperiencesGenerator");
 const generatedExperiences = []
 

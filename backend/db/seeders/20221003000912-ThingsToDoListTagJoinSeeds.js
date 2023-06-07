@@ -1,6 +1,6 @@
 "use strict";
 
-const {configuration} = require("./generatrors/Config")
+const configuration = require("./generatrors/counter")
 const ThingsToDoListTagJoins = require('./generatrors/ThingsToDoListTagJoinsGenerator')
 
 const generatedThingsToDoTagJoins = []

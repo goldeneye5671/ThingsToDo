@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "ThingsToDoList",
     {
       listName: DataTypes.STRING(128),
-      listDescription: DataTypes.STRING(128),
+      listDescription: DataTypes.TEXT,
       userId: DataTypes.INTEGER,
     },
     {}

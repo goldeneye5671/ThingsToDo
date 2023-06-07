@@ -1,38 +1,26 @@
 "use strict";
 
-const ThingsToDoTOThingsToDoListJoins = require("./generatrors/ThingsToDoToThingsTooDoListJoinsGenerator")
-const {configuration} = require('./generatrors/Config')
-const generatedListJoins = []
+const ThingsToDoTOThingsToDoListJoins = require("./generatrors/ThingsToDoToThingsTooDoListJoinsGenerator");
+const configuration  = require("./generatrors/counter");
+const generatedListJoins = [];
 for (let i = 0; i < configuration.maxThingsToDoListTOthingsToDo; i++) {
-  generatedListJoins.push(new ThingsToDoTOThingsToDoListJoins())
+	generatedListJoins.push(new ThingsToDoTOThingsToDoListJoins());
 }
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    /*
-      Add altering commands here.
-      Return a promise to correctly handle asynchronicity.
+	up: (queryInterface, Sequelize) => {
+		return queryInterface.bulkInsert(
+			"ThingsToDoTOThingsToDoListJoins",
+			generatedListJoins,
+			{}
+		);
+	},
 
-      Example:
-      */
-    return queryInterface.bulkInsert(
-      "ThingsToDoTOThingsToDoListJoins",
-      generatedListJoins,
-      {}
-    );
-  },
-
-  down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      */
-    return queryInterface.bulkDelete(
-      "ThingsToDoTOThingsToDoListJoins",
-      null,
-      {}
-    );
-  },
+	down: (queryInterface, Sequelize) => {
+		return queryInterface.bulkDelete(
+			"ThingsToDoTOThingsToDoListJoins",
+			null,
+			{}
+		);
+	},
 };

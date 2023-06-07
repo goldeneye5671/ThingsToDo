@@ -1,5 +1,5 @@
 const {faker} = require("@faker-js/faker")
-const {configuration} = require('./Config')
+const configuration = require('./counter')
 
 class CustomExperiences {
     constructor(
@@ -16,7 +16,7 @@ class CustomExperiences {
         })
         this.thingToDoId  = thingToDoId ?? faker.number.int({
             min: 1,
-            max: configuration.maxThingToDo
+            max: configuration.maxThingsToDo
         })
         this.title = title ?? faker.word.words({
             min: 1,

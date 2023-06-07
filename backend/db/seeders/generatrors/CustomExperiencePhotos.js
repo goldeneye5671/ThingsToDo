@@ -1,5 +1,5 @@
 const { faker } = require("@faker-js/faker");
-const { configuration } = require("./Config");
+const configuration = require("./counter");
 
 class CustomExperincePhotos {
 	constructor(experienceId = undefined, photoId = undefined, url = undefined) {
@@ -20,3 +20,5 @@ class CustomExperincePhotos {
 		this.updatedAt = new Date();
 	}
 }
+
+module.exports = CustomExperincePhotos

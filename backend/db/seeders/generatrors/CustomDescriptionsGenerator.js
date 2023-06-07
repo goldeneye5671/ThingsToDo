@@ -1,5 +1,5 @@
 const { faker } = require("@faker-js/faker");
-const { configuration } = require("./Config");
+const configuration = require("./counter");
 
 class CustomDescriptions {
   constructor(

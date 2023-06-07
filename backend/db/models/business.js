@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       city: DataTypes.STRING(128),
       stateProvince: DataTypes.STRING(100),
       country: DataTypes.STRING(64),
-      zipcode: DataTypes.INTEGER,
+      zipcode: DataTypes.STRING(12),
     },
     {}
   );
