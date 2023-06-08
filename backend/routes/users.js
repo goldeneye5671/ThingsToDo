@@ -5,7 +5,7 @@ const { handleValidationErrors } = require("../utils/validation");
 
 const asyncHandler = require("express-async-handler");
 const db = require("../db/models");
-const { setTokenCookie } = require("../utils/auth");
+const { setTokenCookie, requireAuth } = require("../utils/auth");
 
 const validateSignup = [
   check("email")
@@ -87,6 +87,7 @@ router.get(
 
 router.patch(
   "/:id",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const updateUser = req.body;
     const user = await db.User.findByPk(req.params.id);
