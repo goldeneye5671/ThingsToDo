@@ -20,6 +20,14 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING(128),
       },
+      role: {
+        // need protections around this. Only an admin should be able to change this role. Should not be shown to user
+        type: Sequelize.INTEGER
+      },
+      membership: {
+        // Can be changed by the user if they pay money
+        type: Sequelize.INTEGER
+      },
       profileImage: {
         type: Sequelize.STRING,
       },
