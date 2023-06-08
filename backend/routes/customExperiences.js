@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../db/models");
+const { requireAuth } = require("../utils/auth");
 
 router.get(
 	"/",
@@ -36,6 +37,7 @@ router.get(
 
 router.post(
 	"/",
+	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const { userId, thingToDoId, title, description } = req.body;
@@ -65,6 +67,7 @@ router.post(
 
 router.patch(
 	"/:experienceId",
+	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
@@ -93,6 +96,7 @@ router.patch(
 
 router.delete(
 	"/:experienceId",
+	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
@@ -165,6 +169,7 @@ router.get(
 
 router.post(
 	"/:experienceId/photos/",
+	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const { url } = req.body;
@@ -201,6 +206,7 @@ router.post(
 
 router.delete(
 	"/:experienceId/photos/:photoId",
+	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
       const transaction = await db.sequelize.transaction()

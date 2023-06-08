@@ -32,6 +32,7 @@ router.get(
 // Create one list
 router.post(
   "/",
+  requireAuth,
   expressAsyncHandler(async (req, res) => {
     try {
       const { listName, listDescription, userId } = req.body;
@@ -72,6 +73,7 @@ router.post(
 // updated one list
 router.patch(
   "/:id",
+  requireAuth,
   expressAsyncHandler(async (req, res) => {
     const thingToDoList = await db.ThingsToDoList.findByPk(req.params.id);
     if (thingsToDoList) {
@@ -112,6 +114,7 @@ router.patch(
 //TODO: Only allow the user that owns the list to add a tag to it
 router.post(
   "/:listId/tag/add/:tagId",
+  requireAuth,
   expressAsyncHandler(async (req, res, next) => {
     try {
       //grabs the tag from the joins if it exits
@@ -155,6 +158,7 @@ router.post(
 //handles only removing existing tags to the list
 router.delete(
   "/:listId/tag/remove/:tagId",
+  requireAuth,
   expressAsyncHandler(async (req, res, next) => {
     // get the connection that represents the tag being associated with the list
     try {
@@ -180,6 +184,7 @@ router.delete(
 //handles only adding new thingsToDo to the list
 router.post(
   "/:listId/thingToDo/add/:thingToDoId",
+  requireAuth,
   expressAsyncHandler(async (req, res, next) => {
     try {
       // find the connection if it exists
@@ -219,6 +224,7 @@ router.post(
 //handles only removing existing thingsToDo from the list
 router.delete(
   "/:listId/thingToDo/remove/:thingToDoId",
+  requireAuth,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const thingToDoListTOthingAss =
@@ -258,6 +264,7 @@ router.delete(
  */
 router.delete(
   "/:id",
+  requireAuth,
   expressAsyncHandler(async (req, res) => {
     const listToDelete = await db.ThingsToDoList.findByPk(req.params.id);
 
