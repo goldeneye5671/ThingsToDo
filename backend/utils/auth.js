@@ -60,10 +60,10 @@ const requireAdmin = async (req, res, next) => {
       ]
     })
 
-    if (user.role === "admin") {
+    if (user.Role ["name"] === "Admin") {
       next() 
     } else {
-      console.log("%chere", 'color:blue')
+      console.log("%c here", 'color:blue')
       throw new Error("Unauthorized")
     } 
 
