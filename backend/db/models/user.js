@@ -75,11 +75,13 @@ module.exports = (sequelize, DataTypes) => {
       lastName: DataTypes.STRING(128),
       profileImage: DataTypes.STRING,
       bio: DataTypes.STRING(512),
+      membership: DataTypes.INTEGER,
+      role: DataTypes.INTEGER
     },
     {
       defaultScope: {
         attributes: {
-          exclude: ["hashedPassword", "email", "createdAt", "updatedAt"],
+          exclude: ["hashedPassword", "email", "role", "membership", "createdAt", "updatedAt"],
         },
       },
       scopes: {
@@ -169,6 +171,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
       hooks: true,
     });
+
+    User.belongsTo(models.Role, {
+      foreignKey: "role"
+    })
+
+    User.belongsTo(models.Membership, {
+      foreignKey: "membership"
+    })
   };
 
   return User;

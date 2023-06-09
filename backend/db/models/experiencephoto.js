@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
 	};
 
 	ExperiencePhoto.addHook("beforeCreate", async (photo) => {
-    console.log("add hook")
 		const maxPhotoId = await ExperiencePhoto.max("photoId", {
 			where: { experienceId: photo.experienceId },
 		});

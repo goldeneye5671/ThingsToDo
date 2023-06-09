@@ -1,0 +1,70 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+main { 
+    display: flex;;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left, .right {
+    border: solid red 2px;
+    border-radius: 25px;
+    padding: 25px;
+    height: 70vh;
+    margin: 5px;
+}
+
+.left{
+    width: 35%
+}
+
+.right{
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr 1fr;
+  /* gap: 30px 20px; */
+    width: 70%;
+    overflow-y: scroll;
+}
+
+.miniThingContainer {
+    /* display:flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap; */
+    width: 75%;
+    /* height: 30vh; */
+    margin:30px auto;
+    padding: 1.5em;
+    border: solid black 1px;
+    border-radius: 15px;;
+    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; */
+    /* border: solid red 1px;
+    border-radius: 25px;;
+    margin: 5% 1%;
+    width: 350px;
+    height: 274px; */
+}
+
+.miniThingMainContent > img {
+    margin: auto;
+    width: 100%;
+    border: solid red ;
+}
+
+.miniThingMainContent > p {
+    font-size: larger;
+    color: white; 
+    position: relative;
+    bottom: 70px;
+    left: 5%; 
+}
