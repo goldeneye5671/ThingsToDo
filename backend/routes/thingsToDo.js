@@ -2,7 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../db/models");
 const { Op } = require("sequelize");
-const { requireAuth } = require("../utils/auth");
+const { requireAuth, requireAdmin } = require("../utils/auth");
 
 // Search by name
 // Get by id
@@ -108,10 +108,10 @@ router.get(
 router.post(
   "/",
   requireAuth,
+  expressAsyncHandler(requireAdmin),
   expressAsyncHandler(async (req, res, next) => {
     try {
       const { thingName, thingDescription } = req.body;
-
       if (
         !thingName ||
         !thingDescription ||

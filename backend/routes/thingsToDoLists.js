@@ -2,6 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const Op = require("sequelize");
 const db = require("../db/models");
+const { requireAuth } = require("../utils/auth");
 
 // Get one list
 router.get(

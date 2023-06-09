@@ -9,7 +9,9 @@ class User {
 		lastName = undefined,
 		profileImage = undefined,
 		bio = undefined,
-		hashedPassword = undefined
+		hashedPassword = undefined,
+		membership = undefined,
+		role = undefined
 	) {
 		this.username = username ?? faker.internet.userName();
 		this.email = email ?? faker.internet.email();
@@ -25,6 +27,14 @@ class User {
 					max: 4,
 				}));
 		this.hashedPassword = hashedPassword ?? String(bcript.hashSync("Password"));
+		this.role = role ?? faker.number.int({
+			min: 1,
+			max: 4
+		})
+		this.membership = membership ?? faker.number.int({
+			min: 1,
+			max: 3
+		})
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
 	}

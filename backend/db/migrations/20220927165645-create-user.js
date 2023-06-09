@@ -22,11 +22,13 @@ module.exports = {
       },
       role: {
         // need protections around this. Only an admin should be able to change this role. Should not be shown to user
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {model: "Roles"}
       },
       membership: {
         // Can be changed by the user if they pay money
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {model: "Memberships"}
       },
       profileImage: {
         type: Sequelize.STRING,

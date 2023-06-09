@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { jwtConfig } = require("../config");
-const { User } = require("../db/models");
-
+const { User, Role, Membership } = require("../db/models");
 const { secret, expiresIn } = jwtConfig;
 
 const setTokenCookie = (res, user) => {
@@ -22,12 +21,15 @@ const setTokenCookie = (res, user) => {
     sameSite: isProduction && "Lax",
   });
 
-  return token;
+  return 
+  
+;
 };
 
 const restoreUser = (req, res, next) => {
   // token parsed from cookies
   const { token } = req.cookies;
+  console.log(token)
 
   return jwt.verify(token, secret, null, async (err, jwtPayload) => {
     if (err) {
@@ -48,9 +50,95 @@ const restoreUser = (req, res, next) => {
   });
 };
 
+const requireAdmin = async (req, res, next) => {
+  try {
+    if (!req.user) throw new Error("Unauthorized")
+    const user = await User.findByPk(req.user.id, {
+      include: [
+        Role,
+        Membership
+      ]
+    })
+
+    if (user.role === "admin") {
+      next() 
+    } else {
+      console.log("%chere", 'color:blue')
+      throw new Error("Unauthorized")
+    } 
+
+  } catch (e) {
+    next(e)
+  }
+}
+
+const requireBusiness = async (req, res, next) => {
+  try {
+    if (!req.user) throw new Error("Unauthorized")
+    const user = await User.findByPk(req.user.id, {
+      include: [
+        Role,
+        Membership
+      ]
+    })
+
+    if (user.role === "business") {
+      next() 
+    } else {
+      throw new Error("Unauthorized")
+    } 
+
+  } catch (e) {
+    next(e)
+  }
+}
+
+const requireModeration = async (req, res, next) => {
+  try {
+    if (!req.user) throw new Error("Unauthorized")
+    const user = await User.findByPk(req.user.id, {
+      include: [
+        Role,
+        Membership
+      ]
+    })
+
+    if (user.role === "moderation") {
+      next() 
+    } else {
+      throw new Error("Unauthorized")
+    } 
+
+  } catch (e) {
+    next(e)
+  }
+}
+
+const requireBasic = async (req, res, next) => {
+  try {
+    if (!req.user) throw new Error("Unauthorized")
+    const user = await User.findByPk(req.user.id, {
+      include: [
+        Role,
+        Membership
+      ]
+    })
+
+    if (user.role === "basic") {
+      next() 
+    } else {
+      throw new Error("Unauthorized")
+    } 
+
+  } catch (e) {
+    next(e)
+  }
+}
+
 const requireAuth = [
   restoreUser,
   function (req, res, next) {
+    console.log(req.user)
     if (req.user) return next();
 
     const err = new Error("Unauthorized");
@@ -65,4 +153,5 @@ module.exports = {
   setTokenCookie,
   restoreUser,
   requireAuth,
+  requireAdmin
 };
