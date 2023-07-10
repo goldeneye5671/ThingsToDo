@@ -1,0 +1,90 @@
+main {
+	display: flex;
+	gap: 5px;
+	height: 100vh;
+	/* width: fit-content; */
+	margin: 0 0;
+	/* border: solid pink; */
+	background: rgb(72, 82, 242);
+	background: linear-gradient(
+		50deg,
+		rgba(72, 82, 242, 1) 0%,
+		rgba(228, 78, 100, 1) 100%
+	);
+}
+
+nav {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: fit-content;
+	background-color: rgba(219, 219, 219, 0.76);
+	border-radius: 15px;
+    overflow-y: scroll;
+}
+
+
+.container-flex-row{
+    width: 90%;
+    overflow-x: scroll;
+    gap: 15px;
+}
+
+#thing-content {
+    padding: 5px;
+	/* overflow: scroll; */
+	overflow-y: scroll;
+	width: 90%;
+	/* background-color: rgba(219, 219, 219, 0.76); */
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+    justify-content: space-evenly;
+	height: 90vh;
+}
+
+.photo-container-horizontal {
+	height: 60%;
+	width: 95%;
+	overflow: scroll;
+}
+
+#thing-header {
+	height: 20%;
+	display: flex;
+    flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+#thing-descs {
+	/* overflow-y: scroll; */
+	overflow-x: scroll;
+	height: 43%;
+	display: flex;
+	width: 100%;
+	gap: 15px;
+	scrollbar-width: none;
+}
+
+#desc-content {
+	margin: 2px;
+	padding: 5px;
+	border-radius: 15px;
+	background-color: rgba(219, 219, 219, 0.76);
+	min-width: 50%;
+	overflow-y: scroll;
+	transition: all 0.4s ease-in-out;
+}
+
+#desc-content:hover {
+	margin: 2px;
+	padding: 5px;
+	border-radius: 15px;
+	background-color: rgba(219, 219, 219, 0.76);
+	min-width: 50%;
+	overflow: scroll;
+	transition: all 0.2s ease-in-out;
+	transform: scale(1.03);
+	box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}

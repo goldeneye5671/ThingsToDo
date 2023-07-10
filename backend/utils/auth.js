@@ -152,6 +152,9 @@ const requireAuth = [
 module.exports = {
   setTokenCookie,
   restoreUser,
+  requireBasic,
+  requireBusiness,
+  requireModeration,
   requireAuth,
   requireAdmin
 };

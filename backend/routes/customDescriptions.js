@@ -15,6 +15,8 @@ router.get(
 
 router.post(
   "/",
+  requireAuth,
+  requireBasic,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const { userId, thingToDoId, headline, description } = req.body;
@@ -64,6 +66,8 @@ router.get(
 
 router.patch(
   "/:customDescriptionId",
+  requireAuth,
+  requireBasic,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const desc = await db.CustomDescription.findByPk(
@@ -94,6 +98,8 @@ router.patch(
 
 router.delete(
   "/:customDescriptionId",
+  requireAuth,
+  requireBasic,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const desc = await db.CustomDescription.findByPk(

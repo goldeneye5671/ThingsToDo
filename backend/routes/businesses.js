@@ -2,6 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../db/models");
 const { Op } = require("sequelize");
+const { requireAdmin, requireBusiness } = require("../utils/auth");
 
 router.get(
   "/",
@@ -57,6 +58,8 @@ router.get(
 
 router.post(
   "/",
+  requireAuth,
+  requireAdmin,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const {
@@ -94,6 +97,8 @@ router.post(
 
 router.patch(
   "/:businessId",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const businessToUpdate = await db.Business.findByPk(
@@ -144,6 +149,8 @@ router.patch(
 
 router.delete(
   "/:businessId",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     /**
      * What needs to get deleted :
@@ -188,6 +195,8 @@ router.delete(
 
 router.post(
   "/:businessId/add-thingtodo/:thingId",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const existingBusiness = await db.Business.findByPk(
@@ -242,6 +251,8 @@ router.post(
 
 router.delete(
   "/:businessId/remove-thingtodo/:thingId",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const existingBusiness = await db.Business.findByPk(
@@ -357,6 +368,8 @@ router.get(
 
 router.post(
   "/:businessId/photos",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const { name, alt, url } = req.body;
@@ -395,6 +408,8 @@ router.post(
 
 router.delete(
   "/:businessId/photos/:photoId",
+  requireAuth,
+  requireBusiness,
   expressAsyncHandler(async (req, res, next) => {
     try {
       const businessPhoto = await db.BusinessPhoto.findByPk(

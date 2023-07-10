@@ -1,0 +1,150 @@
+main {
+	display: flex;
+	flex-direction: row;
+	background: rgb(72, 82, 242);
+	background: linear-gradient(
+		50deg,
+		rgba(72, 82, 242, 1) 0%,
+		rgba(228, 78, 100, 1) 100%
+	);
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	width: 100%;
+	border-radius: 5px;
+}
+a {
+    text-decoration: none;
+	color: black;
+}
+
+
+#interactive {
+	width: 45%;
+	height: 90%;
+	margin: 15px;
+
+	border: solid black 1px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	/* justify-content: space-between; */
+	padding: 5px;
+	background-color: rgba(219, 219, 219, 0.76);
+	border-radius: 15px;
+}
+
+#interactive > h1 {
+	font-size: 75px;
+}
+
+#SearchInput {
+	border-radius: 5px 0px 0px 5px;
+	border: none;
+	width: 90%;
+	height: 30px;
+	background-color: rgba(219, 219, 219, 0.76);
+}
+
+#SearchInput:hover {
+	border-radius: 5px 0px 0px 5px;
+	border: none;
+	width: 90%;
+	height: 30px;
+	background-color: rgba(219, 219, 219, 1);
+}
+
+#SearchButton {
+	margin: 0;
+	height: 33px;
+	width: 10%;
+	border-radius: 0px 5px 5px 0px;
+}
+
+#SearchInputs{ 
+    width: 50%;
+    display: flex;
+}
+
+#title > h1 {
+	font-size: 72px;
+	margin: 0;
+}
+
+#title > h2 {
+	width: 25%;
+}
+
+img {
+	width: 45%;
+}
+
+#MultipleThingsContainer {
+	
+	overflow-x: scroll;
+	width: 45%;
+	height: 90%;
+	padding: 15px;
+	border-radius: 15px;
+	background-color: rgba(219, 219, 219, 0.76);
+	box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+#MultipleThingsInfo {
+	margin: 15px;
+	overflow: scroll;
+}
+
+#MultipleThingsItem {
+	display: flex;
+	border: solid rgb(151, 151, 151) 1px;
+	margin: 15px;
+	border-radius: 15px;
+	transition: all 0.4s ease-in-out;
+	height: 25%;
+	/* box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px; */
+}
+
+#MultipleThingsItem:hover {
+	border: solid rgb(151, 151, 151) 1px;
+	margin: 15px;
+	padding: 15px;
+	border-radius: 15px;
+	transition: all 0.2s ease-in-out;
+	transform: scale(1.03);
+	background-color: rgb(255, 255, 255);
+	box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+	
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	width: 95%;
+	margin: 15px;
+}
+
+#BasicNav > a,
+#LogInNav > a {
+	padding: 15px;
+	border-radius: 15px;
+	background-color: rgba(219, 219, 219, 0.5);
+	transition: all 0.4s ease-in-out;
+	text-decoration: none;
+    text-align: center;
+}
+
+#BasicNav > a:hover,
+#LogInNav > a:hover {
+	padding: 15px;
+	border-radius: 15px;
+	background-color: rgba(255, 255, 255, 0.5);
+	transition: all 0.2s ease-in-out;
+	transform: scale(1.03);
+	text-decoration: none;
+}
+
+.home-nav{
+	max-width: 7%;
+}
