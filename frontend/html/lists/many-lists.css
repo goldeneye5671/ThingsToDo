@@ -1,0 +1,34 @@
+.list {
+	padding: 10px;
+	border: solid black 1px;
+	border-radius: 15px;
+	width: 80%;
+	margin: 15px auto;
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+}
+
+.list-info{
+	width: 25%;
+	min-width: 300px;
+}
+
+.list-content{
+	display: flex;
+	flex-direction: row;
+	gap: 15px;
+	overflow-x: scroll;
+}
+
+@media (max-width: 588px){
+    .list{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list-info {
+        margin: 0 auto;
+        max-width:200px ;
+    }
+}

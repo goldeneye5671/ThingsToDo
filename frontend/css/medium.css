@@ -1,0 +1,8 @@
+@media screen and (min-width: 588px) and (max-width: 1024px) {
+    .container {
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(2, 50%);
+        column-gap: 15px;
+    }
+}
