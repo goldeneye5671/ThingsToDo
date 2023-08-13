@@ -1,31 +1,37 @@
-import { useState } from 'react'
-import './App.css'
-import BusinessForm from './components/business/business-create-form'
-import BusinessList from './components/business/business-list'
+import { useState } from "react";
+import "./App.css";
+import BusinessPage from "./components/business/business-index";
+import BlissPage from "./components/bliss/bliss-index";
 
 function App() {
+	const [blissVis, setBlissVis] = useState(false);
+	const [businessVis, setBusinessVis] = useState(false);
 
-  const [blVisibe, setBlVisible] = useState(false)
-  const [addFormVisible, setAddFormVisible] = useState(false)
+	const onBlissClick = (e) => {
+		e.preventDefault();
+		setBlissVis(!blissVis);
+	};
 
-  const onBlVisibleButtonClick = (e) => {
-    e.preventDefault()
-    setBlVisible(!blVisibe)
-  }
-  const onAddButtonClick =(e) => {
-    e.preventDefault()
-    setAddFormVisible(!addFormVisible)
-  }
+	const onBusinessClick = (e) => {
+		e.preventDefault();
+		setBusinessVis(!businessVis);
+	};
 
-  return (
-    <>
-      <button onClick={onAddButtonClick}>{addFormVisible ? "cancel":"Add Business" }</button>
-      {addFormVisible && <BusinessForm />}
+	return (
+		<>
+			<h1>Bliss</h1>
+			<h3>(Under Development)</h3>
+			<button onClick={onBlissClick}>
+				{blissVis ? "Hide Bliss Page" : "Show Bliss Page"}
+			</button>
+			<button onClick={onBusinessClick}>
+				{businessVis ? "Hide Business Page" : "Show Business Page"}
+			</button>
 
-      <button onClick={onBlVisibleButtonClick}>{blVisibe ? "hide Businesses" : "Show Businesses"}</button>
-      {blVisibe && <BusinessList />}
-    </>
-  )
+			{blissVis && <BlissPage />}
+			{businessVis && <BusinessPage />}
+		</>
+	);
 }
 
-export default App
+export default App;

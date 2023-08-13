@@ -70,7 +70,7 @@ export const businessSlice = createSlice({
 	reducers: {
 		sortBusinesses: {
 			reducer(state, action) {
-				state.businesses.sort(b1, (b2) => {
+				state.businesses.sort((b1, b2) => {
 					//need a way to sort businesses based off of a specified criteria
 				});
 			},
@@ -115,10 +115,12 @@ export const businessSlice = createSlice({
 			// })
 			.addCase(fetchBusinesses.pending, (state, action) => {
 				state.status = "pending";
+                state.error = null
 			})
 			.addCase(fetchBusinesses.fulfilled, (state, action) => {
 				state.status = "fulfilled";
 				state.businesses = state.businesses.concat(action.payload);
+                state.error = null
 			})
 			.addCase(fetchBusinesses.rejected, (state, action) => {
 				state.status = "rejected";

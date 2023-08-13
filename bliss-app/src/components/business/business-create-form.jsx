@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addBusiness } from "../../store/businessSlice";
-import { nanoid } from "@reduxjs/toolkit";
 
-function BusinessCreateForm() {
+function BusinessCreateForm({ setVisible }) {
 	const dispatch = useDispatch();
 
 	const [name, setName] = useState("");
@@ -13,7 +12,6 @@ function BusinessCreateForm() {
 	const [stateProvince, setStateProvince] = useState("");
 	const [country, setCountry] = useState("");
 	const [zipcode, setZipCode] = useState("");
-	const [businessId, setBusinessId] = useState(0);
 	const [canSubmit, setCanSubmit] = useState(false);
 
 	const onNameChange = (e) => setName(e.target.value);
@@ -23,6 +21,7 @@ function BusinessCreateForm() {
 	const onStateProvinceChange = (e) => setStateProvince(e.target.value);
 	const onCountryChange = (e) => setCountry(e.target.value);
 	const onZipcodeChange = (e) => setZipCode(e.target.value);
+	const onCancel = (e) => setVisible(false)
 
 	useEffect(() => {
 		if (
@@ -36,13 +35,11 @@ function BusinessCreateForm() {
 		) {
 			setCanSubmit(true);
 		}
-
 	}, [name, primaryPhoto, address, city, stateProvince, country, zipcode]);
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 		if (canSubmit) {
-			setBusinessId(nanoid());
 			dispatch(
 				addBusiness({
 					name,
@@ -54,15 +51,20 @@ function BusinessCreateForm() {
 					zipcode,
 				})
 			)
-
-			setName("");
-			setPrimaryPhoto("");
-			setAddress("");
-			setCity("");
-			setStateProvince("");
-			setCountry("");
-			setZipCode("");
-			
+				.then((info) => {
+					console.log(info);
+					setName("");
+					setPrimaryPhoto("");
+					setAddress("");
+					setCity("");
+					setStateProvince("");
+					setCountry("");
+					setZipCode("");
+					setVisible(false);
+				})
+				.catch((e) => {
+					console.error(e);
+				});
 		}
 	};
 
@@ -78,7 +80,7 @@ function BusinessCreateForm() {
 					name="businessName"
 					id="businessName"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessPhoto">Business Photo Url</label>
 				<input
 					onChange={onPhotoChange}
@@ -87,7 +89,7 @@ function BusinessCreateForm() {
 					name="businessPhoto"
 					id="businessPhoto"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessAddress">Address</label>
 				<input
 					onChange={onAddressChange}
@@ -96,7 +98,7 @@ function BusinessCreateForm() {
 					name="businessAddress"
 					id="businessAddress"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessCity">City</label>
 				<input
 					onChange={onCityChange}
@@ -105,7 +107,7 @@ function BusinessCreateForm() {
 					name="businessCity"
 					id="businessCity"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessStateProvince">State/Province</label>
 				<input
 					onChange={onStateProvinceChange}
@@ -114,7 +116,7 @@ function BusinessCreateForm() {
 					name="businessStateProvince"
 					id="businessStateProvince"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessCountry">Country</label>
 				<input
 					onChange={onCountryChange}
@@ -123,7 +125,7 @@ function BusinessCreateForm() {
 					name="businessCountry"
 					id="businessCountry"
 				/>
-
+				<br></br><br></br>
 				<label htmlFor="businessPostalCode">Postal Code</label>
 				<input
 					onChange={onZipcodeChange}
@@ -132,10 +134,9 @@ function BusinessCreateForm() {
 					name="businessPostalCode"
 					id="businessPostalCode"
 				/>
-
-				<button onClick={onSubmit}>
-					Submit
-				</button>
+				<br></br><br></br>
+				<button onClick={onSubmit}>Submit</button>
+				<button onClick={onCancel}>Cancel</button>
 			</form>
 		</div>
 	);

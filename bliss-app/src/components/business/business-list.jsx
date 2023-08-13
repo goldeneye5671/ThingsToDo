@@ -22,7 +22,7 @@ function BusinessList() {
 			businessStatus.abort();
 			dispatch(cleanBusinesses());
 		};
-	}, [dispatch, businessStatus]);
+	}, [dispatch]);
 
 	if (status === "fulfilled") {
 		content = businesses.businesses.map((business) => {
