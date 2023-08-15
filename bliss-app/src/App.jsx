@@ -1,35 +1,20 @@
-import { useState } from "react";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
 import BusinessPage from "./components/business/business-index";
 import BlissPage from "./components/bliss/bliss-index";
+import NavBar from "./components/shared/navigation";
+import IndividualBliss from "./components/bliss/IndividualBliss/individual-bliss";
 
 function App() {
-	const [blissVis, setBlissVis] = useState(false);
-	const [businessVis, setBusinessVis] = useState(false);
-
-	const onBlissClick = (e) => {
-		e.preventDefault();
-		setBlissVis(!blissVis);
-	};
-
-	const onBusinessClick = (e) => {
-		e.preventDefault();
-		setBusinessVis(!businessVis);
-	};
-
 	return (
 		<>
-			<h1>Bliss</h1>
-			<h3>(Under Development)</h3>
-			<button onClick={onBlissClick}>
-				{blissVis ? "Hide Bliss Page" : "Show Bliss Page"}
-			</button>
-			<button onClick={onBusinessClick}>
-				{businessVis ? "Hide Business Page" : "Show Business Page"}
-			</button>
-
-			{blissVis && <BlissPage />}
-			{businessVis && <BusinessPage />}
+			<NavBar/>
+			<Routes>
+				<Route path="/" element={<h1>Home</h1>} />
+				<Route path="/bliss" element={<BlissPage />} />
+				<Route path="/bliss/:id" element={<IndividualBliss/>}/>
+				<Route path="/businesses" element={<BusinessPage />} />
+			</Routes>
 		</>
 	);
 }

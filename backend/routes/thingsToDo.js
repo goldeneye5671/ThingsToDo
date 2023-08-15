@@ -107,7 +107,12 @@ router.get(
 	"/:id",
 	expressAsyncHandler(async (req, res) => {
 		const thingToDo = await db.ThingsToDo.findByPk(req.params.id, {
-			include: [db.ThingRating],
+			include: [
+				db.ThingRating,
+				db.Experience,
+				db.CustomDescription,
+				db.Business,
+			],
 		});
 		if (thingToDo) {
 			res.json(thingToDo);
@@ -119,8 +124,8 @@ router.get(
 
 router.post(
 	"/",
-	requireAuth,
-	expressAsyncHandler(requireAdmin),
+	// requireAuth,
+	// expressAsyncHandler(requireAdmin),
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const { thingName, thingDescription } = req.body;

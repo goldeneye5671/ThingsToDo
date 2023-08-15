@@ -100,19 +100,6 @@ export const businessSlice = createSlice({
 	},
 	extraReducers(builder) {
 		builder
-			//Fetches businesses
-			// .addCase(initialFetchBusinesses.pending, (state, action) => {
-			// 	state.status = "pending";
-			// })
-			// .addCase(initialFetchBusinesses.fulfilled, (state, action) => {
-			// 	state.status = "fulfilled";
-			// 	state.businesses = state.businesses.concat(action.payload);
-			// })
-			// .addCase(initialFetchBusinesses.rejected, (state, action) => {
-			// 	state.status = "rejected";
-			// 	console.error("Hit error");
-			// 	state.error = action.error.message;
-			// })
 			.addCase(fetchBusinesses.pending, (state, action) => {
 				state.status = "pending";
                 state.error = null

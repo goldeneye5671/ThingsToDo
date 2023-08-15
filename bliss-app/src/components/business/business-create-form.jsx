@@ -21,7 +21,10 @@ function BusinessCreateForm({ setVisible }) {
 	const onStateProvinceChange = (e) => setStateProvince(e.target.value);
 	const onCountryChange = (e) => setCountry(e.target.value);
 	const onZipcodeChange = (e) => setZipCode(e.target.value);
-	const onCancel = (e) => setVisible(false)
+	const onCancel = (e) => {
+		e.preventDefault();
+		setVisible(false);
+	};
 
 	useEffect(() => {
 		if (
@@ -80,7 +83,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessName"
 					id="businessName"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessPhoto">Business Photo Url</label>
 				<input
 					onChange={onPhotoChange}
@@ -89,7 +93,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessPhoto"
 					id="businessPhoto"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessAddress">Address</label>
 				<input
 					onChange={onAddressChange}
@@ -98,7 +103,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessAddress"
 					id="businessAddress"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessCity">City</label>
 				<input
 					onChange={onCityChange}
@@ -107,7 +113,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessCity"
 					id="businessCity"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessStateProvince">State/Province</label>
 				<input
 					onChange={onStateProvinceChange}
@@ -116,7 +123,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessStateProvince"
 					id="businessStateProvince"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessCountry">Country</label>
 				<input
 					onChange={onCountryChange}
@@ -125,7 +133,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessCountry"
 					id="businessCountry"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<label htmlFor="businessPostalCode">Postal Code</label>
 				<input
 					onChange={onZipcodeChange}
@@ -134,7 +143,8 @@ function BusinessCreateForm({ setVisible }) {
 					name="businessPostalCode"
 					id="businessPostalCode"
 				/>
-				<br></br><br></br>
+				<br></br>
+				<br></br>
 				<button onClick={onSubmit}>Submit</button>
 				<button onClick={onCancel}>Cancel</button>
 			</form>

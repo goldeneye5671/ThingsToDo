@@ -1,28 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
 	allBusinesses,
 	businessError,
 	businessStatus,
-	cleanBusinesses,
-	fetchBusinesses,
 } from "../../store/businessSlice";
-import { useEffect } from "react";
 import Business from "./business";
 
 function BusinessList() {
 	const businesses = useSelector(allBusinesses);
 	const status = useSelector(businessStatus);
 	const errors = useSelector(businessError);
-	const dispatch = useDispatch();
 	let content;
-
-	useEffect(() => {
-		const businessStatus = dispatch(fetchBusinesses());
-		return () => {
-			businessStatus.abort();
-			dispatch(cleanBusinesses());
-		};
-	}, [dispatch]);
 
 	if (status === "fulfilled") {
 		content = businesses.businesses.map((business) => {

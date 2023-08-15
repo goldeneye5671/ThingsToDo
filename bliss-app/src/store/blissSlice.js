@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
 	bliss: [],
+	initialFetch: false,
 	status: "idle",
 	error: null,
 };
@@ -11,6 +12,11 @@ export const fetchBliss = createAsyncThunk("bliss/fetchBliss", async () => {
 	const response = await axios.get(`http://127.0.0.1:5000/api/thingstodo`);
 	return response.data;
 });
+
+export const fetchOneBliss = createAsyncThunk("/bliss/fetchOneBliss", async (blissId) => {
+	const response = await axios.get(`http://127.0.0.1:5000/api/thingstodo/${blissId}`)
+	return response.data
+})
 
 export const addBliss = createAsyncThunk("bliss/addBliss", async (bliss) => {
 	const response = await axios.post(
@@ -57,25 +63,48 @@ export const blissSlice = createSlice({
 		cleanBliss: {
 			reducer(state, action) {
                 state.bliss = []
+				state.initialFetch = false;
             },
 			// prepare() {},
 		},
+		cleanOneBliss: {
+			reducer(state, action) {
+				state.bliss.filter()
+			},
+		}
 	},
 	extraReducers(builder) {
 		builder
 			.addCase(fetchBliss.pending, (state, action) => {
                 state.status="pending"
+				state.initialFetch=true
                 state.error = null
             })
 			.addCase(fetchBliss.fulfilled, (state, action) => {
                 state.status="fulfilled"
+				console.log("action", state.bliss)
                 state.bliss = state.bliss.concat(action.payload)
+				state.initialFetch = true;
                 state.error = null
             })
 			.addCase(fetchBliss.rejected, (state, action) => {
                 state.status="rejected"
+				state.initialFetch = false
                 state.error = action.error.message
             })
+			.addCase(fetchOneBliss.pending, (state, action) => {
+				state.status = "pending"
+				state.error=null
+			})
+			.addCase(fetchOneBliss.fulfilled, (state, action) => {
+				state.status = "fulfilled"
+				state.bliss.push(action.payload)
+				state.error = null
+			})
+			.addCase(fetchOneBliss.rejected, (state, action) => {
+				state.status = "rejected"
+				state.error = action.error.message
+			})
             .addCase(addBliss.fulfilled, (state, action) => {
                 state.bliss.unshift(action.payload);
             })

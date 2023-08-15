@@ -12,31 +12,14 @@ function Bliss({ bliss }) {
 	return !updateVis ? (
 		<div>
 			<h2>Bliss Name: {bliss.thingName}</h2>
-			<p>{bliss.thingDescription}</p>
-			<div>
-				Experiences
-				<div>
-					<h2>Descriptions</h2>
-					{bliss.CustomDescriptions?.map(desc => (
-						<div>
-							Description by {desc?.user}
-						</div>
-					))}
-					<h2>Experiences</h2>
-					{bliss.Experiences.map((experience) => (
-						<>
-							<div>
-								<h2>Experience Name: {experience?.title}</h2>
-								<p>{experience?.description}</p>
-							</div>
-						</>
-					))}
-				</div>
-			</div>
+			<ul>
+				<li>Amount of Descriptions: {bliss.Descriptions?.length}</li>
+				<li>Amount of Experiences: {bliss.Experiences?.length}</li>
+			</ul>
 			<button onClick={onUpdateClick}>{updateVis ? "Cancel" : "Update"}</button>
 		</div>
 	) : (
-		<BlissUpdateForm />
+		<BlissUpdateForm setVisible={setUpdateVis} bliss={bliss}/>
 	);
 }
 
