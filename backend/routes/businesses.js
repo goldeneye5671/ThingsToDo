@@ -76,10 +76,12 @@ router.post(
 
 			if (name && city && stateProvince && country && zipcode) {
 				const [newBusiness, created] = await db.Business.findOrCreate({
-					where: {[Op.and]: {
-            name,
-            address
-          }},
+					where: {
+						[Op.and]: {
+							name,
+							address,
+						},
+					},
 					defaults: {
 						name,
 						primaryPhoto,
@@ -90,9 +92,9 @@ router.post(
 						zipcode,
 					},
 				});
-        if (!created) {
-          throw new Error("Business already exists")
-        }
+				if (!created) {
+					throw new Error("Business already exists");
+				}
 				res.json(newBusiness);
 			} else {
 				throw new Error(
@@ -190,7 +192,7 @@ router.delete(
 				});
 
 				res.json({
-          id: req.params.businessId,
+					id: req.params.businessId,
 					message: "Everything associated with this business have been deleted",
 				});
 			} else {

@@ -81,9 +81,30 @@ export const blissSlice = createSlice({
                 state.error = null
             })
 			.addCase(fetchBliss.fulfilled, (state, action) => {
-                state.status="fulfilled"
-				console.log("action", state.bliss)
-                state.bliss = state.bliss.concat(action.payload)
+				//TODO: This will change to a state that looks like this:
+				/**
+				 * [
+				 * 	[], each array in the matrix represents a pag, and the pages are sorted by id
+				 * 	[],
+				 * 	[],
+				 * ]
+				 */
+				// Or it might just be an array and math will be done to calculate where it is for better filtering and sorting down the line
+
+				//When fetching the data from the API, note that the API is the source of truth.
+				// First you need to dort by the id because in an ideal world the id will not change
+				// Both the state and the action will need to be sorted by ID for this to work
+				// After the sort is done, then some kind of loop needs to occur over the longer array
+				// then if an element exists in the API request and not the state, then the state needs to have that added to it at some point. Probably should store it somewhere first, then put it into the state and sort the state
+				// Also if the element doesn't exist in the API request and does exist in the state, it needs to be removed from the state, and the iterator needs to back up one
+				const sortedActionPayload =  action.payload.sort((a, b) => a.id - b.id)
+				const sortedBlissState = state.bliss.sort((a, b) => a.id - b.id)
+				let longestLength = Math.max(sortedActionPayload.length, sortedBlissState.length)
+				for (let i = 0; i < longestLength; i++) {
+					
+				}
+				state.bliss = sortedActionPayload
+				state.status="fulfilled"
 				state.initialFetch = true;
                 state.error = null
             })

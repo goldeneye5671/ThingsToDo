@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BusinessList from "./business-list";
 import BusinessCreateForm from "./business-create-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,12 +10,19 @@ import {
 
 function BusinessPage() {
 	const dispatch = useDispatch();
-
+	const isMounted = useRef(false)
 	const businesses = useSelector(allBusinesses);
 
 	let content;
 
 	const [addFormVisible, setAddFormVisible] = useState(false);
+
+	useEffect(() => {
+		if (!isMounted.current) {
+			dispatch(fetchBusinesses())
+			isMounted.current = true
+		}
+	})
 
 	const onAddButtonClick = (e) => {
 		e.preventDefault();

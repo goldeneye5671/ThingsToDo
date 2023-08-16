@@ -1,32 +1,30 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Bliss from "./bliss";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	allBliss,
 	blissError,
 	blissStatus,
-	cleanBliss,
+	// cleanBliss,
 	fetchBliss,
 } from "../../store/blissSlice";
 import { Link } from "react-router-dom";
 
 function BlissList() {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 	const bliss = useSelector(allBliss);
 	const status = useSelector(blissStatus);
 	const errors = useSelector(blissError);
-	const isMounted = useRef(false)
+	// const isMounted = useRef(false);
 	let content;
 
-	useEffect(() => {
-		console.log("fired")
-		if(!isMounted.current){
-			const blissData = dispatch(fetchBliss());
-			isMounted.current = true
-		} else {
-			console.log("here")
-		}
-	}, [])
+	// useEffect(() => {
+	// 	// if (!isMounted.current) {
+	// 	// 	const blissData = dispatch(fetchBliss());
+	// 	// 	isMounted.current = true;
+	// 	// }
+	// 	dispatch(fetchBliss())
+	// });
 
 	if (status === "fulfilled") {
 		content = bliss.bliss.map((bliss) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BlissList from "./bliss-list";
 import BlissCreateForm from "./bliss-create-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,8 +7,22 @@ import { allBliss, cleanBliss, fetchBliss } from "../../store/blissSlice";
 function BlissPage() {
 	const dispatch = useDispatch();
 	const bliss = useSelector(allBliss);
+	const isMounted = useRef(false)
 	let content;
 	const [addBliss, setAddBliss] = useState(false);
+
+	useEffect(() => {
+		console.log(isMounted.current)
+		if (!isMounted.current && !bliss.initialFetch) {
+			dispatch(fetchBliss())
+			isMounted.current = true;
+		} else {
+			console.log("dup")
+		}
+		() => {
+			dispatch(cleanBliss())
+		}
+	}, [dispatch])
 
 	const onAddBlissClick = (e) => {
 		e.preventDefault();
@@ -23,7 +37,12 @@ function BlissPage() {
 			</>
 		);
 	} else if (bliss.status === "fulfilled") {
-		content = <BlissList />
+		content = (
+			<>
+				<h1>Bliss List</h1>
+				<BlissList />
+			</>
+		)
 	} else if (bliss.status === "error") {
 		content = (
 			<>

@@ -87,6 +87,7 @@ router.get(
 			}
 		} else {
 			const allThings = await db.ThingsToDo.findAll({
+				limit: 10,
 				include: [
 					db.ThingRating,
 					db.Experience,
@@ -139,24 +140,21 @@ router.post(
 				);
 			}
 
-			const existingThingToDo = await db.ThingsToDo.findOne({
+			const [newThingToDo, created] = await db.ThingsToDo.findOrCreate({
 				where: {
 					thingName,
 				},
-			});
-
-			if (!existingThingToDo) {
-				const newThingToDo = await db.ThingsToDo.create({
+				default: {
 					thingName,
 					thingDescription,
-				});
-				if (newThingToDo) {
-					res.status(201).json(newThingToDo);
-				} else {
-					throw new Error("Error creating ThingToDo. Please try again");
-				}
+				},
+				include: [db.Experience, db.Business, db.CustomDescription],
+			});
+			if (created === true) {
+				console.log(newThingToDo.toJSON());
+				res.status(201).json(newThingToDo);
 			} else {
-				res.json(existingThingToDo);
+				throw new Error("Error creating ThingToDo. Please try again");
 			}
 		} catch (e) {
 			next(e);

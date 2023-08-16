@@ -33,30 +33,30 @@ function IndividualBliss() {
 	};
 	const params = useParams();
 	const bliss = useSelector((state) =>
-		state.bliss.bliss.find((bliss) => {
+		state.bliss?.bliss.find((bliss) => {
 			return parseInt(bliss.id) === parseInt(params.id);
 		})
 	);
 
     useEffect(() => {
-        console.log("test")
-        if(!isMounted.current){
+        if(!isMounted.current && !bliss){
+			console.log(bliss)
             const blissData = dispatch(fetchOneBliss(parseInt(params.id)));
             isMounted.current = true
-        }
-        return () => {
+        } else {
+			console.log(bliss)
+		}
 
-        }
     }, [dispatch])
 
-	let customDescriptionContent = bliss.CustomDescriptions.map((desc) => (
+	let customDescriptionContent = bliss?.CustomDescriptions.map((desc) => (
 		<>
 			<h3>{desc.headline}</h3>
 			<p>{desc.description}</p>
 		</>
 	));
 
-	let experiencesContent = bliss.Experiences.map((exp) => (
+	let experiencesContent = bliss?.Experiences.map((exp) => (
 		<>
 			<h3>{exp.title}</h3>
 			<p>{exp.description}</p>
@@ -65,8 +65,8 @@ function IndividualBliss() {
 
 	return (
 		<div>
-			<h1>{bliss.thingName}</h1>
-			<p>{bliss.thingDescription}</p>
+			<h1>{bliss?.thingName}</h1>
+			<p>{bliss?.thingDescription}</p>
 			<div>
 				<button onClick={onExperienceClick}>Experiences</button>
 				<button onClick={onDescriptionsClick}>Descriptions</button>
