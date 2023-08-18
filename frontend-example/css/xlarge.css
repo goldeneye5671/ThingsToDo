@@ -1,0 +1,17 @@
+@media screen and (min-width: 1440px) and (max-width: 2000px) {
+	.container {
+		display: grid;
+		grid-template-columns: repeat(4, 25%);
+	}
+}
+
+@media screen and (min-width: 2000px) {
+    .container {
+		display: grid;
+		grid-template-columns: repeat(6, 16%);
+	}
+
+    .card-container{
+        max-width: 100%
+    }
+}
