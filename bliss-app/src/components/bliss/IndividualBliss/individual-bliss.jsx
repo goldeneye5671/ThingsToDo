@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { allBliss, cleanBliss, fetchOneBliss } from "../../../store/blissSlice";
+import { fetchOneBliss } from "../../../store/blissSlice";
 
 function IndividualBliss() {
 	const dispatch = useDispatch();
@@ -9,7 +9,7 @@ function IndividualBliss() {
 	const [showExperiences, setShowExperiences] = useState(false);
 	const [showBusinesses, setShowBusinesses] = useState(false);
 
-    const isMounted = useRef(false);
+	const isMounted = useRef(false);
 
 	const onDescriptionsClick = (e) => {
 		e.preventDefault();
@@ -38,16 +38,15 @@ function IndividualBliss() {
 		})
 	);
 
-    useEffect(() => {
-        if(!isMounted.current && !bliss){
-			console.log(bliss)
-            const blissData = dispatch(fetchOneBliss(parseInt(params.id)));
-            isMounted.current = true
-        } else {
-			console.log(bliss)
+	useEffect(() => {
+		if (!isMounted.current && !bliss) {
+			console.log(bliss);
+			dispatch(fetchOneBliss(parseInt(params.id)));
+			isMounted.current = true;
+		} else {
+			console.log(bliss);
 		}
-
-    }, [dispatch])
+	}, [dispatch]);
 
 	let customDescriptionContent = bliss?.CustomDescriptions.map((desc) => (
 		<>
@@ -63,6 +62,13 @@ function IndividualBliss() {
 		</>
 	));
 
+	let businessesContent = bliss?.Businesses.map((business) => {
+		<>
+			<h3>title</h3>
+			<p>About {business}</p>
+		</>;
+	});
+
 	return (
 		<div>
 			<h1>{bliss?.thingName}</h1>
@@ -76,7 +82,7 @@ function IndividualBliss() {
 				<div>
 					<h2>Descriptions</h2>
 					<div>
-						{customDescriptionContent ? (
+						{customDescriptionContent?.length ? (
 							customDescriptionContent
 						) : (
 							<h2>No Descriptions</h2>
@@ -88,7 +94,15 @@ function IndividualBliss() {
 				<div>
 					<h2>Experiences</h2>
 					<div>
-						{experiencesContent ? experiencesContent : <h2>No Experiences</h2>}
+						{experiencesContent?.length ? experiencesContent : <h2>No Experiences</h2>}
+					</div>
+				</div>
+			)}
+			{showBusinesses && (
+				<div>
+					<h3>Businesses</h3>
+					<div>
+						{businessesContent?.length ? businessesContent : <h2>No Businesses</h2>}
 					</div>
 				</div>
 			)}

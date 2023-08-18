@@ -100,9 +100,9 @@ export const blissSlice = createSlice({
 				const sortedActionPayload =  action.payload.sort((a, b) => a.id - b.id)
 				const sortedBlissState = state.bliss.sort((a, b) => a.id - b.id)
 				let longestLength = Math.max(sortedActionPayload.length, sortedBlissState.length)
-				for (let i = 0; i < longestLength; i++) {
+				// for (let i = 0; i < longestLength; i++) {
 					
-				}
+				// }
 				state.bliss = sortedActionPayload
 				state.status="fulfilled"
 				state.initialFetch = true;

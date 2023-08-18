@@ -4,6 +4,7 @@ import axios from "axios";
 // state should look like this for businesses
 const initialState = {
 	businesses: [],
+	initialFetch: false,
 	status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
 	error: null,
 };
@@ -95,6 +96,7 @@ export const businessSlice = createSlice({
 		cleanBusinesses: {
 			reducer(state, action) {
 				state.businesses = [];
+				state.initialFetch = false
 			},
 		},
 	},
@@ -103,15 +105,18 @@ export const businessSlice = createSlice({
 			.addCase(fetchBusinesses.pending, (state, action) => {
 				state.status = "pending";
                 state.error = null
+				state.initialFetch = true
 			})
 			.addCase(fetchBusinesses.fulfilled, (state, action) => {
 				state.status = "fulfilled";
 				state.businesses = state.businesses.concat(action.payload);
                 state.error = null
+				state.initialFetch = true
 			})
 			.addCase(fetchBusinesses.rejected, (state, action) => {
 				state.status = "rejected";
 				state.error = action.error.message;
+				state.initialFetch = false
 			})
 			//Adds businesses
 			.addCase(addBusiness.fulfilled, (state, action) => {

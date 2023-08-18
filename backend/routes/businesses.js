@@ -18,6 +18,7 @@ router.get(
 						through: { attributes: [] },
 					},
 				],
+				limit:10
 			});
 			res.json(allBusinesses);
 		} catch (e) {
