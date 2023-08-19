@@ -201,7 +201,6 @@ router.post(
         parseInt(req.params.listId)
       );
 
-      console.log(thingsToDoList && !thingToDoListTOthingAss);
       if (thingsToDoList && !thingToDoListTOthingAss) {
         await db.ThingsToDoTOThingsToDoListJoins.create({
           thingToDoListId: parseInt(req.params.listId),
@@ -289,7 +288,6 @@ router.delete(
           message: "Resource deleted",
         });
       } catch (e) {
-        console.log(e);
         res.json({ message: "There was an issue deleting the resource" });
       }
     } else {

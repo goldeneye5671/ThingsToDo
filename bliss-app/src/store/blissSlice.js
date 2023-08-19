@@ -9,18 +9,18 @@ const initialState = {
 };
 
 export const fetchBliss = createAsyncThunk("bliss/fetchBliss", async () => {
-	const response = await axios.get(`http://127.0.0.1:5000/api/thingstodo`);
+	const response = await axios.get(`localhost:5000/api/thingstodo`);
 	return response.data;
 });
 
 export const fetchOneBliss = createAsyncThunk("/bliss/fetchOneBliss", async (blissId) => {
-	const response = await axios.get(`http://127.0.0.1:5000/api/thingstodo/${blissId}`)
+	const response = await axios.get(`localhost:5000/api/thingstodo/${blissId}`)
 	return response.data
 })
 
 export const addBliss = createAsyncThunk("bliss/addBliss", async (bliss) => {
 	const response = await axios.post(
-		`http://127.0.0.1:5000/api/thingstodo`,
+		`localhost:5000/api/thingstodo/1`,
 		bliss
 	);
 	return response.data;
@@ -30,7 +30,7 @@ export const updateBliss = createAsyncThunk(
 	"bliss/updateBliss",
 	async (bliss) => {
 		const response = await axios.patch(
-			`http://127.0.0.1:5000/api/thingstodo/${bliss.id}`,
+			`localhost:5000/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;
@@ -41,7 +41,7 @@ export const deleteBliss = createAsyncThunk(
 	`bliss/deleteBliss`,
 	async (bliss) => {
 		const response = await axios.delete(
-			`http://127.0.0.1:5000/api/thingstodo/${bliss.id}`,
+			`localhost:5000/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;

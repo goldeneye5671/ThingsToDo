@@ -95,7 +95,6 @@ router.patch(
     if (updateUser) {
       if (user) {
         user.update(updateUser);
-        console.log("User updated");
         res.json(user);
       } else {
         throw new Error(`Could not find the user`);

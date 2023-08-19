@@ -29,7 +29,6 @@ const setTokenCookie = (res, user) => {
 const restoreUser = (req, res, next) => {
   // token parsed from cookies
   const { token } = req.cookies;
-  console.log(token)
 
   return jwt.verify(token, secret, null, async (err, jwtPayload) => {
     if (err) {
@@ -63,7 +62,6 @@ const requireAdmin = async (req, res, next) => {
     if (user.Role ["name"] === "Admin") {
       next() 
     } else {
-      console.log("%c here", 'color:blue')
       throw new Error("Unauthorized")
     } 
 
@@ -138,7 +136,6 @@ const requireBasic = async (req, res, next) => {
 const requireAuth = [
   restoreUser,
   function (req, res, next) {
-    console.log(req.user)
     if (req.user) return next();
 
     const err = new Error("Unauthorized");

@@ -11,7 +11,6 @@ const { requireAuth, requireAdmin } = require("../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res) => {
-		console.log(req.body);
 		if (Object.keys(req.body).length > 0) {
 			let queryObj;
 
@@ -78,6 +77,7 @@ router.get(
 				db.CustomDescription,
 				db.Business,
 			];
+			queryObj.limit = 10
 			const allThings = await db.ThingsToDo.findAll(queryObj);
 
 			if (allThings) {
@@ -87,7 +87,6 @@ router.get(
 			}
 		} else {
 			const allThings = await db.ThingsToDo.findAll({
-				limit: 10,
 				include: [
 					db.ThingRating,
 					db.Experience,
@@ -107,13 +106,29 @@ router.get(
 router.get(
 	"/:id",
 	expressAsyncHandler(async (req, res) => {
+		console.log("Attempting Request")
 		const thingToDo = await db.ThingsToDo.findByPk(req.params.id, {
 			include: [
-				db.ThingRating,
-				db.Experience,
-				db.CustomDescription,
-				db.Business,
+				{
+					model: db.ThingRating,
+					limit: 15,
+					seporate: true
+				},
+				{
+					model: db.Experience,
+					limit: 15,
+					seporate: true
+				},
+				{
+					model: db.CustomDescription,
+					limit: 15,
+					seporate: true
+				},
+				{
+					model: db.Business,
+				},
 			],
+			limit: 1
 		});
 		if (thingToDo) {
 			res.json(thingToDo);
@@ -151,7 +166,6 @@ router.post(
 				include: [db.Experience, db.Business, db.CustomDescription],
 			});
 			if (created === true) {
-				console.log(newThingToDo.toJSON());
 				res.status(201).json(newThingToDo);
 			} else {
 				throw new Error("Error creating ThingToDo. Please try again");
@@ -167,7 +181,6 @@ router.patch(
 	requireAuth,
 	expressAsyncHandler(async (req, res) => {
 		const { thingName, thingDescription } = req.body;
-		console.log(thingName, thingDescription);
 		if (thingName && thingDescription) {
 			const thingsToDo = await db.ThingsToDo.findByPk(req.params.id);
 			if (thingsToDo) {

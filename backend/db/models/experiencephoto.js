@@ -28,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
 
 	ExperiencePhoto.addHook("afterDestroy", async (photo, options) => {
 		
-    console.log("Running beforeDestroy")
     await ExperiencePhoto.decrement("photoId", {
 			where: {
 				experienceId: photo.experienceId,

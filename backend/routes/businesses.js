@@ -73,8 +73,6 @@ router.post(
 				zipcode,
 			} = req.body;
 
-			console.log(req.body);
-
 			if (name && city && stateProvince && country && zipcode) {
 				const [newBusiness, created] = await db.Business.findOrCreate({
 					where: {
