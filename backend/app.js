@@ -26,9 +26,10 @@ const app = express();
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 
 if (isProduction) {
-  app.use(cors());
+  console.log("PRODUCTION ")
   app.use(
     csurf({
       cookie: {
@@ -38,6 +39,8 @@ if (isProduction) {
       },
     })
   );
+} else {
+  console.log("DEVELOPMENT")
 }
 
 app.use(
