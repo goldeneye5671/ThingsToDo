@@ -1,4 +1,3 @@
-import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import BusinessPage from "./components/business/business-index";
 import BlissPage from "./components/bliss/bliss-index";

@@ -12,7 +12,7 @@ function BlissList() {
 	const status = useSelector(blissStatus);
 	const errors = useSelector(blissError);
 	let content;
-	
+
 	if (status === "fulfilled") {
 		content = bliss.bliss.map((bliss) => {
 			return <Bliss key={bliss.id} bliss={bliss} />;
@@ -28,7 +28,7 @@ function BlissList() {
 		);
 	}
 
-	return <div>{content}</div>;
+	return <div className="main-card-container">{content}</div>;
 }
 
 export default BlissList;

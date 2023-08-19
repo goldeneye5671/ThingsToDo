@@ -38,7 +38,6 @@ function BlissPage() {
 	} else if (status === "fulfilled") {
 		content = (
 			<>
-				<h1>Bliss List</h1>
 				<BlissList />
 			</>
 		)

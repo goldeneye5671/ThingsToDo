@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 import { fetchOneBliss } from "../../../store/blissSlice";
+import Business from "../../business/business";
 
 function IndividualBliss() {
 	const dispatch = useDispatch();
@@ -63,47 +64,61 @@ function IndividualBliss() {
 	));
 
 	let businessesContent = bliss?.Businesses.map((business) => {
-		<>
-			<h3>title</h3>
-			<p>About {business}</p>
-		</>;
+		return <Business business={business}/>
 	});
 
 	return (
 		<div>
-			<h1>{bliss?.thingName}</h1>
-			<p>{bliss?.thingDescription}</p>
-			<div>
-				<button onClick={onExperienceClick}>Experiences</button>
-				<button onClick={onDescriptionsClick}>Descriptions</button>
-				<button onClick={onBusinessClick}>Businesses</button>
+			<div className="bliss-heading-controls">
+				<h1>{bliss?.thingName}</h1>
+				<p className="bliss-description">{bliss?.thingDescription}</p>
+				<div className="control-buttons">
+					<button
+						className={showExperiences && "active-button"}
+						onClick={onExperienceClick}
+					>
+						Experiences
+					</button>
+					<button
+						className={showDescriptions && "active-button"}
+						onClick={onDescriptionsClick}
+					>
+						Descriptions
+					</button>
+					<button
+						className={showBusinesses && "active-button"}
+						onClick={onBusinessClick}
+					>
+						Businesses
+					</button>
+				</div>
 			</div>
 			{showDescriptions && (
-				<div>
-					<h2>Descriptions</h2>
-					<div>
-						{customDescriptionContent?.length ? (
-							customDescriptionContent
-						) : (
-							<h2>No Descriptions</h2>
-						)}
-					</div>
+				<div className="main-card-container">
+					{customDescriptionContent?.length ? (
+						customDescriptionContent
+					) : (
+						<h2>No Descriptions</h2>
+					)}
 				</div>
 			)}
 			{showExperiences && (
-				<div>
-					<h2>Experiences</h2>
-					<div>
-						{experiencesContent?.length ? experiencesContent : <h2>No Experiences</h2>}
-					</div>
+				<div className="main-card-container">
+					{experiencesContent?.length ? (
+						experiencesContent
+					) : (
+						<h2>No Experiences</h2>
+					)}
 				</div>
 			)}
 			{showBusinesses && (
-				<div>
-					<h3>Businesses</h3>
-					<div>
-						{businessesContent?.length ? businessesContent : <h2>No Businesses</h2>}
-					</div>
+				<div className="main-card-container">
+					{console.log(businessesContent)}
+					{businessesContent?.length ? (
+						businessesContent
+					) : (
+						<h2>No Businesses</h2>
+					)}
 				</div>
 			)}
 		</div>
