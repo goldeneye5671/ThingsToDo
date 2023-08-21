@@ -6,10 +6,31 @@ const { requireAuth } = require("../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res, next) => {
-		try {
-			res.json(await db.Experience.findAll());
-		} catch (e) {
-			next(e);
+		console.log("BODY", req.body)
+		const {thingToDoId, limit, offset} = req.body
+		if (req.body.thingToDoId) {
+			try {
+				res.json(await db.Experience.findAll({
+					where: {
+						thingToDoId: parseInt(thingToDoId)
+					},
+					limit,
+					offset,
+					order:[["id", "ASC"]]
+				}));
+			} catch (e) {
+				next(e);
+			}
+
+		} else {
+			try {
+				res.json(await db.Experience.findAll({
+					limit,
+					offset
+				}));
+			} catch (e) {
+				next(e);
+			}
 		}
 	})
 );

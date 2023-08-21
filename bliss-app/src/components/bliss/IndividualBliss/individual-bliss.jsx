@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { fetchOneBliss } from "../../../store/blissSlice";
+import { activeBliss, fetchOneBliss } from "../../../store/blissSlice";
 import Business from "../../business/business";
 
 function IndividualBliss() {
@@ -33,37 +33,31 @@ function IndividualBliss() {
 		setShowBusinesses(true);
 	};
 	const params = useParams();
-	const bliss = useSelector((state) =>
-		state.bliss?.bliss.find((bliss) => {
-			return parseInt(bliss.id) === parseInt(params.id);
-		})
-	);
+	const bliss = useSelector(activeBliss)
 
 	useEffect(() => {
+		console.log(bliss)
 		if (!isMounted.current && !bliss) {
-			console.log(bliss);
 			dispatch(fetchOneBliss(parseInt(params.id)));
 			isMounted.current = true;
-		} else {
-			console.log(bliss);
 		}
 	}, [dispatch]);
 
-	let customDescriptionContent = bliss?.CustomDescriptions.map((desc) => (
+	let customDescriptionContent = bliss?.CustomDescriptions?.map((desc) => (
 		<>
 			<h3>{desc.headline}</h3>
 			<p>{desc.description}</p>
 		</>
 	));
 
-	let experiencesContent = bliss?.Experiences.map((exp) => (
+	let experiencesContent = bliss?.Experiences?.map((exp) => (
 		<>
 			<h3>{exp.title}</h3>
 			<p>{exp.description}</p>
 		</>
 	));
 
-	let businessesContent = bliss?.Businesses.map((business) => {
+	let businessesContent = bliss?.Businesses?.map((business) => {
 		return <Business business={business}/>
 	});
 

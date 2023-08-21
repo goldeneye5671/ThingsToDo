@@ -13,6 +13,7 @@ function Bliss({ bliss }) {
 	return !updateVis ? (
 		<>
 			<Link key={bliss.id} to={`/bliss/${bliss.id}`}>
+				<h2>Bliss Index: {bliss.id}</h2>
 				<h2>Bliss Name: {bliss.thingName}</h2>
 				<ul>
 					<li>Amount of Descriptions: {bliss.CustomDescriptions?.length}</li>
