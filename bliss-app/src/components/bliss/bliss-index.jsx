@@ -10,47 +10,71 @@ import {
 	fetchBliss,
 	prevPage,
 	nextPage,
+	setPage
 } from "../../store/blissSlice";
 import { useSearchParams } from "react-router-dom";
+
+const parsePageFromQueryParams = (query) => {
+	let initialPage = 1;
+	const pageFromQuery = query.get("page");
+	if (pageFromQuery) {
+	  initialPage = parseInt(pageFromQuery);
+	  if (isNaN(initialPage)) {
+		initialPage = 1;
+	  }
+	}
+  
+	return initialPage;
+  };
 
 function BlissPage() {
 	const dispatch = useDispatch();
 	const [qparams, setqparams] = useSearchParams();
 	const [limit, setLimit] = useState(15);
-	const [page, setPage] = useState(parseInt(qparams.get("page")));
 	const bliss = useSelector(allBliss);
 	const status = useSelector(blissStatus);
 	const error = useSelector(blissError);
+	const page = parsePageFromQueryParams(qparams)
 	const isMounted = useRef(false);
 	let content;
 	const [addBliss, setAddBliss] = useState(false);
 
 	const onNextPageClick = async (e) => {
 		e.preventDefault();
-		setPage((page) => page + 1);
-		console.log(page);
-		setqparams({ page });
-		// await dispatch(fetchBliss({limit, offset: page.current === 1 ? 0 : (page.current * limit) - 1, page}))
+		const page = parsePageFromQueryParams(qparams) + 1
+		setqparams({ page: page + 1 });
+		if (bliss[page] === undefined) {
+			console.log(page)
+			// You'll notice that here the wrong page is retrieved even though the url updates
+			dispatch(
+				fetchBliss({ limit, offset: page === 1 ? 0 : page * limit - 1, page })
+			);
+		}
 	};
 
 	const onPrevPageClick = async (e) => {
 		e.preventDefault();
-		setPage((page) => page - 1);
-		setqparams({ page });
-		// await dispatch(fetchBliss({limit, offset: page.current === 1 ? 0 : (page.current * limit) - 1, page}))
+		const page = parsePageFromQueryParams(qparams) - 1
+		setqparams({ page : page - 1})
+		if (bliss[page] === undefined) {
+			console.log(page)
+			// You'll notice that here the wrong page is retrieved even though the url updates
+			dispatch(
+				fetchBliss({ limit, offset: page === 1 ? 0 : page * limit - 1, page })
+			);
+		}
 	};
 
 	useEffect(() => {
-		setPage(parseInt(qparams.get("page")));
 		if (!isMounted.current && !bliss.initialFetch) {
 			dispatch(
 				fetchBliss({ limit, offset: page === 1 ? 0 : page * limit - 1, page })
 			);
 			isMounted.current = true;
 		}
-		() => {
-			dispatch(cleanBliss());
-		};
+		// () => {
+		// 	dispatch(cleanBliss());
+		// };
 	}, [dispatch, qparams, page, limit]);
 
 	const onAddBlissClick = (e) => {

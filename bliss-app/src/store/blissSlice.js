@@ -11,7 +11,12 @@ const initialState = {
 };
 
 export const fetchBliss = createAsyncThunk("bliss/fetchBliss", async (pageInfo) => {
-	const response = await axios.get(`http://localhost:5000/api/thingstodo`, {params: pageInfo});
+	if (!pageInfo.page) throw new Error("Page is not defined")
+	const response = await axios.get(`http://localhost:5000/api/thingstodo`, {params: {
+		limit: pageInfo.limit,
+		offset: pageInfo.offset,
+		page: pageInfo.page
+	}});
 	return response.data;
 });
 
@@ -83,6 +88,11 @@ export const blissSlice = createSlice({
 			reducer(state, action) {
 				state.page = state.page - 1
 			}
+		},
+		setPage: {
+			reducer(state, action) {
+				state.page = action.payload.page
+			}
 		}
 	},
 	extraReducers(builder) {
@@ -139,5 +149,5 @@ export const allBliss = (state) => state.bliss;
 export const blissStatus = (state) => state.bliss.status;
 export const blissError = (state) => state.bliss.error;
 export const activeBliss = (state) => state.bliss.activeBliss
-export const { sortBliss, filterBliss, cleanBliss, nextPage, prevPage } = blissSlice.actions;
+export const { sortBliss, filterBliss, cleanBliss, nextPage, prevPage, setPage } = blissSlice.actions;
 export default blissSlice.reducer;

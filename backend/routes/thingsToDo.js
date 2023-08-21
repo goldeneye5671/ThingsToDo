@@ -102,6 +102,7 @@ router.get(
 			});
 			if (allThings) {
 				offset = offset + limit;
+				console.log(page)
 				res.json([allThings, page]);
 			} else {
 				throw new Error("Cannot grab thingsToDo");
