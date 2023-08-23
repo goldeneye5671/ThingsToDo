@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { mutatePageState } from "../utils/pageHelper";
 import axios from "axios";
 
 const initialState = {

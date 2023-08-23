@@ -6,29 +6,20 @@ import {
 	blissStatus,
 	// cleanBliss,
 } from "../../store/blissSlice";
-import { useEffect } from "react";
 
-function BlissList({page, limit, status}) {
+function BlissList() {
 	const bliss = useSelector(allBliss);
-	// const status = useSelector(blissStatus);
+	const status = useSelector(blissStatus);
 	const errors = useSelector(blissError);
-	const end = (page * limit) -1
-	const start = end - limit + 1
 	let content;
 
-	console.log("Status", status)
-	
 	if (status === "fulfilled") {
 		// for (let i = index; i < bliss.bliss.length; i++) {
-			// 	content.push(<Bliss key={bliss.bliss[i].id} bliss={bliss.bliss[i]} />);
-			// }
-			console.log(bliss)
-			console.log(start, end)
-
-			content = bliss.map(bliss => <Bliss key={bliss.id} bliss={bliss} />)
+		// 	content.push(<Bliss key={bliss.bliss[i].id} bliss={bliss.bliss[i]} />);
+		// }
+		content = bliss.map((bliss) => <Bliss key={bliss.id} bliss={bliss} />);
 	} else if (status === "loading") {
 		content = <h1>Loading...</h1>;
-
 	} else if (status === "error") {
 		content = (
 			<div>

@@ -12,7 +12,7 @@ router.get(
 			const allThingsToDoLists = await db.ThingsToDoList.findAll({
 				limit,
 				offset,
-				include: [db.User, db.ThingsToDoListTag],
+				include: [db.User, db.ThingsToDoListTag, db.ThingsToDo],
 			});
 
 		if (allThingsToDoLists) {

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { axios } from "axios";
+import axios from "axios";
 
 const initialState = {
 	lists: [],
@@ -92,7 +92,7 @@ export const listSlice = createSlice({
 			})
 			.addCase(fetchOneList.fulfilled, (state, action) => {
 				state.status = "fulfilled";
-				state.activeList = action.payload;
+				state.lists.unshift(action.payload);
 				state.error = null;
 			})
 			.addCase(fetchOneList.rejected, (state, action) => {
@@ -114,9 +114,9 @@ export const listSlice = createSlice({
 	},
 });
 
-export const allLists = (state) => state.list.list;
-export const selectBlissById = (state, listId) =>
-	state.list.list.find((list) => (list.id = listId));
+export const allLists = (state) => state.list;
+export const selectListById = (state, listId) =>
+	state.list.lists.find((list) => (list.id = listId));
 export const listStatus = (state) => state.list.status
 export const listError = (state) => state.list.error
 

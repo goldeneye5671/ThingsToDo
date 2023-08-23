@@ -48,3 +48,56 @@ export function mutatePageState(pageNumber, pageLimit, pageContent, pageState) {
 		}
 	}
 }
+
+/**
+ * Parse a valid page number from a URLSearchParams object.
+ *
+ * Invalid states, empty states, and NaN are treated as the first page of results.
+ */
+export const parsePageFromQueryParams = (query) => {
+	let initialPage = 1;
+	const pageFromQuery = query.get("page");
+	if (pageFromQuery) {
+		initialPage = parseInt(pageFromQuery);
+		if (isNaN(initialPage)) {
+			initialPage = 1;
+		}
+	}
+
+	return initialPage;
+};
+
+/**
+ * Puts page params logic into a hook.
+ *
+ * This will re-run when the query parameters change.
+ *
+ * It returns functions that will change the query parameters to update the page correctly, as well.
+ */
+export const usePagination = (useSearchParams) => {
+	const limit = 15;
+	const [qparams, setqparams] = useSearchParams();
+
+	const page = parsePageFromQueryParams(qparams);
+
+	const onClickNext = () => {
+		setqparams({ ...qparams, page: page + 1 });
+	};
+
+	const onClickPrev = () => {
+		setqparams({ ...qparams, page: page - 1 });
+	};
+
+	// Page = 1: (1 - 1) * 15 = 0 * 15 = 0
+	// Page = 2: (2 - 1) * 15 = 1 * 15 = 15
+	// Page = 3: (3 - 1) * 15 = 2 * 15 = 30
+	const offset = (page - 1) * limit;
+
+	return {
+		limit,
+		offset,
+		onClickNext,
+		onClickPrev,
+		page,
+	};
+};
