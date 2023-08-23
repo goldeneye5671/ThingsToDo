@@ -2,7 +2,7 @@ const { faker } = require("@faker-js/faker");
 const configuration = require("./counter");
 
 class CustomExperincePhotos {
-	constructor(experienceId = undefined, photoId = undefined, url = undefined) {
+	constructor(url = undefined, experienceId = undefined, photoId = undefined) {
 		this.experienceId =
 			experienceId ??
 			faker.number.int({

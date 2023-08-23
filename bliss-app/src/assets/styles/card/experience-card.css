@@ -1,0 +1,18 @@
+.photo-container {
+}
+
+.card {
+	width: 300px;
+	border: solid red 1px;
+	border-radius: 15px;
+    padding: 5px;
+}
+
+.card-title {
+}
+
+.card-content {
+}
+
+.votes-container {
+}

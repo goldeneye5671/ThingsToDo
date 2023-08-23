@@ -4,7 +4,7 @@ import {
 	businessError,
 	businessStatus,
 } from "../../store/businessSlice";
-import Business from "./business";
+import Business from "./business-card";
 
 function BusinessList() {
 	const businesses = useSelector(allBusinesses);

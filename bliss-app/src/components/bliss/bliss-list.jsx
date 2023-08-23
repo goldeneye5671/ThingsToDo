@@ -1,4 +1,4 @@
-import Bliss from "./bliss";
+import Bliss from "./bliss-card";
 import { useSelector } from "react-redux";
 import {
 	allBliss,
