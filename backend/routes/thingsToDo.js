@@ -11,124 +11,148 @@ const { requireAuth, requireAdmin } = require("../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res) => {
-		if (Object.keys(req.body).length > 0) {
-			let queryObj;
+		// if (Object.keys(req.body).length > 0) {
+		// 	let queryObj;
 
-			if (req.body.exact) {
-				if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
-					throw new Error(
-						"Malformed body. Either and or or can be set to true, not both"
-					);
-				} else if (req.body.and) {
-					queryObj = {
-						where: {
-							[Op.and]: {
-								thingName: req.body.thingName,
-								thingDescription: req.body.thingDescription,
-							},
+		// if (req.body.exact) {
+		// 	if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
+		// 		throw new Error(
+		// 			"Malformed body. Either and or or can be set to true, not both"
+		// 		);
+		// 	} else if (req.body.and) {
+		// 		queryObj = {
+		// 			where: {
+		// 				[Op.and]: {
+		// 					thingName: req.body.thingName,
+		// 					thingDescription: req.body.thingDescription,
+		// 				},
+		// 			},
+		// 		};
+		// 	} else if (req.body.or) {
+		// 		queryObj = {
+		// 			where: {
+		// 				[Op.or]: {
+		// 					thingName: req.body.thingName,
+		// 					thingDescription: req.body.thingDescription,
+		// 				},
+		// 			},
+		// 		};
+		// 	}
+		// } else {
+		// 	if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
+		// 		throw new Error(
+		// 			"Malformed body. Either and or or can be set to true, not both"
+		// 		);
+		// 	} else if (req.body.and) {
+		// 		queryObj = {
+		// 			where: {
+		// 				[Op.and]: {
+		// 					thingName: {
+		// 						[Op.substring]: req.body.thingName,
+		// 					},
+		// 					thingDescription: {
+		// 						[Op.substring]: req.body.thingDescription,
+		// 					},
+		// 				},
+		// 			},
+		// 		};
+		// 	} else if (req.body.or) {
+		// 		queryObj = {
+		// 			where: {
+		// 				[Op.or]: {
+		// 					thingName: {
+		// 						[Op.substring]: req.body.thingName,
+		// 					},
+		// 					thingDescription: {
+		// 						[Op.substring]: req.body.thingDescription,
+		// 					},
+		// 				},
+		// 			},
+		// 		};
+		// 	}
+		// }
+		// queryObj.include = [
+		// 	db.ThingRating,
+		// 	db.Experience,
+		// 	db.CustomDescription,
+		// 	db.Business,
+		// ];
+		// queryObj.limit = 10;
+		// const allThings = await db.ThingsToDo.findAll(queryObj);
+
+		// if (allThings) {
+		// 	res.json(allThings);
+		// } else {
+		// 	throw new Error("Cannot grab thingsToDo");
+		// }
+		// } else {
+		let { limit, offset, page } = req.query;
+		console.log(req.query);
+		console.log("Limit: ", limit);
+		console.log("Offset: ", offset);
+		const allThings = await db.ThingsToDo.findAll({
+			limit,
+			offset,
+			include: [
+				{
+					model: db.ThingRating,
+					separate: true,
+				},
+				{
+					model: db.Experience,
+					separate: true,
+					include: [
+						{
+							model: db.ExperiencePhoto,
+							// separate: true
 						},
-					};
-				} else if (req.body.or) {
-					queryObj = {
-						where: {
-							[Op.or]: {
-								thingName: req.body.thingName,
-								thingDescription: req.body.thingDescription,
-							},
-						},
-					};
-				}
-			} else {
-				if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
-					throw new Error(
-						"Malformed body. Either and or or can be set to true, not both"
-					);
-				} else if (req.body.and) {
-					queryObj = {
-						where: {
-							[Op.and]: {
-								thingName: {
-									[Op.substring]: req.body.thingName,
-								},
-								thingDescription: {
-									[Op.substring]: req.body.thingDescription,
-								},
-							},
-						},
-					};
-				} else if (req.body.or) {
-					queryObj = {
-						where: {
-							[Op.or]: {
-								thingName: {
-									[Op.substring]: req.body.thingName,
-								},
-								thingDescription: {
-									[Op.substring]: req.body.thingDescription,
-								},
-							},
-						},
-					};
-				}
-			}
-			queryObj.include = [
-				db.ThingRating,
-				db.Experience,
-				db.CustomDescription,
+					],
+				},
+				{
+					model: db.CustomDescription,
+					separate: true,
+				},
 				db.Business,
-			];
-			queryObj.limit = 10
-			const allThings = await db.ThingsToDo.findAll(queryObj);
-
-			if (allThings) {
-				res.json(allThings);
-			} else {
-				throw new Error("Cannot grab thingsToDo");
-			}
+			],
+		});
+		if (allThings) {
+			offset = offset + limit;
+			console.log(page);
+			res.json([allThings, page]);
 		} else {
-			const allThings = await db.ThingsToDo.findAll({
-				include: [
-					db.ThingRating,
-					db.Experience,
-					db.CustomDescription,
-					db.Business,
-				],
-			});
-			if (allThings) {
-				res.json(allThings);
-			} else {
-				throw new Error("Cannot grab thingsToDo");
-			}
+			throw new Error("Cannot grab thingsToDo");
 		}
+		// }
 	})
 );
 
 router.get(
 	"/:id",
 	expressAsyncHandler(async (req, res) => {
-		console.log("Attempting Request")
+		console.log("Attempting Request");
 		const thingToDo = await db.ThingsToDo.findByPk(req.params.id, {
+			// include: [db.Experience, db.Business, db.CustomDescription]
 			include: [
 				{
 					model: db.ThingRating,
-					limit: 15,
-					seporate: true
+					separate: true,
 				},
 				{
 					model: db.Experience,
-					limit: 15,
-					seporate: true
+					separate: true,
+					include: [
+						{
+							model: db.ExperiencePhoto,
+							// separate: true
+						},
+					],
 				},
 				{
 					model: db.CustomDescription,
-					limit: 15,
-					seporate: true
+					separate: true,
 				},
-				{
-					model: db.Business,
-				},
+				db.Business,
 			],
-			limit: 1
 		});
 		if (thingToDo) {
 			res.json(thingToDo);

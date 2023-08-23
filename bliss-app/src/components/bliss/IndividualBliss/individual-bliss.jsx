@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { fetchOneBliss } from "../../../store/blissSlice";
-import Business from "../../business/business";
+import { activeBliss, fetchOneBliss } from "../../../store/blissSlice";
+import Business from "../../business/business-card";
+import ExperienceCard from "../../experience/experience-card";
+import CustomDescription from "../../custom-description/custom-description";
 
 function IndividualBliss() {
 	const dispatch = useDispatch();
@@ -33,39 +35,24 @@ function IndividualBliss() {
 		setShowBusinesses(true);
 	};
 	const params = useParams();
-	const bliss = useSelector((state) =>
-		state.bliss?.bliss.find((bliss) => {
-			return parseInt(bliss.id) === parseInt(params.id);
-		})
-	);
+	const bliss = useSelector(activeBliss);
 
 	useEffect(() => {
-		if (!isMounted.current && !bliss) {
-			console.log(bliss);
-			dispatch(fetchOneBliss(parseInt(params.id)));
-			isMounted.current = true;
-		} else {
-			console.log(bliss);
-		}
+		console.log(bliss);
+		dispatch(fetchOneBliss(parseInt(params.id)));
 	}, [dispatch]);
 
-	let customDescriptionContent = bliss?.CustomDescriptions.map((desc) => (
-		<>
-			<h3>{desc.headline}</h3>
-			<p>{desc.description}</p>
-		</>
+	let customDescriptionContent = bliss?.CustomDescriptions?.map((desc) => (
+		<CustomDescription CustomDescription={desc}/>
 	));
 
-	let experiencesContent = bliss?.Experiences.map((exp) => (
-		<>
-			<h3>{exp.title}</h3>
-			<p>{exp.description}</p>
-		</>
+	let experiencesContent = bliss?.Experiences?.map((exp) => (
+		<ExperienceCard experience={exp}/>
 	));
 
-	let businessesContent = bliss?.Businesses.map((business) => {
-		return <Business business={business}/>
-	});
+	let businessesContent = bliss?.Businesses?.map((business) => (
+		<Business business={business} />
+	));
 
 	return (
 		<div>
@@ -113,7 +100,6 @@ function IndividualBliss() {
 			)}
 			{showBusinesses && (
 				<div className="main-card-container">
-					{console.log(businessesContent)}
 					{businessesContent?.length ? (
 						businessesContent
 					) : (

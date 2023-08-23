@@ -7,18 +7,12 @@ const { requireAdmin, requireBusiness, requireAuth } = require("../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res, next) => {
+		const {limit, offset} = req.body
+		
 		try {
 			const allBusinesses = await db.Business.findAll({
-				include: [
-					{
-						model: db.BusinessPhoto,
-					},
-					{
-						model: db.ThingsToDo,
-						through: { attributes: [] },
-					},
-				],
-				limit:10
+				limit,
+				offset
 			});
 			res.json(allBusinesses);
 		} catch (e) {

@@ -1,15 +1,40 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../db/models");
+
 const { requireAuth } = require("../utils/auth");
 
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res, next) => {
-		try {
-			res.json(await db.Experience.findAll());
-		} catch (e) {
-			next(e);
+		console.log("BODY", req.body);
+		const { thingToDoId, limit, offset } = req.body;
+		if (req.body.thingToDoId) {
+			try {
+				res.json(
+					await db.Experience.findAll({
+						where: {
+							thingToDoId: parseInt(thingToDoId),
+						},
+						limit,
+						offset,
+						order: [['upvotesToDownvotesRatio', "ASC"]],
+					})
+				);
+			} catch (e) {
+				next(e);
+			}
+		} else {
+			try {
+				res.json(
+					await db.Experience.findAll({
+						limit,
+						offset,
+					})
+				);
+			} catch (e) {
+				next(e);
+			}
 		}
 	})
 );
@@ -127,7 +152,6 @@ router.get(
 				}
 			);
 
-
 			if (experience && experience.ExperiencePhotos.length) {
 				res.json(experience.ExperiencePhotos);
 			} else if (!experience.ExperiencePhotos.length) {
@@ -152,7 +176,9 @@ router.get(
 				}
 			);
 
-			const photo = experience.ExperiencePhotos.find(photo => photo.photoId === parseInt(req.params.photoId))
+			const photo = experience.ExperiencePhotos.find(
+				(photo) => photo.photoId === parseInt(req.params.photoId)
+			);
 
 			if (photo) {
 				res.json(photo);
@@ -179,7 +205,6 @@ router.post(
 					include: [
 						{
 							model: db.ExperiencePhoto,
-
 						},
 					],
 				}
@@ -209,7 +234,7 @@ router.delete(
 	requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
-      const transaction = await db.sequelize.transaction()
+			const transaction = await db.sequelize.transaction();
 			const experience = await db.Experience.findByPk(
 				parseInt(req.params.experienceId),
 				{
@@ -225,17 +250,17 @@ router.delete(
 			);
 			if (photo) {
 				await db.ExperiencePhoto.destroy({
-          where: {
-            photoId: photo.photoId,
-            experienceId: parseInt(req.params.experienceId)
-          },
-          individualHooks: true,
-          transaction,
-        });
-        await transaction.commit()
-        res.json({message: "Resource deleted"})
+					where: {
+						photoId: photo.photoId,
+						experienceId: parseInt(req.params.experienceId),
+					},
+					individualHooks: true,
+					transaction,
+				});
+				await transaction.commit();
+				res.json({ message: "Resource deleted" });
 			} else {
-        await transaction.rollback()
+				await transaction.rollback();
 				throw new Error("Resource not found");
 			}
 		} catch (e) {

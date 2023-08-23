@@ -46,6 +46,22 @@ h1 {
 .bliss-heading-controls{
   position: sticky;
   top: 0;
+  background-color: #535bf2;
+}
+
+.photo-container{
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+}
+
+.photo-container img{
+  max-width: 200px;
+}
+
+.votes-container{
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .control-buttons{
@@ -68,6 +84,11 @@ h1 {
   border: solid black 1px;
   width: 95%;
   margin: 0 auto;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -88,6 +109,8 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+
 
 @media (prefers-color-scheme: light) {
   :root {

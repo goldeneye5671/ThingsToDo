@@ -5,7 +5,7 @@ const ExperiencePhotos = require("./generatrors/CustomExperiencePhotos");
 const generatedExperiencePhotos = [];
 
 for (let i = 0; i < configuration.maxExperiencePhotos; i++) {
-	generatedExperiencePhotos.push(new ExperiencePhotos());
+	generatedExperiencePhotos.push(new ExperiencePhotos(`https://placehold.co/600x400?text=Hello+World`));
 }
 
 console.log(generatedExperiencePhotos.length)
