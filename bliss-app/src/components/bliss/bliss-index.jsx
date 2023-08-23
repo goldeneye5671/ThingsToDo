@@ -70,15 +70,15 @@ function BlissPage() {
 	const isMounted = useRef(false);
 	let content;
 	const [addBliss, setAddBliss] = useState(false);
-	const { limit, offset, onClickNext, onClickPrev, page } = usePagination();
+	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(dispatch);
 
 	// We want to re-fetch the results whenever the limit, offset, or page changes.
 	useEffect(() => {
-		dispatch(fetchBliss({ limit, offset, page }));
-
-		// return () => {
-		// 	dispatch(cleanBliss());
-		// };
+		const data = dispatch(fetchBliss({ limit, offset, page }));
+		return () => {
+			data.abort();
+			// dispatch(cleanBliss());
+		};
 	}, [dispatch, limit, offset, page]);
 
 	const onAddBlissClick = (e) => {
@@ -96,7 +96,7 @@ function BlissPage() {
 	} else if (status === "fulfilled") {
 		content = (
 			<>
-				<BlissList page={page} />
+				<BlissList page={page} limit={limit} status={status}/>
 			</>
 		);
 	} else if (status === "error") {
@@ -114,6 +114,7 @@ function BlissPage() {
 			<label htmlFor="bliss-search"></label>
 			<input type="text" name="bliss-search" id="bliss-search" />
 			<button onClick={onAddBlissClick}>Add Bliss</button>
+			<button onClick={() => console.log(page)}>Show the page value</button>
 			{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
 			{content}
 			<button onClick={() => onClickPrev()}>previous</button>

@@ -8,11 +8,11 @@ const { requireAuth } = require("../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res) => {
-		const { thingToDoId, limit, offset } = req.body;
+		const { thingToDoId, limit, offset } = req.query;
 			const allThingsToDoLists = await db.ThingsToDoList.findAll({
 				limit,
 				offset,
-				include: [db.User],
+				include: [db.User, db.ThingsToDoListTag],
 			});
 
 		if (allThingsToDoLists) {

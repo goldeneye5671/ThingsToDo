@@ -5,6 +5,8 @@ import NavBar from "./components/shared/navigation";
 import IndividualBliss from "./components/bliss/IndividualBliss/individual-bliss";
 import SignUp from "./components/auth/sign-up-form";
 import SignIn from "./components/auth/sign-in";
+import ListPage from "./components/lists/lists-index";
+import IndividualList from "./components/lists/individual-list/list";
 
 function App() {
 	return (
@@ -17,6 +19,8 @@ function App() {
 				<Route path="/bliss" element={<BlissPage />} />
 				<Route path="/bliss/:id" element={<IndividualBliss/>}/>
 				<Route path="/businesses" element={<BusinessPage />} />
+				<Route path="/lists" element={<ListPage />} />
+				<Route path="/lists/:id" element={<IndividualList />}/>
 			</Routes>
 		</>
 	);
