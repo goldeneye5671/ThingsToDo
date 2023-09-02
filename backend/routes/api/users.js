@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const { handleValidationErrors } = require("../utils/validation");
+const { handleValidationErrors } = require("../../utils/validation");
 
 const asyncHandler = require("express-async-handler");
-const db = require("../db/models");
-const { setTokenCookie, requireAuth } = require("../utils/auth");
+const db = require("../../db/models");
+const { setTokenCookie, requireAuth } = require("../../utils/auth");
 
 const validateSignup = [
   check("email")

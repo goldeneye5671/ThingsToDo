@@ -5,21 +5,14 @@ const csurf = require("csurf");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const { ValidationError } = require("sequelize");
-// const indexRoutes = require('./routes/index');
+const indexRoutes = require('./routes/index');
 const { environment } = require("./config");
 const { restoreUser, requireAuth } = require("./utils/auth");
 const isProduction = environment === "production";
 
-console.log("Prod: ", isProduction);
 
-const sessionRoutes = require("./routes/session")
-const userRoutes = require("./routes/users");
-const thingsToDoListTagRouter = require("./routes/thingsToDoListTags");
-const thingsToDoListRouter = require("./routes/thingsToDoLists");
-const thingsToDoRouter = require("./routes/thingsToDo");
-const businessesRouter = require("./routes/businesses");
-const descriptionsRouter = require("./routes/customDescriptions");
-const experiencesRouter = require("./routes/customExperiences");
+console.log(environment)
+console.log("Prod: ", isProduction);
 
 const app = express();
 
@@ -49,17 +42,9 @@ app.use(
   })
 );
 
-// app.use('/', indexRoutes);
-
+app.use('/', indexRoutes);
 app.use(restoreUser);
-app.use("/api/session", sessionRoutes)
-app.use("/api/users", userRoutes);
-app.use("/api/thingtodolisttag", thingsToDoListTagRouter);
-app.use("/api/thingstodolists", thingsToDoListRouter);
-app.use("/api/thingstodo", thingsToDoRouter);
-app.use("/api/businesses", businessesRouter);
-app.use("/api/descriptions", descriptionsRouter);
-app.use("/api/experiences", experiencesRouter);
+
 
 app.use((err, _req, _res, next) => {
   // check if error is a Sequelize error:

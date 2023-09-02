@@ -27,7 +27,7 @@ function BusinessList() {
 		);
 	}
 
-	return <div>{content}</div>;
+	return <div className="main-card-container">{content}</div>;
 }
 
 export default BusinessList;

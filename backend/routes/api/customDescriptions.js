@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
-const db = require("../db/models");
+const db = require("../../db/models");
 const {
 	requireAdmin,
 	requireBusiness,
 	requireBasic,
 	requireAuth,
-} = require("../utils/auth");
+} = require("../../utils/auth");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res, next) => {

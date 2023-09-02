@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
-const db = require("../db/models");
+const db = require("../../db/models");
 const { Op } = require("sequelize");
-const { requireAuth, requireAdmin } = require("../utils/auth");
+const { requireAuth, requireAdmin } = require("../../utils/auth");
 
 // Search by name
 // Get by id

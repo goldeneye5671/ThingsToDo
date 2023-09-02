@@ -6,7 +6,7 @@ function Business({business}) {
 	const onUpdateClicked = (e) => setUpdate(!update);
 	return (
         !update ? (
-		<div key={business.id}>
+		<div className="card" key={business.id}>
 			<h3>Business Name: {business.name}</h3>
 			<p>Business Address: <br></br> {business.address}<br></br>{business.city}, {business.stateProvince}     {business.zipcode}</p>
 			<button onClick={onUpdateClicked}>Update Business Info</button>
