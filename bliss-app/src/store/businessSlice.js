@@ -12,7 +12,7 @@ const initialState = {
 export const fetchBusinesses = createAsyncThunk(
 	"businesses/fetchBusinesses",
 	async () => {
-		const response = await axios.get(`http://127.0.0.1:5000/api/businesses`, );
+		const response = await axios.get(`/api/businesses`, );
 		return response.data;
 	}
 );
@@ -21,7 +21,7 @@ export const addBusiness = createAsyncThunk(
 	"businesses/addBusiness",
 	async (business) => {
 		const response = await axios.post(
-			`http://127.0.0.1:5000/api/businesses`,
+			`/api/businesses`,
 			business,
 			{
 				headers: {
@@ -37,7 +37,7 @@ export const updateBusiness = createAsyncThunk(
 	"businesses/updateBusiness",
 	async (business) => {
 		const response = await axios.patch(
-			`http://127.0.0.1:5000/api/businesses/${business.id}`,
+			`/api/businesses/${business.id}`,
 			business,
 			{
 				headers: {
@@ -53,7 +53,7 @@ export const deleteBusiness = createAsyncThunk(
 	"businesses/deleteBusiness",
 	async (business) => {
 		const response = await axios.delete(
-			`http://127.0.0.1:5000/api/businesses/${business.id}`,
+			`/api/businesses/${business.id}`,
 			business,
 			{
 				headers: {
