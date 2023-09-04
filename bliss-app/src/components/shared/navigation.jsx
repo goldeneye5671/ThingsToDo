@@ -26,6 +26,15 @@ function NavBar() {
 				className={({ isActive, isPending }) =>
 					isPending ? "pending" : isActive ? "active" : ""
 				}
+				to={"/lists"}
+			>
+				Lists
+			</NavLink>
+			<br></br>
+			<NavLink
+				className={({ isActive, isPending }) =>
+					isPending ? "pending" : isActive ? "active" : ""
+				}
 				to={"/businesses"}
 			>
 				Businesses

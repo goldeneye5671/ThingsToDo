@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
-import { activeBliss, fetchOneBliss } from "../../../store/blissSlice";
+import { cleanBliss, fetchOneBliss, selectBlissById } from "../../../store/blissSlice";
+
 import Business from "../../business/business-card";
 import ExperienceCard from "../../experience/experience-card";
 import CustomDescription from "../../custom-description/custom-description";
@@ -35,11 +36,15 @@ function IndividualBliss() {
 		setShowBusinesses(true);
 	};
 	const params = useParams();
-	const bliss = useSelector(activeBliss);
+	const bliss = useSelector(state => selectBlissById(state, parseInt(params.id)))
 
 	useEffect(() => {
-		console.log(bliss);
-		dispatch(fetchOneBliss(parseInt(params.id)));
+		if (!bliss) {
+			dispatch(fetchOneBliss(parseInt(params.id)));
+		}
+		() => {
+			dispatch(cleanBliss())
+		}
 	}, [dispatch]);
 
 	let customDescriptionContent = bliss?.CustomDescriptions?.map((desc) => (

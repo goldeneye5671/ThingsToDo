@@ -6,9 +6,8 @@ import {
 	blissStatus,
 	// cleanBliss,
 } from "../../store/blissSlice";
-import { useEffect } from "react";
 
-function BlissList({page}) {
+function BlissList() {
 	const bliss = useSelector(allBliss);
 	const status = useSelector(blissStatus);
 	const errors = useSelector(blissError);
@@ -18,9 +17,7 @@ function BlissList({page}) {
 		// for (let i = index; i < bliss.bliss.length; i++) {
 		// 	content.push(<Bliss key={bliss.bliss[i].id} bliss={bliss.bliss[i]} />);
 		// }
-		content = bliss.bliss[page]?.map(bliss => {
-			return <Bliss key={bliss.id} bliss={bliss} />
-		})
+		content = bliss.map((bliss) => <Bliss key={bliss.id} bliss={bliss} />);
 	} else if (status === "loading") {
 		content = <h1>Loading...</h1>;
 	} else if (status === "error") {

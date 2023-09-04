@@ -2,9 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-	bliss: {},
-	activeBliss: {},
-	page: 1,
+	bliss: {
+		minPage: 0,
+		maxPage: 0,
+		content: [],
+	},
 	initialFetch: false,
 	status: "idle",
 	error: null,
@@ -14,11 +16,11 @@ export const fetchBliss = createAsyncThunk(
 	"bliss/fetchBliss",
 	async (pageInfo) => {
 		if (!pageInfo.page) throw new Error("Page is not defined");
-		const response = await axios.get(`http://localhost:5000/api/thingstodo`, {
+		const response = await axios.get(`/api/thingstodo`, {
 			params: {
-				limit: pageInfo.limit,
-				offset: pageInfo.offset,
-				page: pageInfo.page,
+				limit: parseInt(pageInfo.limit),
+				offset: parseInt(pageInfo.offset),
+				page: parseInt(pageInfo.page),
 			},
 		});
 		return response.data;
@@ -26,10 +28,10 @@ export const fetchBliss = createAsyncThunk(
 );
 
 export const fetchOneBliss = createAsyncThunk(
-	"/bliss/fetchOneBliss",
+	"bliss/fetchOneBliss",
 	async (blissId) => {
 		const response = await axios.get(
-			`http://localhost:5000/api/thingstodo/${blissId}`
+			`/api/thingstodo/${blissId}`
 		);
 		return response.data;
 	}
@@ -37,7 +39,7 @@ export const fetchOneBliss = createAsyncThunk(
 
 export const addBliss = createAsyncThunk("bliss/addBliss", async (bliss) => {
 	const response = await axios.post(
-		`http://localhost:5000/api/thingstodo/1`,
+		`/api/thingstodo/1`,
 		bliss
 	);
 	return response.data;
@@ -47,7 +49,7 @@ export const updateBliss = createAsyncThunk(
 	"bliss/updateBliss",
 	async (bliss) => {
 		const response = await axios.patch(
-			`http://localhost:5000/api/thingstodo/1/${bliss.id}`,
+			`/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;
@@ -58,7 +60,7 @@ export const deleteBliss = createAsyncThunk(
 	`bliss/deleteBliss`,
 	async (bliss) => {
 		const response = await axios.delete(
-			`http://localhost:5000/api/thingstodo/1/${bliss.id}`,
+			`/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;
@@ -79,29 +81,11 @@ export const blissSlice = createSlice({
 		},
 		cleanBliss: {
 			reducer(state, action) {
-				state.bliss = [];
-				state.initialFetch = false;
-			},
-			// prepare() {},
-		},
-		cleanOneBliss: {
-			reducer(state, action) {
-				state.bliss.filter();
-			},
-		},
-		nextPage: {
-			reducer(state, action) {
-				state.page = state.page + 1;
-			},
-		},
-		prevPage: {
-			reducer(state, action) {
-				state.page = state.page - 1;
-			},
-		},
-		setPage: {
-			reducer(state, action) {
-				state.page = action.payload.page;
+				state.bliss = {
+					minPage: 0,
+					maxPage: 0,
+					content: [],
+				};
 			},
 		},
 	},
@@ -113,8 +97,14 @@ export const blissSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchBliss.fulfilled, (state, action) => {
-				console.log(action.payload);
-				state.bliss[action.payload[1]] = action.payload[0];
+				// mutatePageState(
+				// 	parseInt(action.payload.page),
+				// 	parseInt(action.payload.limit),
+				// 	action.payload.allThings,
+				// 	state.bliss
+				// );
+				state.bliss.content = action.payload.allThings
+				state.bliss.content.sort((bliss1, bliss2) => bliss1.id - bliss2.id);
 				state.status = "fulfilled";
 				state.initialFetch = true;
 				state.error = null;
@@ -130,16 +120,16 @@ export const blissSlice = createSlice({
 			})
 			.addCase(fetchOneBliss.fulfilled, (state, action) => {
 				state.status = "fulfilled";
-				state.activeBliss = action.payload;
-				state.activeBliss.Experiences = state.activeBliss?.Experiences?.sort(
-					(a, b) => {
-						return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
-					}
-				);
-				state.activeBliss.CustomDescriptions =
-					state.activeBliss.CustomDescriptions.sort((a, b) => {
-						return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
-					});
+				state.bliss.content.unshift(action.payload);
+				// state.activeBliss.Experiences = state.activeBliss?.Experiences?.sort(
+				// 	(a, b) => {
+				// 		return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
+				// 	}
+				// );
+				// state.activeBliss.CustomDescriptions =
+				// 	state.activeBliss.CustomDescriptions.sort((a, b) => {
+				// 		return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
+				// 	});
 				state.error = null;
 			})
 			.addCase(fetchOneBliss.rejected, (state, action) => {
@@ -150,12 +140,10 @@ export const blissSlice = createSlice({
 				state.bliss.unshift(action.payload);
 			})
 			.addCase(updateBliss.fulfilled, (state, action) => {
-				let bliss = state.bliss.find(
-					(bliss) => bliss.id === action.payload.bliss.id
+				let blissIndex = state.bliss.content.findIndex(
+					(bliss) => (bliss.id = action.payload.bliss.id)
 				);
-				for (const key of Object.keys(action.payload)) {
-					key in bliss ? (bliss[key] = action.payload[key]) : null;
-				}
+				state.bliss[blissIndex] = action.payload.bliss;
 			})
 			.addCase(deleteBliss.fulfilled, (state, action) => {
 				const bliss = state.bliss.filter((bliss) => {
@@ -166,10 +154,12 @@ export const blissSlice = createSlice({
 	},
 });
 
-export const allBliss = (state) => state.bliss;
+export const allBliss = (state) => state.bliss.bliss.content;
+export const selectBlissById = (state, blissId) =>
+	state.bliss.bliss.content.find((bliss) => bliss.id === blissId);
 export const blissStatus = (state) => state.bliss.status;
 export const blissError = (state) => state.bliss.error;
-export const activeBliss = (state) => state.bliss.activeBliss;
+// export const activeBliss = (state) => state.bliss.activeBliss;
 export const {
 	sortBliss,
 	filterBliss,

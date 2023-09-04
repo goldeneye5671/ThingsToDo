@@ -1,18 +1,18 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const Op = require("sequelize");
-const db = require("../db/models");
-const { requireAuth } = require("../utils/auth");
+const db = require("../../db/models");
+const { requireAuth } = require("../../utils/auth");
 
 // Get one list
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res) => {
-		const { thingToDoId, limit, offset } = req.body;
+		const { thingToDoId, limit, offset } = req.query;
 			const allThingsToDoLists = await db.ThingsToDoList.findAll({
 				limit,
 				offset,
-				include: [db.User],
+				include: [db.User, db.ThingsToDoListTag, db.ThingsToDo],
 			});
 
 		if (allThingsToDoLists) {

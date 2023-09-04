@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
-const db = require("../db/models");
+const db = require("../../db/models");
 const { Op } = require("sequelize");
-const { requireAuth, requireAdmin } = require("../utils/auth");
+const { requireAuth, requireAdmin } = require("../../utils/auth");
 
 // Search by name
 // Get by id
@@ -116,9 +116,9 @@ router.get(
 			],
 		});
 		if (allThings) {
-			offset = offset + limit;
+			offset = parseInt(offset) + parseInt(limit);
 			console.log(page);
-			res.json([allThings, page]);
+			res.json({allThings, page, limit, offset});
 		} else {
 			throw new Error("Cannot grab thingsToDo");
 		}

@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
-const db = require("../db/models");
+const db = require("../../db/models");
 
-const { requireAuth } = require("../utils/auth");
+const { requireAuth } = require("../../utils/auth");
 
 router.get(
 	"/",

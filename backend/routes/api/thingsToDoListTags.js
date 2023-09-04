@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
-const db = require("../db/models");
-const { requireAuth } = require("../utils/auth");
+const db = require("../../db/models");
+const { requireAuth } = require("../../utils/auth");
 
 // CRUD - create, read, update, delete a tag is needed. Only the admin should be able to do this
 
