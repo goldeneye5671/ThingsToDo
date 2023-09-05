@@ -15,7 +15,6 @@ function BlissPage() {
 	const dispatch = useDispatch();
 	const status = useSelector(blissStatus);
 	const error = useSelector(blissError);
-	const isMounted = useRef(false);
 	const [addBliss, setAddBliss] = useState(false);
 	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
 	let content;

@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import BusinessList from "./business-list";
 import BusinessCreateForm from "./business-create-form";
 import { useDispatch, useSelector } from "react-redux";
+import { usePagination,  } from "../../utils/pageHelper";
+import { useSearchParams } from "react-router-dom";
+
 import {
 	allBusinesses,
 	businessError,
@@ -16,20 +19,18 @@ function BusinessPage() {
 	const businesses = useSelector(allBusinesses);
 	const status = useSelector(businessStatus);
 	const error = useSelector(businessError);
+	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
 
 	let content;
 
 	const [addFormVisible, setAddFormVisible] = useState(false);
 
 	useEffect(() => {
-		if (!isMounted.current && !businesses.initialFetch) {
-			dispatch(fetchBusinesses())
-			isMounted.current = true
+		const data = dispatch(fetchBusinesses({ limit, offset, page }))
+		return () => {
+			data.abort();
 		}
-		() => {
-			dispatch(cleanBusinesses)
-		}
-	}, [dispatch])
+	}, [dispatch, limit, offset, page])
 
 	const onAddButtonClick = (e) => {
 		e.preventDefault();
@@ -63,6 +64,8 @@ function BusinessPage() {
 			)}
 			{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
 			{content}
+			<button onClick={() => onClickPrev()}>previous</button>
+			<button onClick={() => onClickNext()}>Next</button>
 		</div>
 	);
 }

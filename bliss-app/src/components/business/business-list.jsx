@@ -13,7 +13,7 @@ function BusinessList() {
 	let content;
 
 	if (status === "fulfilled") {
-		content = businesses.businesses.map((business) => {
+		content = businesses?.businesses?.map((business) => {
 			return <Business key={business.id} business={business} />;
 		});
 	} else if (status === "pending") {
