@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// state should look like this for businesses
 const initialState = {
 	businesses: [],
 	initialFetch: false,
