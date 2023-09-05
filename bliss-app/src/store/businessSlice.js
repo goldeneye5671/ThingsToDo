@@ -11,8 +11,13 @@ const initialState = {
 
 export const fetchBusinesses = createAsyncThunk(
 	"businesses/fetchBusinesses",
-	async () => {
-		const response = await axios.get(`/api/businesses`, );
+	async (pageInfo) => {
+		if (!pageInfo.page) throw new Error("page is not defined")
+		const response = await axios.get(`/api/businesses`,{params: {
+			limit: parseInt(pageInfo.limit),
+			offset: parseInt(pageInfo.offset),
+			page: parseInt(pageInfo.page)
+		}})
 		return response.data;
 	}
 );
@@ -108,8 +113,9 @@ export const businessSlice = createSlice({
 				state.initialFetch = true
 			})
 			.addCase(fetchBusinesses.fulfilled, (state, action) => {
+				console.log(action.payload)
 				state.status = "fulfilled";
-				state.businesses = state.businesses.concat(action.payload);
+				state.businesses = action.payload ? action.payload : [];
                 state.error = null
 				state.initialFetch = true
 			})
