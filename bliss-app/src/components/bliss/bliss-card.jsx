@@ -17,7 +17,6 @@ function Bliss({ bliss }) {
 	return !updateVis ? (
 		<>
 			<Link className="card" key={bliss.id} to={`/bliss/${bliss.id}`}>
-				<h1>{bliss.id}</h1>
 				<div className="photo-container">
 
 				</div>
