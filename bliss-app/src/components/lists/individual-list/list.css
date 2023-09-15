@@ -1,0 +1,25 @@
+.list-heading{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.list-description{
+    margin: 0 auto;
+    width: 70%;
+}
+
+.list-row{
+    border-bottom: 1px solid grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.list-entry-container{
+    border: solid grey 1px;
+    border-radius: 15px;
+    width: 90%;
+    margin: 0 auto;
+}
