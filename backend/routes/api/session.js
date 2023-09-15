@@ -22,7 +22,7 @@ const validateLogin = [
     validateLogin,
     asyncHandler(async (req, res, next) => {
       const { credential, password } = req.body;
-  
+
       const user = await User.login({ credential, password });
   
       if (!user) {
@@ -41,6 +41,37 @@ const validateLogin = [
     }),
   );
   
+    router.post(
+      '/signup',
+      asyncHandler(async (req, res, next) => {
+        try {
+          const {
+            firstName,
+            lastName,
+            profilePicture,
+            bio,
+            username,
+            email,
+            password
+          } = req.body
+          
+
+        const user = await User.signup({
+          username,
+          email,
+          firstName,
+          lastName,
+          profileImage: profilePicture,
+          bio,
+          hashedPassword: password
+        })
+          console.log(JSON.stringify(user));
+          res.json(user);
+        } catch (e){
+          next(e)
+        }
+      })
+    )
 
   router.get(
     '/',

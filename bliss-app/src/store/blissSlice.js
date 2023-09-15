@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { devURI } from ".";
 
 const initialState = {
 	bliss: {
@@ -16,7 +17,7 @@ export const fetchBliss = createAsyncThunk(
 	"bliss/fetchBliss",
 	async (pageInfo) => {
 		if (!pageInfo.page) throw new Error("Page is not defined");
-		const response = await axios.get(`/api/thingstodo`, {
+		const response = await axios.get(`${devURI}/api/thingstodo`, {
 			params: {
 				limit: parseInt(pageInfo.limit),
 				offset: parseInt(pageInfo.offset),
@@ -31,7 +32,7 @@ export const fetchOneBliss = createAsyncThunk(
 	"bliss/fetchOneBliss",
 	async (blissId) => {
 		const response = await axios.get(
-			`/api/thingstodo/${blissId}`
+			`${devURI}/api/thingstodo/${blissId}`
 		);
 		return response.data;
 	}
@@ -39,7 +40,7 @@ export const fetchOneBliss = createAsyncThunk(
 
 export const addBliss = createAsyncThunk("bliss/addBliss", async (bliss) => {
 	const response = await axios.post(
-		`/api/thingstodo/1`,
+		`${devURI}/api/thingstodo/1`,
 		bliss
 	);
 	return response.data;
@@ -49,7 +50,7 @@ export const updateBliss = createAsyncThunk(
 	"bliss/updateBliss",
 	async (bliss) => {
 		const response = await axios.patch(
-			`/api/thingstodo/1/${bliss.id}`,
+			`${devURI}/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;
@@ -60,7 +61,7 @@ export const deleteBliss = createAsyncThunk(
 	`bliss/deleteBliss`,
 	async (bliss) => {
 		const response = await axios.delete(
-			`/api/thingstodo/1/${bliss.id}`,
+			`${devURI}/api/thingstodo/1/${bliss.id}`,
 			bliss
 		);
 		return response.data;

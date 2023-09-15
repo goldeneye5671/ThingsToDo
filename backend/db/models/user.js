@@ -35,6 +35,7 @@
 "use strict";
 const { Validator } = require("sequelize");
 const bcrypt = require("bcryptjs");
+const { Op } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
@@ -134,7 +135,14 @@ module.exports = (sequelize, DataTypes) => {
     hashedPassword,
   }) {
     const myHashedPassword = bcrypt.hashSync(hashedPassword);
-    const user = await User.create({
+    const user = await User.findOrCreate({
+      where: {
+        [Op.or]: {
+          username,
+          email,
+        }
+      },
+    defaults: {
       username,
       email,
       firstName,
@@ -142,8 +150,12 @@ module.exports = (sequelize, DataTypes) => {
       profileImage,
       bio,
       hashedPassword: String(myHashedPassword),
+    }
     });
-    return await User.scope("currentUser").findByPk(user.id);
+    console.log("User after creation: ", user)
+    const updatedUser = await User.scope("currentUser").findByPk(user.id);
+    console.log("User after retrieval: ", updatedUser)
+    return updatedUser;
   };
 
   User.associate = function (models) {
