@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { signUpUser } from "../../store/userSlice";
 
 function SignUp() {
 	const [firstName, setFirstname] = useState("");
@@ -14,6 +16,8 @@ function SignUp() {
 	const [errors, setErrors] = useState([]);
 	const [canSubmit, setCanSubmit] = useState(false);
 
+	const dispatch = useDispatch();
+
 	const onFirstNameChange = (e) => setFirstname(e.target.value);
 	const onLastNameChange = (e) => setLastname(e.target.value);
 	const onProfilePictureChange = (e) => setProfilePicture(e.target.value);
@@ -25,8 +29,22 @@ function SignUp() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		console.log("Hello");
+		console.log(canSubmit)
+		console.log(errors)
 		if (canSubmit) {
-			console.log("Submitted and pending review");
+			dispatch(signUpUser({
+				firstName,
+				lastName,
+				profilePicture,
+				bio,
+				username,
+				email,
+				password
+			})).then(e => console.log(e)).catch(async (res) => {
+				const data = await res.json();
+				if (data && data.errors) setErrors(data.errors);
+			});
 		}
 	};
 
@@ -84,7 +102,7 @@ function SignUp() {
 		if (password !== duplicatePass) localErrors.push("Passwords do not match");
 		setErrors([...localErrors]);
 
-		if (localErrors.length) {
+		if (localErrors.length === 0) {
 			setCanSubmit(true);
 		} else {
 			setCanSubmit(false);
@@ -148,8 +166,11 @@ function SignUp() {
 				/>
                 <br></br>
 
-				<button onSubmit={onSubmit} disabled={canSubmit}>
-					Sign Up
+				<button onClick={(e) => {
+					e.preventDefault();
+					onSubmit(e)
+				}}>
+					Test
 				</button>
 				<p>
 					Already have an account? <br></br><Link>Sign in here!</Link>

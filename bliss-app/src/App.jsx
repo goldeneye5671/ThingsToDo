@@ -7,13 +7,14 @@ import SignUp from "./components/auth/sign-up-form";
 import SignIn from "./components/auth/sign-in";
 import ListPage from "./components/lists/lists-index";
 import IndividualList from "./components/lists/individual-list/list";
+import Home from "./components/home/home-index";
 
 function App() {
 	return (
 		<>
 			<NavBar/>
 			<Routes>
-				<Route path="/" element={<h1>Home</h1>} />
+				<Route path="/" element={<Home />} />
 				<Route path="/sign-up" element={<SignUp />}/>
 				<Route path="/sign-in" element={<SignIn />}/>
 				<Route path="/bliss" element={<BlissPage />} />
