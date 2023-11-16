@@ -7,7 +7,7 @@ import {
 	// cleanBliss,
 } from "../../store/blissSlice";
 
-function BlissList() {
+function BlissList({home}) {
 	const bliss = useSelector(allBliss);
 	const status = useSelector(blissStatus);
 	const errors = useSelector(blissError);
@@ -30,7 +30,7 @@ function BlissList() {
 	}
 
 	return (
-		<div className="main-card-container">
+		<div className={!home ? "main-card-container":"main-card-container-horizontal"}>
 			<h1></h1>
 			{content}
 		</div>

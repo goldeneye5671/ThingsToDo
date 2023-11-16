@@ -1,0 +1,71 @@
+.HomeMainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.HomeContent {
+    width: 60%;
+}
+
+.HomeCallToAction {
+    width: 40%;
+}
+.main-card-container-horizontal{
+    border: solid black 3px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    gap: 15px;
+}
+
+.home-main-header{
+    background: rgb(2,0,36);
+    background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: solid white 3px;
+    border-radius: 15px;
+    padding: 25px 0px;
+}
+
+.card{
+    border: solid black 3px;
+    border-radius: 15px;
+    min-width: 400px;
+    min-height: 700px;
+    margin: 20px;
+    padding: 0px 20px;
+}
+
+nav {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed; /* Set thenav to fixed position */
+    top: 0; /* Position thenav at the top of the page */
+    width: 100%; /* Full width */
+  }
+  
+  /* Links inside thenav */
+  nav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change background on mouse-over */
+  nav a:hover {
+    background: #ddd;
+    color: black;
+  }
+  
+  /* Main content */
+  .main {
+    margin-top: 30px; /* Add a top margin to avoid content overlay */
+  }

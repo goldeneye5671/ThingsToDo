@@ -1,5 +1,3 @@
-import "../../assets/styles/card/experience-card.css"
-
 function ExperienceCard({ experience }) {
 	const ExperiencePhotos = experience?.ExperiencePhotos?.map((photo) => {
 		return <img key={photo?.id} src={photo?.url}></img>;

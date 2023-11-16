@@ -6,7 +6,7 @@ import {
 } from "../../store/businessSlice";
 import Business from "./business-card";
 
-function BusinessList() {
+function BusinessList({home}) {
 	const businesses = useSelector(allBusinesses);
 	const status = useSelector(businessStatus);
 	const errors = useSelector(businessError);
@@ -27,7 +27,7 @@ function BusinessList() {
 		);
 	}
 
-	return <div className="main-card-container">{content}</div>;
+	return <div className={!home ? "main-card-container" : "main-card-container-horizontal"}>{content}</div>;
 }
 
 export default BusinessList;
