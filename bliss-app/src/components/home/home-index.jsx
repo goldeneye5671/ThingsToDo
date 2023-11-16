@@ -41,8 +41,8 @@ function Home() {
       </div>
     
       <div className="HomeContent">
-      <button onClick={onSubClicked}>-</button>
-      <button onClick={onAddClicked}>+</button>
+      {/* <button onClick={onSubClicked}>-</button>
+      <button onClick={onAddClicked}>+</button> */}
         {whichVisible === 1 && <BlissPage home={true} />}
         {whichVisible === 2 && <ListPage home={true} />}
         {whichVisible === 3 && <BusinessPage home={true} />}

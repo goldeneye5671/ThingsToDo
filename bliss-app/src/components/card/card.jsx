@@ -15,7 +15,7 @@ function Card({id, to, image, title, content}) {
           {content}
         </p>
         <Link className="card" key={id} to={to} className="read-more">
-          See More <span className="sr-only">about this is some title</span>
+          Discover <span className="sr-only"></span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon"
