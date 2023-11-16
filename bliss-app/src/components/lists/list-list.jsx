@@ -8,7 +8,7 @@ import {
 	listError,
 } from "../../store/listSlice";
 
-function ListList() {
+function ListList({home}) {
 	const lists = useSelector(allLists);
 	const status = useSelector(listStatus);
 	const error = useSelector(listError);
@@ -16,7 +16,7 @@ function ListList() {
 
 	if (status === "fulfilled") {
         console.log("Lists: ", lists)
-		content = lists?.lists?.map((list) => <ListCard list={list}/>);
+		content = lists?.lists?.map((list) => <ListCard key={list.id} list={list}/>);
 	} else if (status === "loading") {
 		content = <h1>Loading...</h1>;
 	} else if (status === "error") {
@@ -29,7 +29,7 @@ function ListList() {
 	}
 
 	return (
-		<div className="main-card-container">
+		<div className={!home ? "main-card-container" : "main-card-container-horizontal"}>
 			<h1></h1>
 			{content}
 		</div>

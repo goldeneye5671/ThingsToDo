@@ -11,7 +11,7 @@ import {
 } from "../../store/blissSlice";
 import { useSearchParams } from "react-router-dom";
 
-function BlissPage() {
+function BlissPage({home}) {
 	const dispatch = useDispatch();
 	const status = useSelector(blissStatus);
 	const error = useSelector(blissError);
@@ -21,7 +21,9 @@ function BlissPage() {
 
 	// We want to re-fetch the results whenever the limit, offset, or page changes.
 	useEffect(() => {
-		const data = dispatch(fetchBliss({ limit, offset, page }));
+		const llimit = home ? 5 : limit
+		console.log(home)
+		const data = dispatch(fetchBliss({ limit: llimit , offset, page }));
 		return () => {
 			data.abort();
 			// dispatch(cleanBliss());
@@ -43,7 +45,7 @@ function BlissPage() {
 	} else if (status === "fulfilled") {
 		content = (
 			<>
-				<BlissList page={page} limit={limit} status={status}/>
+				<BlissList home={home}/>
 			</>
 		);
 	} else if (status === "rejected") {
@@ -56,15 +58,44 @@ function BlissPage() {
 	}
 
 	return (
-		<div>
-			<h1>Bliss</h1>
-			<label htmlFor="bliss-search"></label>
-			<input type="text" name="bliss-search" id="bliss-search" />
-			<button onClick={onAddBlissClick}>Add Bliss</button>
-			{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+		<div className="content">
+			{
+				!home ? (
+					<>
+					<div className="home-main-header">
+						<div className="home-content">
+							<h1>Bliss</h1>
+							<label htmlFor="bliss-search"></label>
+							<div>
+								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+							</div>
+							<button onClick={onAddBlissClick}>Add Bliss</button>
+							{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+							<button>{"->"}</button>
+						</div>
+					</div>
+					</>
+				)
+				:
+				(
+					<>
+						<div className="home-main-header">
+							<h1>Bliss</h1>
+						</div>
+					</>
+				)
+			}
+		
 			{content}
-			<button onClick={() => onClickPrev()}>previous</button>
-			<button onClick={() => onClickNext()}>Next</button>
+			{
+				!home && (
+				<>
+					<button onClick={() => onClickPrev()}>previous</button>
+					<button onClick={() => onClickNext()}>Next</button>
+				</>
+				)
+			}
+
 		</div>
 	);
 }

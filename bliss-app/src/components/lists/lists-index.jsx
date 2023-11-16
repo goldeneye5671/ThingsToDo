@@ -10,7 +10,7 @@ import {
  } from "../../store/listSlice"
 import ListList from "./list-list";
 
-function ListPage() {
+function ListPage({home}) {
   const dispatch = useDispatch();
   const status = useSelector(listStatus)
   const error = useSelector(listError)
@@ -20,7 +20,8 @@ function ListPage() {
   let content;
 
   useEffect(() => {
-    const data = dispatch(fetchLists({limit, offset, page}))
+    const llimit = home ? 5 : limit
+    const data = dispatch(fetchLists({limit: llimit, offset, page}))
     return () => {
       data.abort();
     }
@@ -35,7 +36,7 @@ function ListPage() {
     )
   } else if (status === "fulfilled") {
     content = (
-      <ListList /> 
+      <ListList home={home}/> 
     )
   } else if (status === "rejected") {
     content=(
@@ -47,11 +48,19 @@ function ListPage() {
   }
 
   return (
-    <div>
-      <h1>Lists</h1>
+    <div className="content">
+      <div className="home-main-header">
+        <h1>Lists</h1>
+      </div>
       {content}
-      <button onClick={() => onClickPrev()}>previous</button>
-			<button onClick={() => onClickNext()}>Next</button>
+      {
+        !home && (
+          <>
+            <button onClick={() => onClickPrev()}>previous</button>
+            <button onClick={() => onClickNext()}>Next</button>
+          </>
+        )
+      }
     </div>
   )
 }

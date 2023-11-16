@@ -61,7 +61,7 @@ function IndividualBliss() {
 
 	return (
 		<div>
-			<div className="bliss-heading-controls">
+			<div className="home-main-header">
 				<h1>{bliss?.thingName}</h1>
 				<p className="bliss-description">{bliss?.thingDescription}</p>
 				<div className="control-buttons">

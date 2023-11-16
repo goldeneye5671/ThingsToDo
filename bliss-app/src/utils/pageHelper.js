@@ -75,7 +75,7 @@ export const parsePageFromQueryParams = (query) => {
  * It returns functions that will change the query parameters to update the page correctly, as well.
  */
 export const usePagination = (useSearchParams) => {
-	const limit = 15;
+	const limit = 10;
 	const [qparams, setqparams] = useSearchParams();
 
 	const page = parsePageFromQueryParams(qparams);

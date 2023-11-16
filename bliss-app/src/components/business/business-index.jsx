@@ -13,7 +13,7 @@ import {
 	fetchBusinesses,
 } from "../../store/businessSlice";
 
-function BusinessPage() {
+function BusinessPage({home}) {
 	const dispatch = useDispatch();
 	const isMounted = useRef(false)
 	const businesses = useSelector(allBusinesses);
@@ -26,7 +26,8 @@ function BusinessPage() {
 	const [addFormVisible, setAddFormVisible] = useState(false);
 
 	useEffect(() => {
-		const data = dispatch(fetchBusinesses({ limit, offset, page }))
+		const llimit = home ? 5 : limit
+		const data = dispatch(fetchBusinesses({ limit: llimit, offset, page }))
 		return () => {
 			data.abort();
 		}
@@ -38,7 +39,7 @@ function BusinessPage() {
 	};
 
 	if (status === "fulfilled") {
-		content = <BusinessList />;
+		content = <BusinessList home={home}/>;
 	} else if (status === "pending") {
 		content = (
 			<div>
@@ -57,15 +58,49 @@ function BusinessPage() {
 
 	return (
 		<div>
-			<h1>Business</h1>
+			{
+				!home ? (
+					<>
 
-			{!addFormVisible && (
-				<button onClick={onAddButtonClick}>Add Business</button>
-			)}
-			{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+						{/* {!addFormVisible && (
+							<button onClick={onAddButtonClick}>Add Business</button>
+						)}
+						{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />} */}
+
+<>
+					<div className="home-main-header">
+						<div className="home-content">
+							<h1>Businesses</h1>
+							<label htmlFor="bliss-search"></label>
+							<div>
+								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+							</div>
+							<button onClick={onAddButtonClick}>Add Business</button>
+							{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+							<button>{"->"}</button>
+						</div>
+					</div>
+					</>
+					</>
+				) 
+					:
+				(
+					<>
+						<div className="home-main-header">
+							<h1>Businesses</h1>
+						</div>
+					</>
+				)
+			}
 			{content}
-			<button onClick={() => onClickPrev()}>previous</button>
-			<button onClick={() => onClickNext()}>Next</button>
+			{
+				!home && (
+					<>
+						<button onClick={() => onClickPrev()}>previous</button>
+						<button onClick={() => onClickNext()}>Next</button>
+					</>
+				)
+			}
 		</div>
 	);
 }
