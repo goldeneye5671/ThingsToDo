@@ -16,7 +16,7 @@ function Bliss({ bliss }) {
 	})
 
 	return !updateVis ? (
-		<Card image={photos[0]} title={bliss?.thingName} content={bliss?.thingDescription}/>
+		<Card id={bliss?.id} to={`/bliss/${bliss.id}`} image={photos[0]} title={bliss?.thingName} content={bliss?.thingDescription}/>
 		) : (
 		<BlissUpdateForm setVisible={setUpdateVis} bliss={bliss} />
 	);

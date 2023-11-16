@@ -10,6 +10,7 @@ import {
 	fetchBliss,
 } from "../../store/blissSlice";
 import { useSearchParams } from "react-router-dom";
+import Header from "../shared/headers/Header";
 
 function BlissPage({home}) {
 	const dispatch = useDispatch();
@@ -17,6 +18,30 @@ function BlissPage({home}) {
 	const error = useSelector(blissError);
 	const [addBliss, setAddBliss] = useState(false);
 	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
+
+	const onAddBlissClick = (e) => {
+		e.preventDefault();
+		setAddBliss(!addBliss);
+	};
+
+	const title = (
+		<h1>Bliss</h1>
+	)
+
+	const searchBar = (
+		<div>
+			<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+		</div>
+	)
+
+	const actionButtons = (
+		<>
+			<button onClick={onAddBlissClick}>Add Bliss</button>
+			{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+			<button>{"->"}</button>
+		</>
+	)
+
 	let content;
 
 	// We want to re-fetch the results whenever the limit, offset, or page changes.
@@ -28,12 +53,7 @@ function BlissPage({home}) {
 			data.abort();
 			// dispatch(cleanBliss());
 		};
-	}, [dispatch, limit, offset, page]);
-
-	const onAddBlissClick = (e) => {
-		e.preventDefault();
-		setAddBliss(!addBliss);
-	};
+	}, [dispatch, limit, offset, page, home]);
 
 	if (status === "pending") {
 		content = (
@@ -61,28 +81,17 @@ function BlissPage({home}) {
 		<div className="content">
 			{
 				!home ? (
-					<>
-					<div className="home-main-header">
-						<div className="home-content">
-							<h1>Bliss</h1>
-							<label htmlFor="bliss-search"></label>
-							<div>
-								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
-							</div>
-							<button onClick={onAddBlissClick}>Add Bliss</button>
-							{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
-							<button>{"->"}</button>
-						</div>
-					</div>
-					</>
+					<Header
+						title={title}
+						searchBar={searchBar}
+						actionButtons={actionButtons}
+					/>
 				)
 				:
 				(
-					<>
-						<div className="home-main-header">
-							<h1>Bliss</h1>
-						</div>
-					</>
+					<Header
+						title={title}
+					/>
 				)
 			}
 		

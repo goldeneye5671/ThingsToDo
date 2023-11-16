@@ -12,18 +12,17 @@ import {
 	cleanBusinesses,
 	fetchBusinesses,
 } from "../../store/businessSlice";
+import Header from "../shared/headers/Header";
 
 function BusinessPage({home}) {
 	const dispatch = useDispatch();
-	const isMounted = useRef(false)
-	const businesses = useSelector(allBusinesses);
 	const status = useSelector(businessStatus);
 	const error = useSelector(businessError);
 	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
-
+	const [addFormVisible, setAddFormVisible] = useState(false);
+	
 	let content;
 
-	const [addFormVisible, setAddFormVisible] = useState(false);
 
 	useEffect(() => {
 		const llimit = home ? 5 : limit
@@ -31,12 +30,30 @@ function BusinessPage({home}) {
 		return () => {
 			data.abort();
 		}
-	}, [dispatch, limit, offset, page])
-
+	}, [dispatch, limit, offset, page, home])
 	const onAddButtonClick = (e) => {
 		e.preventDefault();
 		setAddFormVisible(!addFormVisible);
 	};
+
+	const title = (
+		<h1>Businesses</h1>
+	)
+
+	const searchBar = (
+		<div>
+			<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+		</div>
+	)
+
+	const actionButtons = (
+		<>
+			<button onClick={onAddButtonClick}>Add Business</button>
+			{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+			<button>{"->"}</button>
+
+		</>
+	)
 
 	if (status === "fulfilled") {
 		content = <BusinessList home={home}/>;
@@ -57,31 +74,14 @@ function BusinessPage({home}) {
 	}
 
 	return (
-		<div>
+		<div className="content">
 			{
 				!home ? (
-					<>
-
-						{/* {!addFormVisible && (
-							<button onClick={onAddButtonClick}>Add Business</button>
-						)}
-						{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />} */}
-
-<>
-					<div className="home-main-header">
-						<div className="home-content">
-							<h1>Businesses</h1>
-							<label htmlFor="bliss-search"></label>
-							<div>
-								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
-							</div>
-							<button onClick={onAddButtonClick}>Add Business</button>
-							{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
-							<button>{"->"}</button>
-						</div>
-					</div>
-					</>
-					</>
+					<Header
+						title={title}
+						searchBar={searchBar}
+						actionButtons={actionButtons}
+					/>
 				) 
 					:
 				(
