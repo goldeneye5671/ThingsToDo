@@ -27,7 +27,7 @@ function Card({image, title, content, more}) {
               clip-rule="evenodd"
             />
           </svg>
-        </a>
+        </NavLink>
       </div>
     </div>
   </article>
