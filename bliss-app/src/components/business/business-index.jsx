@@ -62,10 +62,25 @@ function BusinessPage({home}) {
 				!home ? (
 					<>
 
-						{!addFormVisible && (
+						{/* {!addFormVisible && (
 							<button onClick={onAddButtonClick}>Add Business</button>
 						)}
-						{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+						{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />} */}
+
+<>
+					<div className="home-main-header">
+						<div className="home-content">
+							<h1>Businesses</h1>
+							<label htmlFor="bliss-search"></label>
+							<div>
+								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+							</div>
+							<button onClick={onAddButtonClick}>Add Business</button>
+							{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+							<button>{"->"}</button>
+						</div>
+					</div>
+					</>
 					</>
 				) 
 					:

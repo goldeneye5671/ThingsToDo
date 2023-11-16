@@ -48,7 +48,7 @@ function ListPage({home}) {
   }
 
   return (
-    <div>
+    <div className="content">
       <div className="home-main-header">
         <h1>Lists</h1>
       </div>
