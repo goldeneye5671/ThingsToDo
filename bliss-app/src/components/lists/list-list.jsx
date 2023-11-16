@@ -30,7 +30,6 @@ function ListList({home}) {
 
 	return (
 		<div className={!home ? "main-card-container" : "main-card-container-horizontal"}>
-			<h1></h1>
 			{content}
 		</div>
 	);
