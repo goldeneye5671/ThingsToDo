@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BlissUpdateForm from "./bliss-update-form";
+import Card from "../card/card";
 import { Link } from "react-router-dom";
 
 function Bliss({ bliss }) {
@@ -15,23 +16,8 @@ function Bliss({ bliss }) {
 	})
 
 	return !updateVis ? (
-		<>
-			<Link className="card" key={bliss.id} to={`/bliss/${bliss.id}`}>
-				<div className="photo-container">
-
-				</div>
-				<div className="heading">
-					<h2>Bliss Name: {bliss.thingName}</h2>
-					<p>Bliss Desc: {bliss.thingDescription}</p>
-				</div>
-				<ul>
-					<li>Amount of Descriptions: {bliss.CustomDescriptions?.length}</li>
-					<li>Amount of Experiences: {bliss.Experiences?.length}</li>
-					<li>Amount of Businesses: {bliss.Businesses?.length}</li>
-				</ul>
-			</Link>
-		</>
-	) : (
+		<Card image={photos[0]} title={bliss?.thingName} content={bliss?.thingDescription}/>
+		) : (
 		<BlissUpdateForm setVisible={setUpdateVis} bliss={bliss} />
 	);
 }
