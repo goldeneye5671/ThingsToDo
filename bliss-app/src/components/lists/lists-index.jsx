@@ -49,7 +49,9 @@ function ListPage({home}) {
 
   return (
     <div>
-      <h1>Lists</h1>
+      <div className="home-main-header">
+        <h1>Lists</h1>
+      </div>
       {content}
       {
         !home && (

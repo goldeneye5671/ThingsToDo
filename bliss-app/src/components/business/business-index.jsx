@@ -58,15 +58,22 @@ function BusinessPage({home}) {
 
 	return (
 		<div>
-			<h1>Business</h1>
 			{
-				!home && (
+				!home ? (
 					<>
 
 						{!addFormVisible && (
 							<button onClick={onAddButtonClick}>Add Business</button>
 						)}
 						{addFormVisible && <BusinessCreateForm setVisible={setAddFormVisible} />}
+					</>
+				) 
+					:
+				(
+					<>
+						<div className="home-main-header">
+							<h1>Businesses</h1>
+						</div>
 					</>
 				)
 			}

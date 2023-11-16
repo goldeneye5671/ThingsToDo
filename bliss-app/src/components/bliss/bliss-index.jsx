@@ -58,14 +58,22 @@ function BlissPage({home}) {
 	}
 
 	return (
-		<div>
+		<div className="content">
 			{
 				!home ? (
 					<>
-						<h1>Bliss</h1>
-						<label htmlFor="bliss-search"></label>
-						<input type="text" name="bliss-search" id="bliss-search" />
-						<button onClick={onAddBlissClick}>Add Bliss</button>
+					<div className="home-main-header">
+						<div className="home-content">
+							<h1>Bliss</h1>
+							<label htmlFor="bliss-search"></label>
+							<div>
+								<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
+							</div>
+							<button onClick={onAddBlissClick}>Add Bliss</button>
+							{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+							<button>{"->"}</button>
+						</div>
+					</div>
 					</>
 				)
 				:
@@ -77,7 +85,7 @@ function BlissPage({home}) {
 					</>
 				)
 			}
-			{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+		
 			{content}
 			{
 				!home && (

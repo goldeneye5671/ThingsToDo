@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import BlissPage from "../bliss/bliss-index";
 import BusinessPage from "../business/business-index";
 import ListPage from "../lists/lists-index";
-import "./home.css"
 
 function Home() {
 
@@ -40,9 +39,7 @@ function Home() {
           fuga architecto temporibus animi?
         </p>
       </div>
-
-      <div></div>
-
+    
       <button onClick={onSubClicked}>-</button>
       <div className="HomeContent">
         {whichVisible === 1 && <BlissPage home={true} />}
