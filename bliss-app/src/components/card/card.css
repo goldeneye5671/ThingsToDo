@@ -7,11 +7,14 @@ article {
   border-radius: 16px;
   box-shadow: none;
   background: #fff;
+  border: solid lightgray 1px;
   transform-origin: center;
   transition: all 0.4s ease-in-out;
   overflow: hidden;
   max-width: 350px;
   min-width: 350px;
+  height: 50vh;
+  overflow-y: scroll;
   /* margin: 15px; */
 }
 
@@ -23,10 +26,12 @@ article a::after {
   content: "";
 }
 
+article > p{
+  max-height: 25%;
+}
 /* basic article elements styling */
 article h2 {
   margin: 0 0 18px 0;
-  font-family: "Bebas Neue", cursive;
   font-size: 1.9rem;
   letter-spacing: 0.06em;
   color: var(--title-color);
