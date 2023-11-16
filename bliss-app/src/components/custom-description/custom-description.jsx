@@ -1,16 +1,28 @@
-import React from 'react'
+import React from "react";
+import Card from "../card/card";
 
-function CustomDescription({CustomDescription}) {
+function CustomDescription({ CustomDescription }) {
+  const image = <img src="#"></img>;
+  const title = CustomDescription?.title;
+  const content = (
+    <>
+      <p>{CustomDescription?.description}</p>
+      <div>
+        <p>Upvotes: {CustomDescription?.upvotes}</p>
+        <p>Downvotes: {CustomDescription?.downvotes}</p>
+      </div>
+    </>
+  );
+
   return (
-    <div className='card'>
-        <h2>{CustomDescription?.headline}</h2>
-        <p>{CustomDescription?.description}</p>
-        <div>
-            <p>Upvotes: {CustomDescription?.upvotes}</p>
-            <p>Downvotes: {CustomDescription?.downvotes}</p>
-        </div>
-    </div>
-  )
+    <Card
+      id={CustomDescription?.id}
+      to={"#"}
+      image={image}
+      title={title}
+      content={content}
+    />
+  );
 }
 
-export default CustomDescription
+export default CustomDescription;

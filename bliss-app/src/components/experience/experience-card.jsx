@@ -1,18 +1,34 @@
+import Card from "../card/card";
+
 function ExperienceCard({ experience }) {
 	const ExperiencePhotos = experience?.ExperiencePhotos?.map((photo) => {
 		return <img key={photo?.id} src={photo?.url}></img>;
 	});
 
-	return (
-		<div className="card">
-			<div className="photo-container">{ExperiencePhotos}</div>
-			<h2 className="card-title">{experience.title}</h2>
+	const image = (
+		ExperiencePhotos[0]
+	)
+
+	const title = experience?.title
+
+	const content = (
+		<>
 			<p className="card-content">{experience.description}</p>
 			<div className="votes-container">
-				<button className="upvotes">/\ {experience.upvotes}</button>
-				<button className="downvotes">\/ {experience.downvotes}</button>
-			</div>
-		</div>
+					<button className="upvotes">/\ {experience.upvotes}</button>
+					<button className="downvotes">\/ {experience.downvotes}</button>
+			</div>	
+		</>
+	)
+
+	return (
+		<Card 
+			id={experience?.id}
+			to={"#"}
+			image={image}
+			title={title}
+			content={content}
+		/>
 	);
 }
 
