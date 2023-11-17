@@ -3,7 +3,6 @@
 .HomeMainContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
   width: 95%;
   margin: 0 auto;
   /* height: 50svh; */

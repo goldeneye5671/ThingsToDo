@@ -57,6 +57,15 @@ function NavBar() {
 				Sign Up
 			</NavLink>
 			<br></br>
+
+			<NavLink
+				className={({ isActive, isPending }) =>
+				isPending ? "pending" : isActive ? "active" : ""
+				}
+				to={"/SectionTest"}
+			>
+				SectionTest
+			</NavLink>
 		</nav>
 	);
 }

@@ -9,23 +9,16 @@ import {
   listError
  } from "../../store/listSlice"
 import ListList from "./list-list";
+import PageNavigation from "../shared/Section/pageNav/PageNavigation";
 
 function ListPage({home}) {
   const dispatch = useDispatch();
   const status = useSelector(listStatus)
   const error = useSelector(listError)
   const list = useSelector(allLists)
-  const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
+  
   
   let content;
-
-  useEffect(() => {
-    const llimit = home ? 5 : limit
-    const data = dispatch(fetchLists({limit: llimit, offset, page}))
-    return () => {
-      data.abort();
-    }
-  }, [dispatch, limit, offset, page])
 
   if (status === "pending") {
     content = (
@@ -55,10 +48,7 @@ function ListPage({home}) {
       {content}
       {
         !home && (
-          <>
-            <button onClick={() => onClickPrev()}>previous</button>
-            <button onClick={() => onClickNext()}>Next</button>
-          </>
+          <PageNavigation dispatcher={fetchLists} home={home}/>
         )
       }
     </div>

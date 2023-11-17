@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BlissUpdateForm from "./bliss-update-form";
-import Card from "../card/card";
+import Card from "../shared/Section/listContainer/card/card";
 import { Link } from "react-router-dom";
 
 function Bliss({ bliss }) {

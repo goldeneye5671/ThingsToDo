@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Card from "../card/card";
+import Card from "../shared/Section/listContainer/card/card";
 
 function ListCard({ list }) {
   const listComponents = list.ThingsToDos.length ? (

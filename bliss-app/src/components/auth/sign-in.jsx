@@ -3,7 +3,7 @@ import { ReactDOM } from "react";
 import { signInUser } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
 import "./auth.css"
-import Header from "../shared/headers/Header";
+import Header from "../shared/Section/headers/Header"
 
 function SignIn() {
 	const dispatch = useDispatch();

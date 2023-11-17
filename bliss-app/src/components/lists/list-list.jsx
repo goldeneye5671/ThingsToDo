@@ -7,6 +7,7 @@ import {
 	listStatus,
 	listError,
 } from "../../store/listSlice";
+import ListContainer from "../shared/Section/listContainer/ListContainer";
 
 function ListList({home}) {
 	const lists = useSelector(allLists);
@@ -29,9 +30,7 @@ function ListList({home}) {
 	}
 
 	return (
-		<div className={!home ? "main-card-container" : "main-card-container-horizontal"}>
-			{content}
-		</div>
+		<ListContainer content={content} home={home}/>
 	);
 }
 

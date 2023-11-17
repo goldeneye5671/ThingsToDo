@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { signUpUser } from "../../store/userSlice";
-import Header from "../shared/headers/Header";
+import Header from "../shared/Section/headers/Header"
 
 function SignUp() {
 	const [firstName, setFirstname] = useState("");

@@ -10,7 +10,7 @@ import {
 import Business from "../../business/business-card";
 import ExperienceCard from "../../experience/experience-card";
 import CustomDescription from "../../custom-description/custom-description";
-import Header from "../../shared/headers/Header";
+import Header from "../../shared/Section/headers/Header";
 
 function IndividualBliss() {
   const dispatch = useDispatch();

@@ -10,7 +10,8 @@ import {
 	fetchBliss,
 } from "../../store/blissSlice";
 import { useSearchParams } from "react-router-dom";
-import Header from "../shared/headers/Header";
+import Header from "../shared/Section/headers/Header";
+import PageNavigation from "../shared/Section/pageNav/PageNavigation";
 
 function BlissPage({home}) {
 	const dispatch = useDispatch();
@@ -43,17 +44,6 @@ function BlissPage({home}) {
 	)
 
 	let content;
-
-	// We want to re-fetch the results whenever the limit, offset, or page changes.
-	useEffect(() => {
-		const llimit = home ? 5 : limit
-		console.log(home)
-		const data = dispatch(fetchBliss({ limit: llimit , offset, page }));
-		return () => {
-			data.abort();
-			// dispatch(cleanBliss());
-		};
-	}, [dispatch, limit, offset, page, home]);
 
 	if (status === "pending") {
 		content = (
@@ -98,10 +88,7 @@ function BlissPage({home}) {
 			{content}
 			{
 				!home && (
-				<>
-					<button onClick={() => onClickPrev()}>previous</button>
-					<button onClick={() => onClickNext()}>Next</button>
-				</>
+					<PageNavigation dispatcher={fetchBliss} home={home} />
 				)
 			}
 
