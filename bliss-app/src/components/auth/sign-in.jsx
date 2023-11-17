@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { ReactDOM } from "react";
 import { signInUser } from "../../store/userSlice";
 import { useDispatch } from "react-redux";
+import "./auth.css"
+import Header from "../shared/headers/Header";
 
 function SignIn() {
 	const dispatch = useDispatch();
@@ -33,16 +36,22 @@ function SignIn() {
 	}, [credential, password, canSubmit])
 
 	return (
-		<div>
-			<h2>Sign into Bliss</h2>
-			<label htmlFor="Email">Email</label><br></br>
-			<input name="Email" onChange={onCredentialChange} value={credential} type="text" /><br></br>
+		<div className="parent">
+			<div className="auth-container">
+				<Header title={<h2>Sign into Bliss</h2>}/>
 
-			<label htmlFor="password">Password</label><br></br>
-			<input name="password" onChange={onPasswordChange} value={password} type="password" id="" /><br></br>
+				<div className="auth-inputs">
+					<label htmlFor="Email">Email</label><br></br>
+					<input className="standard-input"name="Email" onChange={onCredentialChange} value={credential} type="text" /><br></br>
 
-			<button onClick={onSubmit}>Login</button><br></br>
-			<a>Not a user? Sign up today!</a><br></br>
+					<label htmlFor="password">Password</label><br></br>
+					<input className="standard-input" name="password" onChange={onPasswordChange} value={password} type="password" id="" /><br></br>
+
+				</div>
+
+				<button onClick={onSubmit}>Login</button><br></br>
+				<a>Not a user? Sign up today!</a><br></br>
+			</div>
 		</div>
 	);
 }

@@ -1,0 +1,32 @@
+.auth-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    border: solid black 1px;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    height: 75svh;
+    margin: 0 auto;
+}
+
+.auth-container-flex{
+    display: flex;
+}
+
+.auth-inputs{
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.standard-input {
+    height: 40px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.standard-input[type="text"] {
+    font-size: 20px;
+}
