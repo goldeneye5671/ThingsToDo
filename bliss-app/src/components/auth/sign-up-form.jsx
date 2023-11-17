@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { signUpUser } from "../../store/userSlice";
+import Header from "../shared/headers/Header";
 
 function SignUp() {
 	const [firstName, setFirstname] = useState("");
@@ -119,53 +120,58 @@ function SignUp() {
 	]);
 
 	return (
-		<div>
-			<form>
-				<ul>
-					{errors.map((error, i) => (
-						<li key={i}>{error}</li>
-					))}
-				</ul>
-				<label htmlFor="">First Name</label>
-				<input value={firstName} onChange={onFirstNameChange} type="text" />
-                <br></br>
+		<div className="auth-container">
+			<Header title={<h2>Sign up</h2>}/>
+			<form className="auth-container-flex">
+				<div>
+					<label htmlFor="">First Name</label>
+					<input value={firstName} onChange={onFirstNameChange} type="text" />
+					<br></br>
 
-				<label htmlFor="">Last Name</label>
-				<input value={lastName} onChange={onLastNameChange} type="text" />
-                <br></br>
+					<label htmlFor="">Last Name</label>
+					<input value={lastName} onChange={onLastNameChange} type="text" />
+					<br></br>
 
-				<label htmlFor="">Profile Image Url</label>
-				<input
-					value={profilePicture}
-					onChange={onProfilePictureChange}
-					type="text"
-				/>
-                <br></br>
+					<label htmlFor="">Profile Image Url</label>
+					<input
+						value={profilePicture}
+						onChange={onProfilePictureChange}
+						type="text"
+					/>
+					<br></br>
 
-				<label htmlFor="">Bio</label>
-				<textarea value={bio} onChange={onBioChange}></textarea>
-                <br></br>
+					<label htmlFor="">Bio</label>
+					<textarea value={bio} onChange={onBioChange}></textarea>
+					<br></br>
 
-				<label htmlFor="">Username</label>
-				<input value={username} onChange={onUsernameChange} type="text" />
-                <br></br>
+					<label htmlFor="">Username</label>
+					<input value={username} onChange={onUsernameChange} type="text" />
+					<br></br>
 
-				<label htmlFor="">Email</label>
-				<input value={email} onChange={onEmailChange} type="email" />
-                <br></br>
+					<label htmlFor="">Email</label>
+					<input value={email} onChange={onEmailChange} type="email" />
+					<br></br>
 
-				<label htmlFor="">Password</label>
-				<input value={password} onChange={onPasswordChange} type="password" />
-                <br></br>
+					<label htmlFor="">Password</label>
+					<input value={password} onChange={onPasswordChange} type="password" />
+					<br></br>
 
-				<label htmlFor="">Confirm Password</label>
-				<input
-					value={duplicatePass}
-					onChange={onDuplicatePasswordChange}
-					type="password"
-				/>
-                <br></br>
-
+					<label htmlFor="">Confirm Password</label>
+					<input
+						value={duplicatePass}
+						onChange={onDuplicatePasswordChange}
+						type="password"
+					/>
+					<br></br>
+				</div>
+				<div>
+					<ul> 
+						{errors.map((error, i) => (
+							<li key={i}>{error}</li>
+						))}
+					</ul>
+				</div>
+			</form>
 				<button onClick={(e) => {
 					e.preventDefault();
 					onSubmit(e)
@@ -175,7 +181,6 @@ function SignUp() {
 				<p>
 					Already have an account? <br></br><Link>Sign in here!</Link>
 				</p>
-			</form>
 		</div>
 	);
 }
