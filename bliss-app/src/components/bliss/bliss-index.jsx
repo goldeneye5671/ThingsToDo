@@ -1,99 +1,84 @@
-import { useState, useEffect, useRef } from "react";
-import BlissList from "./bliss-list";
+import { useState } from "react";
 import BlissCreateForm from "./bliss-create-form";
-import { usePagination,  } from "../../utils/pageHelper";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
-	blissError,
-	blissStatus,
-	cleanBliss,
-	fetchBliss,
+  allBliss,
+  blissError,
+  blissStatus,
+  cleanBliss,
+  fetchBliss,
 } from "../../store/blissSlice";
-import { useSearchParams } from "react-router-dom";
-import Header from "../shared/Section/headers/Header";
+
 import PageNavigation from "../shared/Section/pageNav/PageNavigation";
+import ListContainer from "../shared/Section/listContainer/ListContainer";
+import Header from "../shared/Section/headers/Header";
+import Loading from "../shared/Status/Loading";
+import Error from "../shared/Status/Error";
+import Card from "../shared/Section/listContainer/card/card";
 
-function BlissPage({home}) {
-	const dispatch = useDispatch();
-	const status = useSelector(blissStatus);
-	const error = useSelector(blissError);
-	const [addBliss, setAddBliss] = useState(false);
-	const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
+function BlissPage({ home }) {
+  const bliss = useSelector(allBliss);
+  const status = useSelector(blissStatus);
+  const error = useSelector(blissError);
 
-	const onAddBlissClick = (e) => {
-		e.preventDefault();
-		setAddBliss(!addBliss);
-	};
+  const onAddBlissClick = (e) => {
+    e.preventDefault();
+    setAddBliss(!addBliss);
+  };
 
-	const title = (
-		<h1>Bliss</h1>
-	)
+  const [addBliss, setAddBliss] = useState(false);
 
-	const searchBar = (
-		<div>
-			<input type="text" name="bliss-search" id="bliss-search" placeholder="Search"/>
-		</div>
-	)
+  const title = <h1>Bliss</h1>;
 
-	const actionButtons = (
-		<>
-			<button onClick={onAddBlissClick}>Add Bliss</button>
-			{addBliss && <BlissCreateForm setVisible={setAddBliss} />}
-			<button>{"->"}</button>
-		</>
-	)
+  const searchBar = (
+    <div>
+      <input
+        type="text"
+        name="bliss-search"
+        id="bliss-search"
+        placeholder="Search"
+      />
+    </div>
+  );
 
-	let content;
+  const actionButtons = (
+    <>
+      <button onClick={onAddBlissClick}>Add Bliss</button>
+      {addBliss && <BlissCreateForm setVisible={setAddBliss} />}
+      <button>{"->"}</button>
+    </>
+  );
 
-	if (status === "pending") {
-		content = (
-			<>
-				<h2>Loading</h2>
-				<p>Please Wait...</p>
-			</>
-		);
-	} else if (status === "fulfilled") {
-		content = (
-			<>
-				<BlissList home={home}/>
-			</>
-		);
-	} else if (status === "rejected") {
-		content = (
-			<>
-				<h2>An error has occured</h2>
-				<p>{error}</p>
-			</>
-		);
-	}
+  let content =
+    status === "fulfilled" &&
+    bliss.map((bliss) => (
+      <Card
+        key={bliss?.id}
+        id={bliss?.id}
+        to={`/bliss/${bliss?.id}`}
+        // image={}
+        title={bliss?.thingName}
+        content={bliss?.thingDescription}
+      />
+    ));
 
-	return (
-		<div className="content">
-			{
-				!home ? (
-					<Header
-						title={title}
-						searchBar={searchBar}
-						actionButtons={actionButtons}
-					/>
-				)
-				:
-				(
-					<Header
-						title={title}
-					/>
-				)
-			}
-		
-			{content}
-			{
-				!home && (
-					<PageNavigation dispatcher={fetchBliss} home={home} />
-				)
-			}
-
-		</div>
-	);
+  return (
+    <div className="content">
+      {!home ? (
+        <Header
+          title={title}
+          searchBar={searchBar}
+          actionButtons={actionButtons}
+        />
+      ) : (
+        <Header title={title} />
+      )}
+      {status === "fulfilled" && <ListContainer content={content} />}
+      {status === "pending" && <Loading />}
+      {status === "rejected" && <Error error={error} />}
+      {!home && <PageNavigation dispatcher={fetchBliss} home={home} />}
+    </div>
+  );
 }
 
 export default BlissPage;

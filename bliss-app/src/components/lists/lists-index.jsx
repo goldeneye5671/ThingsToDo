@@ -1,57 +1,48 @@
 import { useState, useEffect } from "react"
-import { usePagination } from "../../utils/pageHelper"
-import { useDispatch, useSelector } from "react-redux"
-import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux"
 import { 
   fetchLists,
   allLists,
   listStatus,
   listError
  } from "../../store/listSlice"
-import ListList from "./list-list";
+
+import Card from "../shared/Section/listContainer/card/card";
+
 import PageNavigation from "../shared/Section/pageNav/PageNavigation";
+import ListContainer from "../shared/Section/listContainer/ListContainer";
+import Header from "../shared/Section/headers/Header";
+import Loading from "../shared/Status/Loading";
+import Error from "../shared/Status/Error";
 
 function ListPage({home}) {
-  const dispatch = useDispatch();
   const status = useSelector(listStatus)
   const error = useSelector(listError)
-  const list = useSelector(allLists)
+  const lists= useSelector(allLists)
   
-  
-  let content;
 
-  if (status === "pending") {
-    content = (
-      <div>
-        <h2>Loading</h2>
-        <p>Please Wait...</p>
-      </div>
+  
+  let content = status === "fulfilled" && lists?.lists?.map((list) => (
+    <Card 
+      key={list?.id} id={list?.id}
+      to={`/lists/${list?.id}`}
+      title={list?.listName}
+      content={list?.listDescription}
+    />
     )
-  } else if (status === "fulfilled") {
-    content = (
-      <ListList home={home}/> 
-    )
-  } else if (status === "rejected") {
-    content=(
-      <div>
-        <h2>error</h2>
-        <p>{error}</p>
-      </div>
-    )
-  }
+  )
 
   return (
+  <>
     <div className="content">
-      <div className="home-main-header">
-        <h1>Lists</h1>
-      </div>
-      {content}
-      {
-        !home && (
-          <PageNavigation dispatcher={fetchLists} home={home}/>
-        )
-      }
+        <Header title={<h1>Lists</h1>}/>
+        {status === "fulfilled" && (<ListContainer content={content} />)}
+        {status === "pending" && <Loading />}
+        {status === "rejected" && <Error error={error}/>}
+        {!home && (<PageNavigation dispatcher={fetchLists} home={home}/>)
+        }
     </div>
+  </>
   )
 }
 
