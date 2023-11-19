@@ -28,19 +28,23 @@ router.post("/refresh", validateRefreshToken, asyncHandler((req, res, next) => {
     '/',
     validateLogin,
     asyncHandler(async (req, res, next) => {
-      const { credential, password } = req.body;
-
-      const user = await User.login({ credential, password });
+      try{
+        const { credential, password } = req.body;
   
-      if (!user) {
-        const err = new Error('Login failed');
-        err.status = 401;
-        err.title = 'Login failed';
-        err.errors = ['The provided credentials were invalid.'];
-        return next(err);
+        const user = await User.login({ credential, password });
+    
+        if (!user) {
+          const err = new Error('Login failed');
+          err.status = 401;
+          err.title = 'Login failed';
+          err.errors = ['The provided credentials were invalid.'];
+          return next(err);
+        }
+    
+        setTokens(res, user);
+      } catch (e) {
+        console.error(e);
       }
-  
-      setTokens(res, user);
     }),
   );
   
