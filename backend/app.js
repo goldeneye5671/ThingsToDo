@@ -41,11 +41,11 @@ app.use(cors(corsOptions));
 //   })
 // );
 
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: false,
+//   })
+// );
 
 app.use('/', indexRoutes);
 
