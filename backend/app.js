@@ -31,21 +31,21 @@ app.use(cors(corsOptions));
 //   console.log("DEVELOPMENT")
 // }
 
-// app.use(
-//   csurf({
-//     cookie: {
-//       secure: isProduction,
-//       sameSite: isProduction && "Lax",
-//       httpOnly: true,
-//     },
-//   })
-// );
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true,
+    },
+  })
+);
 
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: false,
-//   })
-// );
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 app.use('/', indexRoutes);
 
