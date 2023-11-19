@@ -122,9 +122,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
     if (user && user.validatePassword(password)) {
-      user.update({
-        login: true
-      })
+      // user.update({
+      //   login: true
+      // })
       return await User.scope("currentUser").findByPk(user.id);
     }
   };
