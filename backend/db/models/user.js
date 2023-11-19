@@ -77,7 +77,8 @@ module.exports = (sequelize, DataTypes) => {
       profileImage: DataTypes.STRING,
       bio: DataTypes.STRING(512),
       membership: DataTypes.INTEGER,
-      role: DataTypes.INTEGER
+      role: DataTypes.INTEGER,
+      login: DataTypes.BOOLEAN,
     },
     {
       defaultScope: {
@@ -121,6 +122,9 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
     if (user && user.validatePassword(password)) {
+      user.update({
+        login: true
+      })
       return await User.scope("currentUser").findByPk(user.id);
     }
   };

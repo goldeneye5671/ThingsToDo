@@ -11,7 +11,8 @@ class User {
 		bio = undefined,
 		hashedPassword = undefined,
 		membership = undefined,
-		role = undefined
+		role = undefined,
+		login=undefined
 	) {
 		this.username = username ?? faker.internet.userName();
 		this.email = email ?? faker.internet.email();
@@ -35,6 +36,7 @@ class User {
 			min: 1,
 			max: 3
 		})
+		this.login = login ?? false;
 		this.createdAt = new Date();
 		this.updatedAt = new Date();
 	}

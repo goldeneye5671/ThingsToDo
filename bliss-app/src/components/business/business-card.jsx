@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BusinessUpdateForm from "./business-update-form";
-import Card from "../card/card";
+import Card from "../shared/Section/listContainer/card/card";
 function Business({business}) {
 	const [update, setUpdate] = useState(false);
 	const onUpdateClicked = (e) => setUpdate(!update);

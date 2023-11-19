@@ -7,7 +7,6 @@ const cookieParser = require("cookie-parser");
 const { ValidationError } = require("sequelize");
 const indexRoutes = require('./routes/index');
 const { environment } = require("./config");
-const { restoreUser, requireAuth } = require("./utils/auth");
 const isProduction = environment === "production";
 
 
@@ -19,22 +18,28 @@ const app = express();
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
-
-if (isProduction) {
-  console.log("PRODUCTION ")
-  app.use(
-    csurf({
-      cookie: {
-        secure: isProduction,
-        sameSite: isProduction && "Lax",
-        httpOnly: true,
-      },
-    })
-  );
-} else {
-  console.log("DEVELOPMENT")
+const corsOptions = {
+  origin: "http://127.0.0.1:5173",
+  credentials: true,
 }
+app.use(cors(corsOptions));
+
+// if (isProduction) {
+//   console.log("PRODUCTION ")
+
+// } else {
+//   console.log("DEVELOPMENT")
+// }
+
+// app.use(
+//   csurf({
+//     cookie: {
+//       secure: isProduction,
+//       sameSite: isProduction && "Lax",
+//       httpOnly: true,
+//     },
+//   })
+// );
 
 app.use(
   helmet({
@@ -43,7 +48,6 @@ app.use(
 );
 
 app.use('/', indexRoutes);
-app.use(restoreUser);
 
 
 app.use((err, _req, _res, next) => {

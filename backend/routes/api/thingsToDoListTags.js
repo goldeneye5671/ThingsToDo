@@ -1,13 +1,13 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../../db/models");
-const { requireAuth } = require("../../utils/auth");
+// const { // requireAuth } = require("../../utils/auth");
 
 // CRUD - create, read, update, delete a tag is needed. Only the admin should be able to do this
 
 router.post(
   "/",
-  requireAuth,
+  // requireAuth,
   expressAsyncHandler(async (req, res) => {
     const { name } = req.body;
 
@@ -58,7 +58,7 @@ router.get(
 
 router.patch(
   "/:id",
-  requireAuth,
+  // requireAuth,
   expressAsyncHandler(async (req, res) => {
     const { updatedTagName } = req.body;
     const tagToUpdate = await db.ThingsToDoListTag.findByPk(req.params.id);
@@ -77,7 +77,7 @@ router.patch(
 
 router.delete(
   "/:id",
-  requireAuth,
+  // requireAuth,
   expressAsyncHandler(async (req, res) => {
     const deletedThingTag = await db.ThingsToDoListTag.findByPk(req.params.id);
     if (deletedThingTag) {

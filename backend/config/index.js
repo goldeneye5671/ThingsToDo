@@ -10,7 +10,9 @@ module.exports = {
     host: process.env.DB_HOST,
   },
   jwtConfig: {
-    secret: process.env.JWT_SECRET,
-    expiresIn: process.env.JWT_EXPIRES_IN,
+    refreshSecret: process.env.REFRESH_JWT_SECRET,
+    refreshExpiresIn: process.env.REFRESH_JWT_EXPIRES_IN,
+    accessSecret: process.env.ACCESS_JWT_SECRET,
+    accessExpiresIn: process.env.ACCESS_JWT_EXPIRES_IN
   },
 };

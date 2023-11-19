@@ -8,8 +8,19 @@ import SignIn from "./components/auth/sign-in";
 import ListPage from "./components/lists/lists-index";
 import IndividualList from "./components/lists/individual-list/list";
 import Home from "./components/home/home-index";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { refreshUser } from "./store/userSlice";
 
 function App() {
+
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		//get refresh token
+		dispatch(refreshUser());
+	})
+
 	return (
 		<>
 			<NavBar/>

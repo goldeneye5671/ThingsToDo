@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { fetchOneList, selectListById } from "../../../store/listSlice";
 import ListEntry from "./list-entry"
 import "./list.css"
-import Header from "../../shared/headers/Header";
+import Header from "../../shared/Section/headers/Header";
 
 function IndividualList() {
   const dispatch = useDispatch();

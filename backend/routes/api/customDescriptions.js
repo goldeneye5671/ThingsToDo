@@ -5,7 +5,7 @@ const {
 	requireAdmin,
 	requireBusiness,
 	requireBasic,
-	requireAuth,
+	// requireAuth,
 } = require("../../utils/auth");
 router.get(
 	"/",
@@ -38,7 +38,7 @@ router.get(
 
 router.post(
 	"/",
-	requireAuth,
+	// requireAuth,
 	requireBasic,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -89,7 +89,7 @@ router.get(
 
 router.patch(
 	"/:customDescriptionId",
-	requireAuth,
+	// requireAuth,
 	requireBasic,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -121,7 +121,7 @@ router.patch(
 
 router.delete(
 	"/:customDescriptionId",
-	requireAuth,
+	// requireAuth,
 	requireBasic,
 	expressAsyncHandler(async (req, res, next) => {
 		try {

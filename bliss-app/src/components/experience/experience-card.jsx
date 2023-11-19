@@ -1,4 +1,4 @@
-import Card from "../card/card";
+import Card from "../shared/Section/listContainer/card/card";
 
 function ExperienceCard({ experience }) {
 	const ExperiencePhotos = experience?.ExperiencePhotos?.map((photo) => {

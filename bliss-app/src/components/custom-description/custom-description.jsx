@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../card/card";
+import Card from "../shared/Section/listContainer/card/card";
 
 function CustomDescription({ CustomDescription }) {
   const image = <img src="#"></img>;

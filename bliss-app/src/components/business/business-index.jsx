@@ -12,7 +12,7 @@ import {
 	cleanBusinesses,
 	fetchBusinesses,
 } from "../../store/businessSlice";
-import Header from "../shared/headers/Header";
+import Header from "../shared/Section/headers/Header";
 
 function BusinessPage({home}) {
 	const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { devURI } from ".";
+import axios from "../utils/axiosInstance";
+ 
 
 const initialState = {
   lists: [],
@@ -12,7 +12,7 @@ export const fetchLists = createAsyncThunk(
   "list/fetchLists",
   async (pageInfo) => {
     const response = await axios.get(
-      `${devURI}/api/thingstodolists`,
+      `/api/thingstodolists`,
       {
         params: {
           limit: pageInfo.limit,
@@ -29,7 +29,7 @@ export const fetchOneList = createAsyncThunk(
   "list/fetchOneList",
   async (listId) => {
     const response = await axios.get(
-      `${devURI}/api/thingstodolists/${listId}`
+      `/api/thingstodolists/${listId}`
     );
     return response.data;
   }
@@ -37,7 +37,7 @@ export const fetchOneList = createAsyncThunk(
 
 export const addList = createAsyncThunk("list/addList", async (list) => {
   const response = await axios.post(
-    `${devURI}/api/thingstodolists`,
+    `/api/thingstodolists`,
     list
   );
   return response.data;
@@ -45,14 +45,14 @@ export const addList = createAsyncThunk("list/addList", async (list) => {
 
 export const updateList = createAsyncThunk("list/updateList", async (list) => {
   const response = await axios.patch(
-    `${devURI}/api/thingstodolists/${list.id}`
+    `/api/thingstodolists/${list.id}`
   );
   return response.data;
 });
 
 export const deleteList = createAsyncThunk("list/deleteList", async (list) => {
   const response = await axios.delete(
-    `${devURI}/api/thingstodolists/${list.id}`
+    `/api/thingstodolists/${list.id}`
   );
   return response.data;
 });
