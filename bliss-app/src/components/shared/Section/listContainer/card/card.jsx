@@ -11,9 +11,7 @@ function Card({id, to, image, title, content}) {
       </figure>
       <div className="article-body">
         <h2>{title}</h2>
-        <p>
-          {content}
-        </p>
+        {content}
         <Link className="card" key={id} to={to} className="read-more">
           Discover <span className="sr-only"></span>
           <svg

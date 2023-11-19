@@ -8,7 +8,7 @@ function Header({title, description, searchBar, actionButtons}) {
         
         {searchBar && (
           <div>
-            {searchBar}
+            {searchBar && searchBar}
           </div>
         )}
         {description && [description]}
