@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   cleanBliss,
   fetchOneBliss,
@@ -52,19 +52,19 @@ function IndividualBliss() {
   const actionButtons = (
     <div className="control-buttons">
       <button
-        className={showExperiences && "active-button"}
+        className={showExperiences ? "active-button": null}
         onClick={onExperienceClick}
       >
         Experiences
       </button>
       <button
-        className={showDescriptions && "active-button"}
+        className={showDescriptions ? "active-button": null}
         onClick={onDescriptionsClick}
       >
         Descriptions
       </button>
       <button
-        className={showBusinesses && "active-button"}
+        className={showBusinesses ? "active-button": null}
         onClick={onBusinessClick}
       >
         Businesses
@@ -82,15 +82,15 @@ function IndividualBliss() {
   }, [dispatch]);
 
   let customDescriptionContent = bliss?.CustomDescriptions?.map((desc) => (
-    <CustomDescription CustomDescription={desc} />
+    <CustomDescription key={desc?.id} CustomDescription={desc} />
   ));
 
   let experiencesContent = bliss?.Experiences?.map((exp) => (
-    <ExperienceCard experience={exp} />
+    <ExperienceCard key={bliss?.id} experience={exp} />
   ));
 
   let businessesContent = bliss?.Businesses?.map((business) => (
-    <Business business={business} />
+    <Business key={business?.id} business={business} />
   ));
 
   return (
