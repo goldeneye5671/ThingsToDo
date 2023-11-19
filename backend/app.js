@@ -24,22 +24,22 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-// if (isProduction) {
-//   console.log("PRODUCTION ")
+if (isProduction) {
+  console.log("PRODUCTION ")
+  app.use(
+    csurf({
+      cookie: {
+        secure: isProduction,
+        sameSite: isProduction && "Lax",
+        httpOnly: true,
+      },
+    })
+  );
 
-// } else {
-//   console.log("DEVELOPMENT")
-// }
+} else {
+  console.log("DEVELOPMENT")
+}
 
-// app.use(
-//   csurf({
-//     cookie: {
-//       secure: isProduction,
-//       sameSite: isProduction && "Lax",
-//       httpOnly: true,
-//     },
-//   })
-// );
 
 app.use(
   helmet({
