@@ -68,7 +68,7 @@ const validateRefreshToken = async (req, res, next) => {
         id: userId
       }
     });
-
+    console.log("USER: ", user)
     // if they're not, send back an error
     if (!user) return res.status(401).json({message: 'Invalid user in refresh token'})
     // If the user is logged out, then send an error
