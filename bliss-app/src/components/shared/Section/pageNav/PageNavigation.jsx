@@ -8,7 +8,6 @@ function PageNavigation({dispatcher, home}) {
     const { limit, offset, onClickNext, onClickPrev, page } = usePagination(useSearchParams);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         const llimit = home ? 5 : limit
         const data = dispatch(dispatcher({limit: llimit, offset, page}))

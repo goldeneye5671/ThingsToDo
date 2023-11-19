@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokens, validateAccessToken, validateRefreshToken, generateAccessToken } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const router = express.Router();
 
@@ -16,6 +16,13 @@ const validateLogin = [
       .withMessage('Please provide a password.'),
     handleValidationErrors,
 ];
+
+router.post("/refresh", validateRefreshToken, asyncHandler((req, res, next) => {
+  console.log("exited the refresh validation")
+  const accessToken = generateAccessToken(req.user);
+  res.json({accessToken, user: req.user})
+}))
+
 
   router.post(
     '/',
@@ -33,11 +40,7 @@ const validateLogin = [
         return next(err);
       }
   
-      await setTokenCookie(res, user);
-  
-      return res.json({
-        user,
-      });
+      setTokens(res, user);
     }),
   );
   
@@ -75,7 +78,7 @@ const validateLogin = [
 
   router.get(
     '/',
-    restoreUser,
+    validateAccessToken,
     (req, res) => {
       const { user } = req;
       if (user) {

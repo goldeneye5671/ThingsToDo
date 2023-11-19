@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
+import {useSelector} from "react-redux";
+import { useEffect } from "react";
 
 function NavBar() {
+
+	const userState = useSelector(state => state.user.user);
+
 	return (
 		<nav>
 			<NavLink
@@ -39,33 +44,41 @@ function NavBar() {
 				Businesses
 			</NavLink>
 			<br></br>
-			<NavLink
-				className={({ isActive, isPending }) =>
-					isPending ? "pending" : isActive ? "active" : ""
-				}
-				to={"/sign-in"}
-			>
-				Sign In
-			</NavLink>
-			<br></br>
-			<NavLink
-				className={({ isActive, isPending }) =>
-					isPending ? "pending" : isActive ? "active" : ""
-				}
-				to={"/sign-up"}
-			>
-				Sign Up
-			</NavLink>
-			<br></br>
 
-			<NavLink
-				className={({ isActive, isPending }) =>
-				isPending ? "pending" : isActive ? "active" : ""
-				}
-				to={"/SectionTest"}
-			>
-				SectionTest
-			</NavLink>
+			{
+				userState?.user ? (
+					<NavLink
+					className={({ isActive, isPending }) =>
+					isPending ? "pending" : isActive ? "active" : ""
+					}>
+						Sign Out
+					</NavLink>
+				)
+				:
+				(
+					<>
+						<NavLink
+							className={({ isActive, isPending }) =>
+								isPending ? "pending" : isActive ? "active" : ""
+							}
+							to={"/sign-in"}
+						>
+							Sign In
+						</NavLink>
+						<br></br>
+						<NavLink
+							className={({ isActive, isPending }) =>
+								isPending ? "pending" : isActive ? "active" : ""
+							}
+							to={"/sign-up"}
+						>
+							Sign Up
+						</NavLink>
+						<br></br>
+					</>
+				)
+			}
+
 		</nav>
 	);
 }

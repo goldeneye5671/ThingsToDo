@@ -4,7 +4,7 @@ import { fetchLists } from "./listSlice";
 import { fetchBliss } from "./blissSlice";
 import { fetchBusinesses } from "./businessSlice";
 
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 
 const initialState = {
   lists: {

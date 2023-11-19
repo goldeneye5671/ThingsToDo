@@ -8,9 +8,19 @@ import SignIn from "./components/auth/sign-in";
 import ListPage from "./components/lists/lists-index";
 import IndividualList from "./components/lists/individual-list/list";
 import Home from "./components/home/home-index";
-import Section from "./components/shared/Section/Section";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { refreshUser } from "./store/userSlice";
 
 function App() {
+
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		//get refresh token
+		dispatch(refreshUser());
+	})
+
 	return (
 		<>
 			<NavBar/>
@@ -23,7 +33,6 @@ function App() {
 				<Route path="/businesses" element={<BusinessPage />} />
 				<Route path="/lists" element={<ListPage />} />
 				<Route path="/lists/:id" element={<IndividualList />}/>
-				<Route path="/SectionTest" element={<Section />}/>
 			</Routes>
 		</>
 	);

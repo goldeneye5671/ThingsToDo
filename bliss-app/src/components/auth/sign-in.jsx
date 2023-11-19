@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { ReactDOM } from "react";
 import { signInUser } from "../../store/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./auth.css"
 import Header from "../shared/Section/headers/Header"
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
+	const userState = useSelector(state => state.user.user)
 	const [credential, setCredential] = useState("");
 	const [password, setPassword] = useState("");
 	const [canSubmit, setCanSubmit] = useState(false);
@@ -18,16 +20,17 @@ function SignIn() {
     const onSubmit = (e) => {
 		e.preventDefault();
 		if (canSubmit) {
-			dispatch(signInUser({
+			const data = dispatch(signInUser({
 				credential,
 				password
-			}));
+			})).then(pl => pl?.payload?.user && navigate("/"));
 		}else {
 			alert("Please fix errors before signing in");
 		}
     }
 
 	useEffect(() => {
+		if (userState?.user) navigate("/")
 		const validEmail =
 		/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
 			credential
@@ -37,7 +40,7 @@ function SignIn() {
 
 	return (
 		<div className="parent">
-			<div className="auth-container">
+			<form onSubmit={onSubmit} className="auth-container">
 				<Header title={<h2>Sign into Bliss</h2>}/>
 
 				<div className="auth-inputs">
@@ -49,9 +52,9 @@ function SignIn() {
 
 				</div>
 
-				<button onClick={onSubmit}>Login</button><br></br>
+				<button type="submit">Login</button><br></br>
 				<a>Not a user? Sign up today!</a><br></br>
-			</div>
+			</form>
 		</div>
 	);
 }

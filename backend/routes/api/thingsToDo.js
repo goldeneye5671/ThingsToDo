@@ -2,7 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../../db/models");
 const { Op } = require("sequelize");
-const { requireAuth, requireAdmin } = require("../../utils/auth");
+// const { // requireAuth, requireAdmin } = require("../../utils/auth");
 
 // Search by name
 // Get by id
@@ -164,7 +164,7 @@ router.get(
 
 router.post(
 	"/",
-	// requireAuth,
+	// // requireAuth,
 	// expressAsyncHandler(requireAdmin),
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -202,7 +202,7 @@ router.post(
 
 router.patch(
 	"/:id",
-	requireAuth,
+	// requireAuth,
 	expressAsyncHandler(async (req, res) => {
 		const { thingName, thingDescription } = req.body;
 		if (thingName && thingDescription) {
@@ -226,7 +226,7 @@ router.patch(
 
 router.delete(
 	"/:id",
-	requireAuth,
+	// requireAuth,
 	expressAsyncHandler(async (req, res) => {
 		const thingToDelete = await db.ThingsToDo.findByPk(req.params.id);
 		if (thingToDelete) {

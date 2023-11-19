@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { devURI } from ".";
+import axios from "../utils/axiosInstance";
+ 
 
 const initialState = {
 	businesses: [],
@@ -13,7 +13,7 @@ export const fetchBusinesses = createAsyncThunk(
 	"businesses/fetchBusinesses",
 	async (pageInfo) => {
 		if (!pageInfo.page) throw new Error("page is not defined")
-		const response = await axios.get(`${devURI}/api/businesses`,{params: {
+		const response = await axios.get(`/api/businesses`,{params: {
 			limit: parseInt(pageInfo.limit),
 			offset: parseInt(pageInfo.offset),
 			page: parseInt(pageInfo.page)
@@ -26,7 +26,7 @@ export const addBusiness = createAsyncThunk(
 	"businesses/addBusiness",
 	async (business) => {
 		const response = await axios.post(
-			`${devURI}/api/businesses`,
+			`/api/businesses`,
 			business,
 			{
 				headers: {
@@ -42,7 +42,7 @@ export const updateBusiness = createAsyncThunk(
 	"businesses/updateBusiness",
 	async (business) => {
 		const response = await axios.patch(
-			`${devURI}/api/businesses/${business.id}`,
+			`/api/businesses/${business.id}`,
 			business,
 			{
 				headers: {
@@ -58,7 +58,7 @@ export const deleteBusiness = createAsyncThunk(
 	"businesses/deleteBusiness",
 	async (business) => {
 		const response = await axios.delete(
-			`${devURI}/api/businesses/${business.id}`,
+			`/api/businesses/${business.id}`,
 			business,
 			{
 				headers: {

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../../db/models");
 const { Op } = require("sequelize");
-const { requireAdmin, requireBusiness, requireAuth } = require("../../utils/auth");
+// const { requireAdmin, requireBusiness, // requireAuth } = require("../../utils/auth");
 
 router.get(
 	"/",
@@ -53,7 +53,7 @@ router.get(
 
 router.post(
 	"/",
-	// requireAuth,
+	// // requireAuth,
 	// requireAdmin,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -102,7 +102,7 @@ router.post(
 
 router.patch(
 	"/:businessId",
-	// requireAuth,
+	// // requireAuth,
 	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -154,7 +154,7 @@ router.patch(
 
 router.delete(
 	"/:businessId",
-	// requireAuth,
+	// // requireAuth,
 	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		/**
@@ -201,8 +201,8 @@ router.delete(
 
 router.post(
 	"/:businessId/add-thingtodo/:thingId",
-	requireAuth,
-	requireBusiness,
+	// // requireAuth,
+	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const existingBusiness = await db.Business.findByPk(
@@ -257,8 +257,8 @@ router.post(
 
 router.delete(
 	"/:businessId/remove-thingtodo/:thingId",
-	requireAuth,
-	requireBusiness,
+	// // requireAuth,
+	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const existingBusiness = await db.Business.findByPk(
@@ -374,8 +374,8 @@ router.get(
 
 router.post(
 	"/:businessId/photos",
-	requireAuth,
-	requireBusiness,
+	// // requireAuth,
+	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const { name, alt, url } = req.body;
@@ -414,8 +414,8 @@ router.post(
 
 router.delete(
 	"/:businessId/photos/:photoId",
-	requireAuth,
-	requireBusiness,
+	// // requireAuth,
+	// requireBusiness,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const businessPhoto = await db.BusinessPhoto.findByPk(
