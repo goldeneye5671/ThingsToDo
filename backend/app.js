@@ -18,30 +18,28 @@ const app = express();
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
+
 const corsOptions = {
-
   origin: isProduction ? "https://things-to-do-rmqm.onrender.com" : "http://127.0.0.1:5173",
-
   credentials: true,
 }
+
 app.use(cors(corsOptions));
 
-// if (isProduction) {
-//   console.log("PRODUCTION ")
-
-// } else {
-//   console.log("DEVELOPMENT")
-// }
-
-// app.use(
-//   csurf({
-//     cookie: {
-//       secure: isProduction,
-//       sameSite: isProduction && "Lax",
-//       httpOnly: true,
-//     },
-//   })
-// );
+if (isProduction) {
+  console.log("PRODUCTION ")
+  app.use(
+    csurf({
+      cookie: {
+        secure: isProduction,
+        sameSite: isProduction && "Lax",
+        httpOnly: true,
+      },
+    })
+  );
+} else {
+  console.log("DEVELOPMENT")
+}
 
 app.use(
   helmet({
