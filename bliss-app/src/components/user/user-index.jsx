@@ -6,6 +6,7 @@ import { getCurrentUser } from '../../store/userSlice';
 import { refreshUser } from '../../store/sessionSlice';
 import Card from '../shared/Section/listContainer/card/card';
 import ListContainer from '../shared/Section/listContainer/ListContainer';
+import Test from "../shared/Modals/test"
 
 function UserPage() {
   const params = useParams(); 
@@ -16,6 +17,7 @@ function UserPage() {
   const [showDescription, setShowDescription] = useState(true);
   const [showExperience, setShowExperience] = useState(false);
   const [showLists, setShowLists] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false)
 
   const onShowDescriptionClick = (e) => {
     e.preventDefault();
@@ -37,6 +39,11 @@ function UserPage() {
     setShowLists(true)
   }
 
+  const onModalClick = (e) => {
+    e.preventDefault();
+    setModalOpen(open => !open);
+  }
+
   useEffect(() => {
     //get the user
     dispatch(getCurrentUser(parseInt(params?.id)))
@@ -53,6 +60,13 @@ function UserPage() {
     <>
       <h1>{`${userState?.user?.username}`}</h1>
     </>
+  )
+
+  const editModal = (
+    <div>
+      <Test open={modalOpen} children={<h1>TEST!!</h1>} onClose={onModalClick}/>
+      <button onClick={onModalClick}>open test modal</button>
+    </div>
   )
 
   const description = (
@@ -74,6 +88,7 @@ function UserPage() {
       key={`desc-${exp?.id}`}
       title={exp?.title}
       content={exp?.description}
+      model={editModal}
     />
   ))
 
@@ -82,9 +97,11 @@ function UserPage() {
       key={`desc-${list?.id}`}
       title={list?.listName}
       content={list?.listDescription}
+      to={`/lists/${list?.id}`}
     />
   ))
   
+
 
 
   const actionButtons = (
@@ -103,6 +120,7 @@ function UserPage() {
         description={description}
         actionButtons={actionButtons}
       />
+      {editModal}
       {showDescription && <ListContainer content={descriptions}/>}
       {showExperience && <ListContainer content={experiences}/>}
       {showLists && <ListContainer content={lists}/>}
