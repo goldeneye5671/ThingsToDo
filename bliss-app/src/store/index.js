@@ -4,6 +4,7 @@ import blissSlice from "./blissSlice";
 import listSlice from "./listSlice";
 import userSlice from "./userSlice";
 import process from "process";
+import sessionSlice from "./sessionSlice";
 //reducer imports
 
 export const store = configureStore({
@@ -11,7 +12,8 @@ export const store = configureStore({
 		businesses: businessSlice,
 		bliss: blissSlice,
 		list: listSlice,
-		user: userSlice
+		user: userSlice,
+		session: sessionSlice,
 	},
 	devTools: process.env.NODE_ENV !== 'production',
 });

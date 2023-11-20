@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 function NavBar() {
 
-	const userState = useSelector(state => state.user.user);
+	const sessionState = useSelector(state => state.session.user);
 
 	return (
 		<nav>
@@ -46,12 +46,12 @@ function NavBar() {
 			<br></br>
 
 			{
-				userState?.user ? (
+				sessionState?.user ? (
 					<NavLink
 					className={({ isActive, isPending }) =>
-					isPending ? "pending" : isActive ? "active" : ""
-					}>
-						Sign Out
+					isPending ? "pending" : isActive ? "active" : ""}
+					to={`/users/${sessionState?.user?.id}`}>
+						{sessionState?.user?.username}
 					</NavLink>
 				)
 				:

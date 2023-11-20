@@ -41,7 +41,20 @@ router.get(
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
-    const user = await db.User.findByPk(req.params.id);
+    const user = await db.User.findByPk(req.params.id, {
+      include: [
+        {
+          model: db.Experience,
+        },
+        {
+          model: db.CustomDescription,
+        },
+        {
+          model: db.ThingsToDoList,
+          include: [db.ThingsToDoListTag],
+        },
+      ]
+    });
     if (user) {
       res.json(user);
     } else {

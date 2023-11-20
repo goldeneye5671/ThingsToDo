@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { signUpUser } from "../../store/userSlice";
+import { signUpUser } from "../../store/sessionSlice";
 import Header from "../shared/Section/headers/Header"
 
 function SignUp() {
