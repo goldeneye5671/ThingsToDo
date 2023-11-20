@@ -10,7 +10,8 @@ import IndividualList from "./components/lists/individual-list/list";
 import Home from "./components/home/home-index";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { refreshUser } from "./store/userSlice";
+import { refreshUser } from "./store/sessionSlice";
+import UserPage from "./components/user/user-index";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
 				<Route path="/businesses" element={<BusinessPage />} />
 				<Route path="/lists" element={<ListPage />} />
 				<Route path="/lists/:id" element={<IndividualList />}/>
+				<Route path="/users/:id" element={<UserPage />}/>
 			</Routes>
 		</>
 	);

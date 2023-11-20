@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const corsOptions = {
-  origin: isProduction ? "https://things-to-do-rmqm.onrender.com" : "http://127.0.0.1:5173",
+  origin: isProduction ? "https://things-to-do-rmqm.onrender.com" : "http://localhost:5173",
   credentials: true,
 }
 

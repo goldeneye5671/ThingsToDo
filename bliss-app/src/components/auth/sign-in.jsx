@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ReactDOM } from "react";
-import { signInUser } from "../../store/userSlice";
+import { signInUser } from "../../store/sessionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "./auth.css"
 import Header from "../shared/Section/headers/Header"
