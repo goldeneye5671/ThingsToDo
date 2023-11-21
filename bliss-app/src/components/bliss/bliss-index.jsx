@@ -59,6 +59,7 @@ function BlissPage({ home }) {
         // image={}
         title={bliss?.thingName}
         content={bliss?.thingDescription}
+        showLink={true}
       />
     ));
 

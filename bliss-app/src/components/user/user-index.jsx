@@ -6,7 +6,7 @@ import { getCurrentUser } from '../../store/userSlice';
 import { refreshUser } from '../../store/sessionSlice';
 import Card from '../shared/Section/listContainer/card/card';
 import ListContainer from '../shared/Section/listContainer/ListContainer';
-import Test from "../shared/Modals/test"
+import ListEditForm from './forms/ListEditForm';
 
 function UserPage() {
   const params = useParams(); 
@@ -14,10 +14,11 @@ function UserPage() {
   const userState = useSelector(state => state?.user)
   const dispatch = useDispatch();
   const [isSession, setIsSession] = useState(false);
+  
   const [showDescription, setShowDescription] = useState(true);
   const [showExperience, setShowExperience] = useState(false);
   const [showLists, setShowLists] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false)
+
 
   const onShowDescriptionClick = (e) => {
     e.preventDefault();
@@ -39,10 +40,7 @@ function UserPage() {
     setShowLists(true)
   }
 
-  const onModalClick = (e) => {
-    e.preventDefault();
-    setModalOpen(open => !open);
-  }
+
 
   useEffect(() => {
     //get the user
@@ -51,8 +49,6 @@ function UserPage() {
     dispatch(refreshUser())
     //set a var based on if the user being viewed is the session user, so I can display certain things
     const value = parseInt(sessionState?.user?.id) === parseInt(userState?.user?.id)
-    console.log(sessionState?.user?.id)
-    console.log(userState?.user?.id)
     setIsSession(value);
   }, [params])
 
@@ -62,12 +58,8 @@ function UserPage() {
     </>
   )
 
-  const editModal = (
-    <div>
-      <Test open={modalOpen} children={<h1>TEST!!</h1>} onClose={onModalClick}/>
-      <button onClick={onModalClick}>open test modal</button>
-    </div>
-  )
+
+
 
   const description = (
     <>
@@ -88,17 +80,26 @@ function UserPage() {
       key={`desc-${exp?.id}`}
       title={exp?.title}
       content={exp?.description}
-      model={editModal}
+      // model={<ListEditForm />}
     />
   ))
 
   const lists = userState?.user?.ThingsToDoLists?.map(list => (
-    <Card
-      key={`desc-${list?.id}`}
-      title={list?.listName}
-      content={list?.listDescription}
-      to={`/lists/${list?.id}`}
-    />
+    <>
+      <Card
+        key={`desc-${list?.id}`}
+        title={list?.listName}
+        content={
+          (
+            <>
+              <p>{list?.listDescription}</p>
+              <ListEditForm list={list} buttonText={"edit"}/>
+            </>
+          )
+        }
+        to={`/lists/${list?.id}`}
+      />
+    </>  
   ))
   
 
@@ -120,7 +121,6 @@ function UserPage() {
         description={description}
         actionButtons={actionButtons}
       />
-      {editModal}
       {showDescription && <ListContainer content={descriptions}/>}
       {showExperience && <ListContainer content={experiences}/>}
       {showLists && <ListContainer content={lists}/>}
