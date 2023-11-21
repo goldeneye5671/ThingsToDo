@@ -86,7 +86,7 @@ const validateRefreshToken = async (req, res, next) => {
 const validateAccessToken = async (req, res, next) => {
 // Grabs tokens from their respective places
   const accessToken = req.headers.authorization?.split(" ")[1];
-  
+  console.log("Accesstoken", accessToken)
 
   if (!accessToken) return res.status(401).json({message: "Access token missing"});
 

@@ -43,9 +43,14 @@ export const addList = createAsyncThunk("list/addList", async (list) => {
   return response.data;
 });
 
-export const updateList = createAsyncThunk("list/updateList", async (list) => {
+export const updateList = createAsyncThunk("list/updateList", async (list, { getState, dispatch }) => {
+  const accessToken = getState()?.session?.user?.accessToken;
   const response = await axios.patch(
-    `/api/thingstodolists/${list.id}`
+    `/api/thingstodolists/${list.id}`, list, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    } 
   );
   return response.data;
 });

@@ -18,7 +18,13 @@ function Business({business}) {
 		// 	<p>Business Address: <br></br> {business.address}<br></br>{business.city}, {business.stateProvince}     {business.zipcode}</p>
 		// 	<button onClick={onUpdateClicked}>Update Business Info</button>
 		// </div>
-		<Card id={business.id} to={`/business/${business?.id}`} image={<img src={business?.primaryPhoto}/>} title={business?.name} content={content}/>
+		<Card 
+			id={business.id}
+			to={`/business/${business?.id}`} 
+			image={<img src={business?.primaryPhoto}/>} 
+			title={business?.name} 
+			content={content}
+		/>
         )
         :
         (

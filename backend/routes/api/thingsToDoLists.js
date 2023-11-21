@@ -2,6 +2,7 @@ const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const Op = require("sequelize");
 const db = require("../../db/models");
+const { validateAccessToken } = require("../../utils/auth");
 // const { // requireAuth } = require("../../utils/auth");
 
 // Get one list
@@ -37,7 +38,7 @@ router.get(
 // Create one list
 router.post(
 	"/",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res) => {
 		try {
 			const { listName, listDescription, userId } = req.body;
@@ -78,15 +79,15 @@ router.post(
 // updated one list
 router.patch(
 	"/:id",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res) => {
 		const thingToDoList = await db.ThingsToDoList.findByPk(req.params.id);
-		if (thingsToDoList) {
+		if (thingToDoList) {
 			const listName = req.body.listName ?? thingToDoList.listName;
 			const listDescription =
 				req.body.listDescription ?? thingToDoList.listDescription;
 
-			thingsToDoList.update({
+			await thingToDoList.update({
 				listName,
 				listDescription,
 			});
@@ -97,7 +98,8 @@ router.patch(
 		const updatedThingsToDoList = await db.ThingsToDoList.findByPk(
 			req.params.id
 		);
-		res.json(updatedThingsTODoList);
+
+		res.json(updatedThingsToDoList);
 	})
 );
 
@@ -163,7 +165,7 @@ router.post(
 //handles only removing existing tags to the list
 router.delete(
 	"/:listId/tag/remove/:tagId",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		// get the connection that represents the tag being associated with the list
 		try {
@@ -290,6 +292,7 @@ router.delete(
 
 				res.json({
 					message: "Resource deleted",
+					id: parseInt(req.params.id)
 				});
 			} catch (e) {
 				res.json({ message: "There was an issue deleting the resource" });
