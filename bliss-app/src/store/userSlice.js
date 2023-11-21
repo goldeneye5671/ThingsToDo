@@ -16,6 +16,42 @@ export const getCurrentUser = createAsyncThunk("user/getCurrentUser", async (use
     return response.data;
 });
 
+export const addUserList = createAsyncThunk("user/addList", async (list, {getState, dispatch}) => {
+    const accessToken = getState()?.session?.user?.accessToken;
+    const response = await axios.post(
+      `/api/thingstodolists/`, list, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      } 
+    );
+    return response.data;
+})
+
+export const updateUserList = createAsyncThunk("user/updateList", async (list, {getState, dispatch}) => {
+    const accessToken = getState()?.session?.user?.accessToken;
+    const response = await axios.patch(
+      `/api/thingstodolists/${list.id}`, list, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      } 
+    );
+    return response.data;
+})
+
+export const deleteUserList = createAsyncThunk("user/deleteList", async (list, {getState, dispatch}) => {
+    const accessToken = getState()?.session?.user?.accessToken;
+    const response = await axios.delete(
+        `/api/thingstodolists/${list.id}`, list, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        } 
+      );
+      return response.data
+})
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -33,6 +69,44 @@ export const userSlice = createSlice({
         .addCase(getCurrentUser.rejected, (state, action) => {
             state.status = "error",
             state.error = action.error
+        })
+        .addCase(addUserList.pending, (state, action) => {
+            state.status = "pending";
+            state.error = null
+        })
+        .addCase(addUserList.fulfilled, (state, action) => {
+            state.status="fulfilled";
+            state.user.ThingsToDoLists.unshift(action.payload);
+        })
+        .addCase(addUserList.rejected, (state, action) => {
+            state.error = action.error
+            state.status = "error";
+        })
+        .addCase(updateUserList.pending, (state, action) => {
+            state.status = "pending";
+            state.error = null
+        })
+        .addCase(updateUserList.fulfilled, (state, action) => {
+            state.status="fulfilled";
+            const index = state.user.ThingsToDoLists.findIndex((list) => list.id === parseInt(action.payload.id));
+            state.user.ThingsToDoLists[index] = action.payload;
+        })
+        .addCase(updateUserList.rejected, (state, action) => {
+            state.error = action.error
+            state.status = "error";
+        })
+        .addCase(deleteUserList.pending, (state, action) => {
+            state.status = "pending";
+            state.error = null
+        })
+        .addCase(deleteUserList.fulfilled, (state, action) => {
+            state.status="fulfilled";
+            state.user.ThingsToDoLists = state.user.ThingsToDoLists.filter((list) => list.id !== parseInt(action.payload.id));
+            console.log("Remaining Lists", state.user.ThingsToDoLists)
+        })
+        .addCase(deleteUserList.rejected, (state, action) => {
+            state.error = action.error
+            state.status = "error";
         })
     }
 })

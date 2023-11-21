@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import {useDispatch} from "react-redux"
 import BaseForm from '../../shared/Forms/BaseForm'
 import Test from '../../shared/Modals/test'
+import { addUserList, updateUserList } from '../../../store/userSlice'
 
-const ListEditForm = ({list, buttonText}) => {
+const ListForm = ({list, buttonText, edit}) => {
+
+  const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false)
 
@@ -18,7 +22,26 @@ const ListEditForm = ({list, buttonText}) => {
 
     const onSubmit = (e) => {
       e.preventDefault();
-
+      const myList = {
+        id: list?.id,
+        listName,
+        listDescription,
+      }
+      if (edit) {
+        dispatch(updateUserList(myList)).then(data => {
+          setVisible(v => !v);
+          setListName("");
+          setListDescription("");
+          setListTags([]);
+        });
+      } else {
+        dispatch(addUserList(myList)).then(data => {
+          setVisible(v => !v)
+          setListName("");
+          setListDescription("");
+          setListTags([]);
+        });
+      }
     }
 
     const handleRemove = (name) => {
@@ -40,8 +63,8 @@ const ListEditForm = ({list, buttonText}) => {
         <div>
           <label>Tags</label>
           <button>+</button>
-          {listTags?.map((tag, i) => (
-            <div>
+          {listTags?.map((tag) => (
+            <div key={`tag-${tag?.id}`}>
               <p>{tag?.name}</p>
               <button onClick={e => {
                 e.preventDefault()
@@ -55,12 +78,12 @@ const ListEditForm = ({list, buttonText}) => {
 
   const editForm = (
     <BaseForm 
-      title={"Edit"}
-      desc={"Edit the thing"}
+      title={edit ? "Edit":"Add"}
+      // desc={"Edit the thing"}
       children={children}
       onCloseText={"Cancel"}
       onClose={onClose}
-      onSumbitText={"Complete Edit"}
+      onSumbitText={edit ? "Complete Edit" : "Add List"}
       onSubmit={onSubmit}
     />
   )
@@ -73,4 +96,4 @@ const ListEditForm = ({list, buttonText}) => {
   )
 }
 
-export default ListEditForm
+export default ListForm
