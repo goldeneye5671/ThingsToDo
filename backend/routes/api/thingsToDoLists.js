@@ -41,7 +41,8 @@ router.post(
 	validateAccessToken,
 	expressAsyncHandler(async (req, res) => {
 		try {
-			const { listName, listDescription, userId } = req.body;
+			const { listName, listDescription } = req.body;
+			const userId = req.user.id;
 			if (!userId && !listName && !listDescription) {
 				throw new Error(
 					`Error: Params didn't match expected: listName ${listName}, listDescription ${listDescription}, userId: ${userId}`

@@ -44,8 +44,6 @@ function UserPage() {
   useEffect(() => {
     //get the user
     dispatch(getCurrentUser(parseInt(params?.id)));
-    //get updated session
-    dispatch(refreshUser());
     //set a var based on if the user being viewed is the session user, so I can display certain things
     const value =
       parseInt(sessionState?.user?.id) === parseInt(userState?.user?.id);
@@ -161,8 +159,6 @@ function UserPage() {
           <ListContainer content={lists} />
         </>
       )}
-      {showExperience && <ListContainer content={experiences} />}
-      {showLists && <ListContainer content={lists} />}
     </div>
   );
 }
