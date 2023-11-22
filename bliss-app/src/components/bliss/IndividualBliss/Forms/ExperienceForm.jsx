@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addExperienceInBliss } from '../../../../store/blissSlice';
+import { updateUserExperience } from "../../../../store/userSlice";
 
 import Test from '../../../shared/Modals/test';
 import BaseForm from '../../../shared/Forms/BaseForm';
@@ -10,7 +11,7 @@ const ExperiencesForm = ({blissId, CustomExperience, buttonText, edit}) => {
     const dispatch = useDispatch();
 
     const [visible, setVisible] = useState(false);
-
+    const [id, setId] = useState(CustomExperience?.id ?? "");
     const [thingToDoId, setThingToDoId] = useState(blissId ?? "");
     const [title, setTitle] = useState(CustomExperience?.title ?? "");
     const [description, setDescription] = useState(CustomExperience?.description ?? "");
@@ -30,13 +31,13 @@ const ExperiencesForm = ({blissId, CustomExperience, buttonText, edit}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const myCustomExperience = {
+            id,
             thingToDoId,
             title,
             description
         }
         if (edit) {
-            // dispatch(updateDescriptionInBliss(myCustomExperience))
-            console.log("Update action fired...or not. need it here")
+            dispatch(updateUserExperience(myCustomExperience));
         } else {
             dispatch(addExperienceInBliss(myCustomExperience)).then(() => {
                 setVisible(v => !v);

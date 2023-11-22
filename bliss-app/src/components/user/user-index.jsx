@@ -7,6 +7,8 @@ import { cleanSession, refreshUser, signOutUser } from "../../store/sessionSlice
 import Card from "../shared/Section/listContainer/card/card";
 import ListContainer from "../shared/Section/listContainer/ListContainer";
 import ListForm from "./forms/ListForm";
+import DescriptionForm from "../bliss/IndividualBliss/Forms/DescriptionForm"
+import ExperienceForm from "../bliss/IndividualBliss/Forms/ExperienceForm"
 
 function UserPage() {
   const navigate = useNavigate();
@@ -81,7 +83,13 @@ function UserPage() {
     <Card
       key={`desc-${desc?.id}`}
       title={desc?.headline}
-      content={desc?.description}
+      content={
+      <>
+        <p>{desc?.description}</p>
+        <DescriptionForm CustomDescription={desc} edit={true}/>
+        <button>Delete</button>
+      </>
+      }
     />
   ));
 
@@ -89,7 +97,10 @@ function UserPage() {
     <Card
       key={`desc-${exp?.id}`}
       title={exp?.title}
-      content={exp?.description}
+      content={<>
+        <p>{exp?.description}</p>
+        <ExperienceForm CustomExperience={exp} edit={true}/>
+      </>}
       // model={<ListEditForm />}
     />
   ));

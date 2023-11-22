@@ -100,7 +100,7 @@ router.post(
 
 router.patch(
 	"/:experienceId",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
@@ -115,7 +115,7 @@ router.patch(
 					description,
 				});
 
-				req.json(
+				res.json(
 					await db.Experience.findByPk(parseInt(req.params.experienceId))
 				);
 			} else {
@@ -129,7 +129,7 @@ router.patch(
 
 router.delete(
 	"/:experienceId",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(

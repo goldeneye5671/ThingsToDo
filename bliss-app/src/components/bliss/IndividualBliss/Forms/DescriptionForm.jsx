@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addDescriptionToBliss } from '../../../../store/blissSlice';
+import { updateUserDescription } from '../../../../store/userSlice';
 
 import Test from '../../../shared/Modals/test';
 import BaseForm from '../../../shared/Forms/BaseForm';
@@ -10,7 +11,7 @@ const DescriptionForm = ({blissId, CustomDescription, buttonText, edit}) => {
     const dispatch = useDispatch();
 
     const [visible, setVisible] = useState(false);
-
+    const [id, setId] = useState(CustomDescription?.id ?? "");
     const [thingToDoId, setThingToDoId] = useState(blissId ?? "");
     const [headline, setHeadline] = useState(CustomDescription?.headline ?? "");
     const [description, setDescription] = useState(CustomDescription?.description ?? "");
@@ -30,12 +31,13 @@ const DescriptionForm = ({blissId, CustomDescription, buttonText, edit}) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const myCustomDescription = {
+            id,
             thingToDoId,
             headline,
             description
         }
         if (edit) {
-            // dispatch(updateDescriptionInBliss(myCustomDescription))
+            dispatch(updateUserDescription(myCustomDescription));
             console.log("Update action fired...or it should be here...")
         } else {
             dispatch(addDescriptionToBliss(myCustomDescription)).then(() => {
@@ -74,7 +76,7 @@ const form = (
 return (
     <>
     {visible && <Test children={form} onClose={onClose} closeContent={"Cancel"}/>}
-    <button onClick={e => {e.preventDefault; setVisible(v => !v)}}>{buttonText}</button>
+    <button onClick={e => {e.preventDefault(); setVisible(v => !v)}}>{buttonText}</button>
    </>
   )
 }
