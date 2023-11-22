@@ -79,7 +79,7 @@ export const updateUserDescription = createAsyncThunk("user/updateUserDescriptio
 export const deleteUserDescription = createAsyncThunk("user/deleteUserDescription", async (description, {getState, dispatch}) => {
     const accessToken = getState()?.session?.user?.accessToken;
     const response = await axios.delete(
-        `/api/descriptions/${description.id}`, description, {
+        `/api/descriptions/${description.id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
@@ -103,7 +103,7 @@ export const updateUserExperience = createAsyncThunk("user/updateUserExperience"
 export const deleteUserExperience = createAsyncThunk("user/deleteUserExperience", async (experience, {getState, dispatch}) => {
     const accessToken = getState()?.session?.user?.accessToken;
     const response = await axios.delete(
-        `/api/experiences/${experience.id}`, experience, {
+        `/api/experiences/${experience.id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }

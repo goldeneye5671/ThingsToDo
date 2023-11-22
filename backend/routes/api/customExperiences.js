@@ -139,6 +139,7 @@ router.delete(
 				await experience.destroy();
 				res.json({
 					message: "Resource deleted",
+					id: parseInt(req.params.experienceId)
 				});
 			} else {
 				throw new Error("Resource not found");

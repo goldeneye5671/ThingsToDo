@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../shared/Section/headers/Header";
-import { deleteUserList, getCurrentUser } from "../../store/userSlice";
+import { deleteUserList, deleteUserExperience, deleteUserDescription, getCurrentUser } from "../../store/userSlice";
 import { cleanSession, refreshUser, signOutUser } from "../../store/sessionSlice";
 import Card from "../shared/Section/listContainer/card/card";
 import ListContainer from "../shared/Section/listContainer/ListContainer";
@@ -86,8 +86,20 @@ function UserPage() {
       content={
       <>
         <p>{desc?.description}</p>
-        <DescriptionForm CustomDescription={desc} edit={true}/>
-        <button>Delete</button>
+        {parseInt(sessionState?.user?.id) ===
+              parseInt(userState?.user?.id) && (
+              <>
+                <DescriptionForm buttonText={"Edit"} CustomDescription={desc} edit={true}/>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteUserDescription(desc));
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            )}
       </>
       }
     />
@@ -99,7 +111,21 @@ function UserPage() {
       title={exp?.title}
       content={<>
         <p>{exp?.description}</p>
-        <ExperienceForm CustomExperience={exp} edit={true}/>
+        {parseInt(sessionState?.user?.id) ===
+              parseInt(userState?.user?.id) && (
+              <>
+                <ExperienceForm buttonText={"Edit"} CustomExperience={exp} edit={true}/>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteUserExperience(exp));
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+        
       </>}
       // model={<ListEditForm />}
     />
@@ -123,7 +149,7 @@ function UserPage() {
                     dispatch(deleteUserList(list));
                   }}
                 >
-                  Delete list
+                  Delete
                 </button>
               </>
             )}

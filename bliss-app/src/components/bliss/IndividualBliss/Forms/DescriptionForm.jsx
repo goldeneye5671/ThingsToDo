@@ -37,8 +37,12 @@ const DescriptionForm = ({blissId, CustomDescription, buttonText, edit}) => {
             description
         }
         if (edit) {
-            dispatch(updateUserDescription(myCustomDescription));
-            console.log("Update action fired...or it should be here...")
+            dispatch(updateUserDescription(myCustomDescription)).then(() => {
+                setVisible(v => !v);
+                // setHeadline(CustomDescription?.headline ?? "");
+                // setDescription(CustomDescription?.description ?? "");
+                // setThingToDoId(blissId ?? ""); 
+            });
         } else {
             dispatch(addDescriptionToBliss(myCustomDescription)).then(() => {
                 setVisible(v => !v);

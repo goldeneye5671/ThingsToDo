@@ -131,6 +131,7 @@ router.delete(
 				await desc.destroy();
 				res.json({
 					message: "Resource Deleted",
+					id: parseInt(req.params.customDescriptionId),
 				});
 			} else {
 				throw new Error("Resource not found");

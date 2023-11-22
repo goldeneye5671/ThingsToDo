@@ -37,7 +37,12 @@ const ExperiencesForm = ({blissId, CustomExperience, buttonText, edit}) => {
             description
         }
         if (edit) {
-            dispatch(updateUserExperience(myCustomExperience));
+            dispatch(updateUserExperience(myCustomExperience)).then(() => {
+                setVisible(v => !v);
+                setTitle(CustomExperience?.title ?? "");
+                setDescription(CustomExperience?.description ?? "");
+                setThingToDoId(blissId ?? ""); 
+            });
         } else {
             dispatch(addExperienceInBliss(myCustomExperience)).then(() => {
                 setVisible(v => !v);
