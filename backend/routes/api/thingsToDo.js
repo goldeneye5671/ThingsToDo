@@ -87,9 +87,6 @@ router.get(
 		// }
 		// } else {
 		let { limit, offset, page } = req.query;
-		console.log(req.query);
-		console.log("Limit: ", limit);
-		console.log("Offset: ", offset);
 		const allThings = await db.ThingsToDo.findAll({
 			limit,
 			offset,
@@ -117,7 +114,6 @@ router.get(
 		});
 		if (allThings) {
 			offset = parseInt(offset) + parseInt(limit);
-			console.log(page);
 			res.json({allThings, page, limit, offset});
 		} else {
 			throw new Error("Cannot grab thingsToDo");
@@ -129,7 +125,6 @@ router.get(
 router.get(
 	"/:id",
 	expressAsyncHandler(async (req, res) => {
-		console.log("Attempting Request");
 		const thingToDo = await db.ThingsToDo.findByPk(req.params.id, {
 			// include: [db.Experience, db.Business, db.CustomDescription]
 			include: [

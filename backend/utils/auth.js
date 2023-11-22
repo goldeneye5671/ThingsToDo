@@ -11,7 +11,6 @@ const generateAccessToken = (user) => {
     accessSecret,
     { expiresIn: parseInt(accessExpiresIn) } // 604,800 seconds = 1 week
   );
-  console.log(accessExpiresIn)
   return accessToken
 }
 
@@ -61,7 +60,6 @@ const validateRefreshToken = async (req, res, next) => {
     const decodedRefreshToken = jwt.verify(refreshToken, refreshSecret);
     // check to see if the user is a valid user
     const userId = decodedRefreshToken.data.id;
-    // console.log(userId)
     const user = await User.scope('currentUser').findOne({
       where: {
         id: userId
@@ -84,13 +82,11 @@ const validateRefreshToken = async (req, res, next) => {
 const validateAccessToken = async (req, res, next) => {
 // Grabs tokens from their respective places
   const accessToken = req.headers.authorization?.split(" ")[1];
-  console.log("Accesstoken", accessToken)
 
   if (!accessToken) return res.status(401).json({message: "Access token missing"});
 
   // Validates the tokens
   try{
-    console.log("\n\nTrying Access Token\n\n")
     const jwtPayload = jwt.verify(accessToken, accessSecret);
     const userId = jwtPayload.data.id;
 

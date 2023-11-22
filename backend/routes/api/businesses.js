@@ -9,7 +9,6 @@ router.get(
 	expressAsyncHandler(async (req, res, next) => {
 		const {limit, offset} = req.query
 		try {
-			console.log(limit, offset)
 			const allBusinesses = await db.Business.findAll({
 				limit,
 				offset

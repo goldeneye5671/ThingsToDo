@@ -30,16 +30,27 @@ export const refreshUser = createAsyncThunk("user/refreshUser", async () => {
     return response.data
 })
 
+export const signOutUser = createAsyncThunk("user/signOutUser", async (_, {getState}) => {
+    const accessToken = getState()?.session?.user?.accessToken;
+    const response = await axios.delete(
+        `/api/session`,
+        {
+          headers:{
+            Authorization: `Bearer ${accessToken}`
+          }  
+        },
+    )
+    return response.data
+})
+
 export const sessionSlice = createSlice({
     name: "user",
     initialState,
-    // reducers:{
-    //     cleanUser: {
-    //         reducer(state, action) {
-    //             state
-    //         }
-    //     }
-    // },
+    reducers: {
+        cleanSession: (state) => {
+          state.user = {};
+        }
+      },
     extraReducers(builder) {
         builder
             .addCase(signInUser.pending, (state, action) => {
@@ -83,10 +94,21 @@ export const sessionSlice = createSlice({
                 state.user = {}
                 state.error = action.error
             })
+            .addCase(signOutUser.pending, (state, action) => {
+                state.status = "pending";
+                state.error = null;
+            })
+            .addCase(signOutUser.fulfilled, (state, action) => {
+                state.status = "fulfilled"
+            })
+            .addCase(signOutUser.rejected, (state, action) => {
+                state.status = "rejected"
+                state.error = action.error
+            })
     }
 })
 
 export const {
-    cleanUser
+    cleanSession
 } = sessionSlice.actions;
 export default sessionSlice.reducer;

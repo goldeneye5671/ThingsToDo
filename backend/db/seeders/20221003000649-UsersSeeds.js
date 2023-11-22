@@ -3,7 +3,6 @@
 const User = require("./generatrors/UserGenerator");
 const configuration = require("./generatrors/counter");
 
-// console.log(generatedUsers);
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {

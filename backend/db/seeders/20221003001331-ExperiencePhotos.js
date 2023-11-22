@@ -8,8 +8,6 @@ for (let i = 0; i < configuration.maxExperiencePhotos; i++) {
 	generatedExperiencePhotos.push(new ExperiencePhotos(`https://placehold.co/600x400?text=Hello+World`));
 }
 
-console.log(generatedExperiencePhotos.length)
-
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return queryInterface.bulkInsert(

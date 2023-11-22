@@ -156,9 +156,7 @@ module.exports = (sequelize, DataTypes) => {
       hashedPassword: String(myHashedPassword),
     }
     });
-    console.log("User after creation: ", user)
     const updatedUser = await User.scope("currentUser").findByPk(user.id);
-    console.log("User after retrieval: ", updatedUser)
     return updatedUser;
   };
 

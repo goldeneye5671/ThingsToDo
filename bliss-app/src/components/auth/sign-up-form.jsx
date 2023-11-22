@@ -30,9 +30,6 @@ function SignUp() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log("Hello");
-		console.log(canSubmit)
-		console.log(errors)
 		if (canSubmit) {
 			dispatch(signUpUser({
 				firstName,
@@ -42,7 +39,7 @@ function SignUp() {
 				username,
 				email,
 				password
-			})).then(e => console.log(e)).catch(async (res) => {
+			})).catch(async (res) => {
 				const data = await res.json();
 				if (data && data.errors) setErrors(data.errors);
 			});
