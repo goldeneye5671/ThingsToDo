@@ -11,12 +11,15 @@ import Business from "../../business/business-card";
 import ExperienceCard from "../../experience/experience-card";
 import CustomDescription from "../../custom-description/custom-description";
 import Header from "../../shared/Section/headers/Header";
+import DescriptionForm from "./Forms/DescriptionForm";
+import ExperiencesForm from "./Forms/ExperienceForm";
 
 function IndividualBliss() {
   const dispatch = useDispatch();
   const [showDescriptions, setShowDescriptions] = useState(true);
   const [showExperiences, setShowExperiences] = useState(false);
   const [showBusinesses, setShowBusinesses] = useState(false);
+
   const onDescriptionsClick = (e) => {
     e.preventDefault();
     setShowDescriptions(true);
@@ -102,22 +105,36 @@ function IndividualBliss() {
       />
 
       {showDescriptions && (
-        <div className="main-card-container">
-          {customDescriptionContent?.length ? (
-            customDescriptionContent
-          ) : (
-            <h2>No Descriptions</h2>
-          )}
-        </div>
+        <>
+          <DescriptionForm 
+            blissId={bliss?.id}
+            buttonText={"Add Description"}
+            edit={false}
+          />
+          <div className="main-card-container">
+            {customDescriptionContent?.length ? (
+              customDescriptionContent
+            ) : (
+              <h2>No Descriptions</h2>
+            )}
+          </div>
+        </>
       )}
       {showExperiences && (
-        <div className="main-card-container">
-          {experiencesContent?.length ? (
-            experiencesContent
-          ) : (
-            <h2>No Experiences</h2>
-          )}
-        </div>
+        <>
+          <ExperiencesForm
+            blissId={bliss?.id}
+            buttonText={"Add Experience"}
+            edit={false}
+          />
+          <div className="main-card-container">
+            {experiencesContent?.length ? (
+              experiencesContent
+            ) : (
+              <h2>No Experiences</h2>
+            )}
+          </div>
+        </>
       )}
       {showBusinesses && (
         <div className="main-card-container">

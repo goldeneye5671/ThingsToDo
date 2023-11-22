@@ -40,7 +40,7 @@ export const fetchOneBliss = createAsyncThunk(
 
 export const addBliss = createAsyncThunk("bliss/addBliss", async (bliss) => {
 	const response = await axios.post(
-		`/api/thingstodo/1`,
+		`/api/thingstodo/`,
 		bliss
 	);
 	return response.data;
@@ -50,7 +50,7 @@ export const updateBliss = createAsyncThunk(
 	"bliss/updateBliss",
 	async (bliss) => {
 		const response = await axios.patch(
-			`/api/thingstodo/1/${bliss.id}`,
+			`/api/thingstodo/${bliss.id}`,
 			bliss
 		);
 		return response.data;
@@ -61,12 +61,41 @@ export const deleteBliss = createAsyncThunk(
 	`bliss/deleteBliss`,
 	async (bliss) => {
 		const response = await axios.delete(
-			`/api/thingstodo/1/${bliss.id}`,
+			`/api/thingstodo/${bliss.id}`,
 			bliss
 		);
 		return response.data;
 	}
 );
+
+
+export const addDescriptionToBliss = createAsyncThunk("bliss/addDescriptionToBliss", async (bliss, {getState}) => {
+	const accessToken = getState()?.session?.user?.accessToken
+	const response = await axios.post(
+		`/api/descriptions`,
+		bliss,
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		}
+	);
+	return response.data;
+});
+
+export const addExperienceInBliss = createAsyncThunk("bliss/addExperienceInBliss", async (bliss, {getState}) => {
+	const accessToken = getState()?.session?.user?.accessToken
+	const response = await axios.post(
+		`/api/experiences`,
+		bliss,
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		}
+	);
+	return response.data;
+});
 
 export const blissSlice = createSlice({
 	name: "bliss",
@@ -98,12 +127,6 @@ export const blissSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchBliss.fulfilled, (state, action) => {
-				// mutatePageState(
-				// 	parseInt(action.payload.page),
-				// 	parseInt(action.payload.limit),
-				// 	action.payload.allThings,
-				// 	state.bliss
-				// );
 				state.bliss.content = action.payload.allThings
 				state.bliss.content.sort((bliss1, bliss2) => bliss1.id - bliss2.id);
 				state.status = "fulfilled";
@@ -122,15 +145,6 @@ export const blissSlice = createSlice({
 			.addCase(fetchOneBliss.fulfilled, (state, action) => {
 				state.status = "fulfilled";
 				state.bliss.content.unshift(action.payload);
-				// state.activeBliss.Experiences = state.activeBliss?.Experiences?.sort(
-				// 	(a, b) => {
-				// 		return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
-				// 	}
-				// );
-				// state.activeBliss.CustomDescriptions =
-				// 	state.activeBliss.CustomDescriptions.sort((a, b) => {
-				// 		return b.upvotes / b.downvotes - a.upvotes / a.downvotes;
-				// 	});
 				state.error = null;
 			})
 			.addCase(fetchOneBliss.rejected, (state, action) => {
@@ -151,7 +165,33 @@ export const blissSlice = createSlice({
 					return parseInt(bliss.id) !== parseInt(action.payload.id);
 				});
 				state.bliss = bliss;
-			});
+			})
+			.addCase(addDescriptionToBliss.fulfilled, (state, action) => {
+				state.status="fulfilled";
+				const index = state.bliss.content.findIndex(bliss => parseInt(bliss.id) === parseInt(action.payload.thingToDoId))
+				state.bliss.content[index].CustomDescriptions.unshift(action.payload)
+			})
+			.addCase(addDescriptionToBliss.pending, (state, action) => {
+				state.status="pending"
+				state.error = null
+			})
+			.addCase(addDescriptionToBliss.rejected, (state, action) => {
+				state.status="error"
+				state.error = action.error
+			})
+			.addCase(addExperienceInBliss.fulfilled, (state, action) => {
+				state.status="fulfilled";
+				const index = state.bliss.content.findIndex(bliss => parseInt(bliss.id) === parseInt(action.payload.thingToDoId))
+				state.bliss.content[index].Experiences.unshift(action.payload)
+			})
+			.addCase(addExperienceInBliss.pending, (state, action) => {
+				state.status="pending"
+				state.error = null
+			})
+			.addCase(addExperienceInBliss.rejected, (state, action) => {
+				state.status="error"
+				state.error = action.error
+			})
 	},
 });
 
