@@ -56,7 +56,7 @@ function ListPage({home}) {
   <>
     <div className="content">
         <Header title={<h1>Lists</h1>}/>
-        {status === "fulfilled" && (<ListContainer content={content} />)}
+        {status === "fulfilled" && (<ListContainer home={home} content={content} />)}
         {status === "pending" && <Loading />}
         {status === "rejected" && <Error error={error}/>}
         {!home && (<PageNavigation dispatcher={fetchLists} home={home}/>)

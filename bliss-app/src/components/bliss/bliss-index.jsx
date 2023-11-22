@@ -74,7 +74,7 @@ function BlissPage({ home }) {
       ) : (
         <Header title={title} />
       )}
-      {status === "fulfilled" && <ListContainer content={content} />}
+      {status === "fulfilled" && <ListContainer home={home} content={content} />}
       {status === "pending" && <Loading />}
       {status === "rejected" && <Error error={error} />}
       {!home && <PageNavigation dispatcher={fetchBliss} home={home} />}
