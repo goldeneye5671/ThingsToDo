@@ -16,11 +16,15 @@ const ListForm = ({list, buttonText, edit}) => {
   const [errors, setErrors] = useState([])
 
     useEffect(() => {
+      
     })
 
     const onClose= (e) => {
         e.preventDefault();
         setVisible(v => !v);
+        setListName(list?.listName ?? "");
+        setListDescription(list?.listDescription ?? "");
+        setListTags(list?.ThingsToDoListTags ?? []);
     }
 
     const onSubmit = (e) => {
@@ -33,6 +37,9 @@ const ListForm = ({list, buttonText, edit}) => {
       if (edit) {
         dispatch(updateUserList(myList)).then(data => {
           setVisible(v => !v)
+          setListName(data.payload.listName);
+          setListDescription(data.payload.listDescription);
+          setListTags(data.payload.ThingsToDoListTags);
         });
       } else {
         dispatch(addUserList(myList)).then(data => {
