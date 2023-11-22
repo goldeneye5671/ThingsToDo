@@ -69,10 +69,12 @@ router.post("/refresh", validateRefreshToken, asyncHandler((req, res, next) => {
           lastName,
           profileImage: profilePicture,
           bio,
-          hashedPassword: password
+          hashedPassword: password,
+          login: false
         })
           res.json(user);
         } catch (e){
+          console.error(e)
           next(e)
         }
       })

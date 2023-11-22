@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpUser } from "../../store/sessionSlice";
 import Header from "../shared/Section/headers/Header"
 
 function SignUp() {
+	const navigate = useNavigate()
+
 	const [firstName, setFirstname] = useState("");
 	const [lastName, setLastname] = useState("");
 	const [profilePicture, setProfilePicture] = useState("");
@@ -39,7 +41,11 @@ function SignUp() {
 				username,
 				email,
 				password
-			})).catch(async (res) => {
+			}))
+			.then(data => {
+				navigate("/sign-in");
+			})
+			.catch(async (res) => {
 				const data = await res.json();
 				if (data && data.errors) setErrors(data.errors);
 			});
