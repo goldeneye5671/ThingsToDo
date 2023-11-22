@@ -52,6 +52,18 @@ export const deleteUserList = createAsyncThunk("user/deleteList", async (list, {
       return response.data
 })
 
+export const getUserList = createAsyncThunk("user/getLists", async (user, {getState, dispatch}) => {
+    const accessToken = getState()?.session?.user?.accessToken;
+    const response = await axios.delete(
+        `/api/users/${user.id}`, user, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        } 
+      );
+      return response.data
+})
+
 export const userSlice = createSlice({
     name: "user",
     initialState,
@@ -69,6 +81,18 @@ export const userSlice = createSlice({
         .addCase(getCurrentUser.rejected, (state, action) => {
             state.status = "error",
             state.error = action.error
+        })
+        .addCase(getUserList.pending, (state, action) => {
+            state.status = "pending";
+            state.error = null
+        })
+        .addCase(getUserList.fulfilled, (state, action) => {
+            state.status="fulfilled";
+            state.user.ThingsToDoLists = action.payload;
+        })
+        .addCase(getUserList.rejected, (state, action) => {
+            state.error = action.error
+            state.status = "error";
         })
         .addCase(addUserList.pending, (state, action) => {
             state.status = "pending";
