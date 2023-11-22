@@ -137,6 +137,7 @@ module.exports = (sequelize, DataTypes) => {
     profileImage,
     bio,
     hashedPassword,
+    login
   }) {
     const myHashedPassword = bcrypt.hashSync(hashedPassword);
     const user = await User.findOrCreate({
@@ -154,11 +155,10 @@ module.exports = (sequelize, DataTypes) => {
       profileImage,
       bio,
       hashedPassword: String(myHashedPassword),
+      login
     }
     });
-    console.log("User after creation: ", user)
     const updatedUser = await User.scope("currentUser").findByPk(user.id);
-    console.log("User after retrieval: ", updatedUser)
     return updatedUser;
   };
 

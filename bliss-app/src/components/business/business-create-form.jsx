@@ -55,7 +55,6 @@ function BusinessCreateForm({ setVisible }) {
 				})
 			)
 				.then((info) => {
-					console.log(info);
 					setName("");
 					setPrimaryPhoto("");
 					setAddress("");

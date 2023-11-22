@@ -13,7 +13,6 @@ function BlissCreateForm({ setVisible }) {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log(blissDescription)
 		dispatch(
 			addBliss({
 				thingName: blissName,

@@ -56,7 +56,6 @@ const ListForm = ({list, buttonText, edit}) => {
         return tag?.name !== name
       });
       setListTags(updatedList);
-      console.log(updatedList)
     }
 
     const children = (

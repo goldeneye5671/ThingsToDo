@@ -7,7 +7,6 @@ const db = require("../../db/models");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res, next) => {
-		console.log("BODY", req.body);
 		const { thingToDoId, limit, offset } = req.body;
 		if (req.body.thingToDoId) {
 			try {

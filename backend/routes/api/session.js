@@ -18,7 +18,6 @@ const validateLogin = [
 ];
 
 router.post("/refresh", validateRefreshToken, asyncHandler((req, res, next) => {
-  console.log("exited the refresh validation")
   const accessToken = generateAccessToken(req.user);
   res.json({accessToken, user: req.user})
 }))
@@ -70,33 +69,22 @@ router.post("/refresh", validateRefreshToken, asyncHandler((req, res, next) => {
           lastName,
           profileImage: profilePicture,
           bio,
-          hashedPassword: password
+          hashedPassword: password,
+          login: false
         })
-          console.log(JSON.stringify(user));
           res.json(user);
         } catch (e){
+          console.error(e)
           next(e)
         }
       })
     )
 
-  router.get(
-    '/',
-    validateAccessToken,
-    (req, res) => {
-      const { user } = req;
-      if (user) {
-        return res.json({
-          user: user.toSafeObject()
-        });
-      } else return res.json({});
-    }
-  );
-
   router.delete(
     '/',
+    validateAccessToken,
     (_req, res) => {
-      res.clearCookie('token');
+      res.clearCookie('jwt');
       return res.json({ message: 'success' });
     }
   );

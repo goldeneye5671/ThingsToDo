@@ -81,7 +81,6 @@ export const listSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchLists.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.lists = action.payload;
         state.status = "fulfilled";
         state.initialFetch = true;

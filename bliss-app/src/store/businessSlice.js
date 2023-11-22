@@ -113,7 +113,6 @@ export const businessSlice = createSlice({
 				state.initialFetch = true
 			})
 			.addCase(fetchBusinesses.fulfilled, (state, action) => {
-				console.log(action.payload)
 				state.status = "fulfilled";
 				state.businesses = action.payload ? action.payload : [];
                 state.error = null

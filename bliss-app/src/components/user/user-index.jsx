@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../shared/Section/headers/Header";
 import { deleteUserList, getCurrentUser } from "../../store/userSlice";
-import { refreshUser } from "../../store/sessionSlice";
+import { cleanSession, refreshUser, signOutUser } from "../../store/sessionSlice";
 import Card from "../shared/Section/listContainer/card/card";
 import ListContainer from "../shared/Section/listContainer/ListContainer";
 import ListForm from "./forms/ListForm";
 
 function UserPage() {
+  const navigate = useNavigate();
   const params = useParams();
   const sessionState = useSelector((state) => state?.session?.user);
   const userState = useSelector((state) => state?.user);
@@ -20,6 +21,18 @@ function UserPage() {
   const [showLists, setShowLists] = useState(false);
 
   const [showListAddForm, setShowListAddForm] = useState(false);
+
+  const onSignOutClick = async () => {
+    // e.preventDefault();
+
+    //dispatch logOutUser to take rft out of cookies and set login to
+    //false on backend
+    await dispatch(signOutUser());
+    //dispatch cleanSession to remove all data from the session state
+    await dispatch(cleanSession());
+    //redirect the user to home
+    navigate("/")
+  }
 
   const onShowDescriptionClick = (e) => {
     e.preventDefault();
@@ -48,7 +61,7 @@ function UserPage() {
     const value =
       parseInt(sessionState?.user?.id) === parseInt(userState?.user?.id);
     setIsSession(value);
-  }, [params]);
+  }, [params, isSession, dispatch, sessionState?.user?.id, userState?.user?.id]);
 
   const title = (
     <>
@@ -112,7 +125,7 @@ function UserPage() {
 
   const actionButtons = (
     <>
-      {isSession && <button>Sign Out</button>}
+      {isSession && <button onClick={onSignOutClick}>Sign Out</button>}
       <button
         className={showExperience ? "active-button" : null}
         onClick={onShowExperienceClick}

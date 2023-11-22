@@ -8,7 +8,6 @@ function Home() {
   const [whichVisible, setWhichVisible] = useState(1);
 
   useEffect(() => {
-    console.log(whichVisible)
   })
 
   const onAddClicked = () => {

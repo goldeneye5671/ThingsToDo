@@ -9,10 +9,6 @@ const indexRoutes = require('./routes/index');
 const { environment } = require("./config");
 const isProduction = environment === "production";
 
-
-console.log(environment)
-console.log("Prod: ", isProduction);
-
 const app = express();
 
 app.use(morgan("dev"));
