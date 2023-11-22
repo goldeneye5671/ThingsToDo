@@ -5,6 +5,7 @@ const {
 	requireAdmin,
 	requireBusiness,
 	requireBasic,
+	validateAccessToken,
 	// requireAuth,
 } = require("../../utils/auth");
 router.get(
@@ -38,12 +39,11 @@ router.get(
 
 router.post(
 	"/",
-	// requireAuth,
-	requireBasic,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
-			const { userId, thingToDoId, headline, description } = req.body;
-
+			const {thingToDoId, headline, description } = req.body;
+			const userId = req.user.id;
 			const upvotes = 0;
 			const downvotes = 0;
 
@@ -89,8 +89,7 @@ router.get(
 
 router.patch(
 	"/:customDescriptionId",
-	// requireAuth,
-	requireBasic,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const desc = await db.CustomDescription.findByPk(
@@ -121,8 +120,7 @@ router.patch(
 
 router.delete(
 	"/:customDescriptionId",
-	// requireAuth,
-	requireBasic,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const desc = await db.CustomDescription.findByPk(
@@ -133,6 +131,7 @@ router.delete(
 				await desc.destroy();
 				res.json({
 					message: "Resource Deleted",
+					id: parseInt(req.params.customDescriptionId),
 				});
 			} else {
 				throw new Error("Resource not found");

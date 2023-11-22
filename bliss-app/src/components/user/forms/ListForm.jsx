@@ -82,7 +82,7 @@ const ListForm = ({list, buttonText, edit}) => {
       </>
     )
 
-  const editForm = (
+  const form = (
     <BaseForm 
       title={edit ? "Edit":"Add"}
       // desc={"Edit the thing"}
@@ -96,7 +96,7 @@ const ListForm = ({list, buttonText, edit}) => {
 
   return (
     <>
-     {visible && <Test children={editForm} onClose={onClose} closeContent={"Cancel"}/>}
+     {visible && <Test children={form} onClose={onClose} closeContent={"Cancel"}/>}
      <button onClick={e => {e.preventDefault; setVisible(v => !v)}}>{buttonText}</button>
     </>
   )

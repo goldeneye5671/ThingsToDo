@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../shared/Section/headers/Header";
-import { deleteUserList, getCurrentUser } from "../../store/userSlice";
+import { deleteUserList, deleteUserExperience, deleteUserDescription, getCurrentUser } from "../../store/userSlice";
 import { cleanSession, refreshUser, signOutUser } from "../../store/sessionSlice";
 import Card from "../shared/Section/listContainer/card/card";
 import ListContainer from "../shared/Section/listContainer/ListContainer";
 import ListForm from "./forms/ListForm";
+import DescriptionForm from "../bliss/IndividualBliss/Forms/DescriptionForm"
+import ExperienceForm from "../bliss/IndividualBliss/Forms/ExperienceForm"
 
 function UserPage() {
   const navigate = useNavigate();
@@ -81,7 +83,25 @@ function UserPage() {
     <Card
       key={`desc-${desc?.id}`}
       title={desc?.headline}
-      content={desc?.description}
+      content={
+      <>
+        <p>{desc?.description}</p>
+        {parseInt(sessionState?.user?.id) ===
+              parseInt(userState?.user?.id) && (
+              <>
+                <DescriptionForm buttonText={"Edit"} CustomDescription={desc} edit={true}/>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteUserDescription(desc));
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+      </>
+      }
     />
   ));
 
@@ -89,7 +109,24 @@ function UserPage() {
     <Card
       key={`desc-${exp?.id}`}
       title={exp?.title}
-      content={exp?.description}
+      content={<>
+        <p>{exp?.description}</p>
+        {parseInt(sessionState?.user?.id) ===
+              parseInt(userState?.user?.id) && (
+              <>
+                <ExperienceForm buttonText={"Edit"} CustomExperience={exp} edit={true}/>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteUserExperience(exp));
+                  }}
+                >
+                  Delete
+                </button>
+              </>
+            )}
+        
+      </>}
       // model={<ListEditForm />}
     />
   ));
@@ -112,7 +149,7 @@ function UserPage() {
                     dispatch(deleteUserList(list));
                   }}
                 >
-                  Delete list
+                  Delete
                 </button>
               </>
             )}

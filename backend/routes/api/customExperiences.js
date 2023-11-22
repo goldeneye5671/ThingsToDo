@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../../db/models");
+const { validateAccessToken } = require("../../utils/auth");
 
 // const { // requireAuth } = require("../../utils/auth");
 
@@ -61,11 +62,12 @@ router.get(
 
 router.post(
 	"/",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
-			const { userId, thingToDoId, title, description } = req.body;
-
+			const { thingToDoId, title, description } = req.body;
+			const userId = req.user.id;
+			
 			const upvotes = 0;
 			const downvotes = 0;
 
@@ -78,8 +80,15 @@ router.post(
 					upvotes,
 					downvotes,
 				});
-
-				res.json(newExperience);
+				const getNewExperience = await db.Experience.findByPk(
+					newExperience.id,
+					{
+						include: [
+							db.ExperiencePhoto
+						]
+					}
+				)
+				res.json(getNewExperience);
 			} else {
 				throw new Error("Could not create experience. Invalid params provided");
 			}
@@ -91,7 +100,7 @@ router.post(
 
 router.patch(
 	"/:experienceId",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
@@ -106,7 +115,7 @@ router.patch(
 					description,
 				});
 
-				req.json(
+				res.json(
 					await db.Experience.findByPk(parseInt(req.params.experienceId))
 				);
 			} else {
@@ -120,7 +129,7 @@ router.patch(
 
 router.delete(
 	"/:experienceId",
-	// requireAuth,
+	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
 			const experience = await db.Experience.findByPk(
@@ -130,6 +139,7 @@ router.delete(
 				await experience.destroy();
 				res.json({
 					message: "Resource deleted",
+					id: parseInt(req.params.experienceId)
 				});
 			} else {
 				throw new Error("Resource not found");
