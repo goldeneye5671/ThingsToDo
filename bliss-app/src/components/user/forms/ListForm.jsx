@@ -60,24 +60,27 @@ const ListForm = ({list, buttonText, edit}) => {
 
     const children = (
       <>
-        <label>List Title</label>
-        <input value={listName} onChange={e => setListName(e.target.value)} placeholder='title'/>
-        <br></br>
-        <label>List Description</label>
-        <input value={listDescription} onChange={e => setListDescription(e.target.value)} placeholder="description"/>
-        <br></br>
+        <div className={"test-label-container"}>
+          <input value={listName} onChange={e => setListName(e.target.value)} className={"test-input-styling"} placeholder=' '/>
+          <label className={"test-label-styling"}>List Title</label>  
+        </div>
+        <div className={"test-label-container"}>
+          <input className={"test-input-styling"} placeholder=' ' value={listDescription} onChange={e => setListDescription(e.target.value)}/>
+          <label className={"test-label-styling"}>List Description</label>
+        </div>
         <div>
-          <label>Tags</label>
-          <button>+</button>
-          {listTags?.map((tag) => (
-            <div key={`tag-${tag?.id}`}>
-              <p>{tag?.name}</p>
-              <button onClick={e => {
-                e.preventDefault()
-                handleRemove(tag?.name)
-              }}>Delete tag</button>
-            </div>
-          ))}
+          <div>
+            <label>Tags</label>
+            <button>+</button>
+          </div>
+          <div className='list-tags-container'>
+            {listTags?.map((tag) => (
+              <div className='list-tag-container' key={`tag-${tag?.id}`}>
+                <p className='list-tag-name'>{tag?.name}</p>
+                <button className='list-tag-remove-button' onClick={e => {e.preventDefault();handleRemove(tag?.name);}}>x</button>
+              </div>
+            ))}
+          </div>
         </div>
       </>
     )
@@ -96,7 +99,7 @@ const ListForm = ({list, buttonText, edit}) => {
 
   return (
     <>
-     {visible && <Test children={form} onClose={onClose} closeContent={"Cancel"}/>}
+    {visible && <Test children={form} onClose={onClose} closeContent={"Cancel"}/>}
      <button onClick={e => {e.preventDefault; setVisible(v => !v)}}>{buttonText}</button>
     </>
   )

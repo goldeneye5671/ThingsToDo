@@ -56,11 +56,14 @@ const DescriptionForm = ({blissId, CustomDescription, buttonText, edit}) => {
   
     const children = (
         <>
-          <label>Headline</label>
-          <input value={headline} onChange={e => setHeadline(e.target.value)} placeholder='title'/>
-          <br></br>
-          <label>Description</label>
-          <input value={description} onChange={e => setDescription(e.target.value)} placeholder="description"/>
+        <div className='test-label-container'>
+          <input className='test-input-styling' value={headline} onChange={e => setHeadline(e.target.value)} placeholder=' '/>
+          <label className='test-label-styling'>Headline</label>
+        </div>
+        <div className='test-label-container'>
+          <input className='test-input-styling' value={description} onChange={e => setDescription(e.target.value)} placeholder=" "/>
+          <label className='test-label-styling'>Description</label>
+        </div>
         </>
       )
 

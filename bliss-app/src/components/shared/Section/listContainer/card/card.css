@@ -13,8 +13,7 @@ article {
   overflow: hidden;
   max-width: 350px;
   min-width: 350px;
-  height: 50vh;
-  overflow-y: scroll;
+  height: 500px;
   /* margin: 15px; */
 }
 
@@ -26,8 +25,9 @@ article a::after {
   content: "";
 }
 
-article > p{
-  max-height: 25%;
+.description {
+  max-height: 100px;
+  overflow-y: scroll;
 }
 /* basic article elements styling */
 article h2 {
@@ -54,6 +54,15 @@ article img {
 
 .article-body {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: scroll;
+}
+
+.action-buttons{
+  display: flex;
+  justify-content: space-between;
 }
 
 article a {
