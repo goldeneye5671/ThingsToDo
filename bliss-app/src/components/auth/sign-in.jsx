@@ -53,7 +53,7 @@ function SignIn() {
 				</div>
 
 				<button type="submit">Login</button><br></br>
-				<a>Not a user? Sign up today!</a><br></br>
+				<a href="/sign-up">Not a user? Sign up today!</a><br></br>
 			</form>
 		</div>
 	);
