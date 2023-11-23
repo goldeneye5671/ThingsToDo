@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from '../Section/headers/Header'
+import "./list.css"
 
 function BaseForm({title, description, children, onSubmit, onSumbitText, onClose, onCloseText}) {
   return (

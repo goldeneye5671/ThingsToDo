@@ -6,8 +6,8 @@ function CustomDescription({ CustomDescription }) {
   const title = CustomDescription?.title;
   const content = (
     <>
-      <p>{CustomDescription?.description}</p>
-      <div>
+      <p className={"description"}>{CustomDescription?.description}</p>
+      <div className={"action-buttons"}>
         <p>Upvotes: {CustomDescription?.upvotes}</p>
         <p>Downvotes: {CustomDescription?.downvotes}</p>
       </div>
