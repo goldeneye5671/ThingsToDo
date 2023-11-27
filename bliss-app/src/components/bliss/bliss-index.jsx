@@ -58,7 +58,7 @@ function BlissPage({ home }) {
         to={`/bliss/${bliss?.id}`}
         // image={}
         title={bliss?.thingName}
-        content={bliss?.thingDescription}
+        content={<p className="description">{bliss?.thingDescription}</p>}
         showLink={true}
       />
     ));

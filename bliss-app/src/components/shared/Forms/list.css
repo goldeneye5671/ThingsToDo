@@ -1,6 +1,6 @@
 .test-label-container{
   position:relative;
-  margin:2em auto;
+  margin:1.15em auto;
 }
 
 
@@ -39,6 +39,7 @@ input:not(:placeholder-shown) + label{
 
 input:focus,
 input:not(:placeholder-shown){
+  padding: 15px;
   border: solid black 3px;
 }
 

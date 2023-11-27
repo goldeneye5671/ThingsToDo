@@ -121,7 +121,7 @@ router.patch(
 //handles only adding new tags to the list
 //TODO: Only allow the user that owns the list to add a tag to it
 router.post(
-	"/:listId/tag/add/:tagId",
+	"/:listId/tag/:tagId",
 	// requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -165,7 +165,7 @@ router.post(
 
 //handles only removing existing tags to the list
 router.delete(
-	"/:listId/tag/remove/:tagId",
+	"/:listId/tag/:tagId",
 	validateAccessToken,
 	expressAsyncHandler(async (req, res, next) => {
 		// get the connection that represents the tag being associated with the list
@@ -179,7 +179,16 @@ router.delete(
 
 			if (thingsToDoListTagAss) {
 				await thingsToDoListTagAss.destroy();
-				await res.json({ message: "resource deleted" });
+				const test = await db.ThingsToDoList.findByPk(req.params.listId, {
+					include: [
+						{
+							model: db.ThingsToDoListTag,
+							through: { attributes: [] },
+						},
+					],
+				})
+				console.log(JSON.stringify(test));
+				res.json(test)
 			} else {
 				res.status(500).json({ message: "resource could not be found" });
 			}
@@ -191,7 +200,7 @@ router.delete(
 
 //handles only adding new thingsToDo to the list
 router.post(
-	"/:listId/thingToDo/add/:thingToDoId",
+	"/:listId/thingToDo/:thingToDoId",
 	// requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {
@@ -230,7 +239,7 @@ router.post(
 
 //handles only removing existing thingsToDo from the list
 router.delete(
-	"/:listId/thingToDo/remove/:thingToDoId",
+	"/:listId/thingToDo/:thingToDoId",
 	// requireAuth,
 	expressAsyncHandler(async (req, res, next) => {
 		try {

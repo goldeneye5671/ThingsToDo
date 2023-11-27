@@ -17,13 +17,13 @@ article {
   /* margin: 15px; */
 }
 
-article a::after {
+/* article a::after {
   position: absolute;
   inset-block: 0;
   inset-inline: 0;
   cursor: pointer;
   content: "";
-}
+} */
 
 .description {
   max-height: 100px;
@@ -57,7 +57,6 @@ article img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: scroll;
 }
 
 .action-buttons{

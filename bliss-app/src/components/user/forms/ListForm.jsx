@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react'
 import {useDispatch} from "react-redux"
 import BaseForm from '../../shared/Forms/BaseForm'
 import Test from '../../shared/Modals/test'
-import { addUserList, updateUserList } from '../../../store/userSlice'
+import { addTagToUserList, addUserList, removeTagFromUserList, updateUserList } from '../../../store/userSlice'
+import axiosInstance from '../../../utils/axiosInstance'
+import SearchBox from './SearchBox'
 
 const ListForm = ({list, buttonText, edit}) => {
 
   const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false)
-
   const [listName, setListName] = useState(list?.listName ?? "");
   const [listDescription, setListDescription] = useState(list?.listDescription ?? "");
   const [listTags, setListTags] = useState(list?.ThingsToDoListTags ?? []);
+  const [listTagsRemove, setListTagsRemove] = useState([])
   const [errors, setErrors] = useState([])
-
-    useEffect(() => {
-      
-    })
 
     const onClose= (e) => {
         e.preventDefault();
@@ -25,6 +23,7 @@ const ListForm = ({list, buttonText, edit}) => {
         setListName(list?.listName ?? "");
         setListDescription(list?.listDescription ?? "");
         setListTags(list?.ThingsToDoListTags ?? []);
+        setListTagsRemove([])
     }
 
     const onSubmit = (e) => {
@@ -35,6 +34,9 @@ const ListForm = ({list, buttonText, edit}) => {
         listDescription,
       }
       if (edit) {
+        if (listTagsRemove) {
+          //dispatch the items that need to be removed
+        }
         dispatch(updateUserList(myList)).then(data => {
           setVisible(v => !v)
           setListName(data.payload.listName);
@@ -51,9 +53,23 @@ const ListForm = ({list, buttonText, edit}) => {
       }
     }
 
-    const handleRemove = (name) => {
+    const handleAdd = async (t) => {
+      const res = await dispatch(addTagToUserList({
+        listId: list?.id,
+        id: t?.id
+      }))
+      setListTags(tags => [...res.payload.ThingsToDoListTags]);
+    }
+
+    const handleRemove = async (t) => {
+      // Dispatch some action here that handles the removal of the tag
+      await dispatch(removeTagFromUserList({
+        listId: list?.id,
+        id: t?.id
+      }))
+      // need to send the list id along with the tag id
       const updatedList = listTags.filter(tag => {
-        return tag?.name !== name
+        return tag?.id !== t?.id
       });
       setListTags(updatedList);
     }
@@ -69,17 +85,16 @@ const ListForm = ({list, buttonText, edit}) => {
           <label className={"test-label-styling"}>List Description</label>
         </div>
         <div>
-          <div>
-            <label>Tags</label>
-            <button>+</button>
+          <div className={"test-label-container"}>
           </div>
           <div className='list-tags-container'>
             {listTags?.map((tag) => (
               <div className='list-tag-container' key={`tag-${tag?.id}`}>
                 <p className='list-tag-name'>{tag?.name}</p>
-                <button className='list-tag-remove-button' onClick={e => {e.preventDefault();handleRemove(tag?.name);}}>x</button>
+                <button className='list-tag-remove-button' onClick={e => {e.preventDefault();handleRemove(tag);}}>x</button>
               </div>
             ))}
+            <SearchBox url={"/api/thingtodolisttag"} handleSelect={handleAdd}/>
           </div>
         </div>
       </>
