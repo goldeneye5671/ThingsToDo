@@ -1,7 +1,7 @@
 const configuration = {
 	maxCustomDescriptions: 3000,
 	maxUsers: 500,
-	maxThingsToDo: 50,
+	maxThingsToDo: 64,
 	maxThingsToDoLists: 5000,
 	maxThingsToDoTags: 1000,
 	maxExperiences: 6000,

@@ -32,6 +32,7 @@ function SignUp() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		console.log("Clicked")
 		if (canSubmit) {
 			dispatch(
 				signUpUser({
@@ -43,23 +44,17 @@ function SignUp() {
 					email,
 					password,
 				})
-			)
-				.then((data) => {
-					navigate("/sign-in");
-				})
-				.catch(async (res) => {
-					const data = await res.json();
-					if (data && data.errors) setErrors(data.errors);
-				});
+			).then((data) => {
+				navigate("/sign-in");
+			})
+			.catch(async (res) => {
+				const data = await res.json();
+				if (data && data.errors) setErrors(data.errors);
+			});
 		}
 	};
 
 	useEffect(() => {
-		/**
-		 * Need these checks
-		 * - Length of fn, ln, email, pw
-		 *  -
-		 */
 
 		const nameRegex = /^[a-z ,.'-]+$/i;
 		const spaceRegex = /\s/;
@@ -207,8 +202,8 @@ function SignUp() {
 						{<p>{errors.find(e => e.toLowerCase() === "passwords do not match")}</p>}
 					</div>
 				</div>
-			</form>
 			<button type={"submit"}>Sign Up</button>
+			</form>
 			<p>
 				Already have an account? <br></br>
 				<Link>Sign in here!</Link>

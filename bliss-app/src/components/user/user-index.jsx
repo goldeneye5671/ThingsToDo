@@ -156,6 +156,7 @@ function UserPage() {
           </>
         }
         to={`/lists/${list?.id}`}
+        showLink={true}
       />
     </>
   ));

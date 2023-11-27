@@ -1,20 +1,20 @@
 const router = require("express").Router();
 const expressAsyncHandler = require("express-async-handler");
 const db = require("../../db/models");
+const {validateAccessToken} = require("../../utils/auth");
+const { Op } = require("sequelize");
 // const { // requireAuth } = require("../../utils/auth");
 
 // CRUD - create, read, update, delete a tag is needed. Only the admin should be able to do this
 
 router.post(
   "/",
-  // requireAuth,
+  validateAccessToken,
   expressAsyncHandler(async (req, res) => {
-    const { name } = req.body;
-
-    if (name) {
-      const thingTag = await db.ThingsToDoListTag.create({
-        name,
-      });
+    const { tags } = req.body;
+    console.log(tags)
+    if (tags) {
+      const thingTag = await db.ThingsToDoListTag.bulkCreate(tags);
       if (thingTag) {
         res.json(thingTag);
       } else {
@@ -33,14 +33,31 @@ router.post(
 router.get(
   "/",
   expressAsyncHandler(async (req, res) => {
-    const thingTags = await db.ThingsToDoListTag.findAll();
-    if (thingTags) {
-      res.json(thingTags);
+    console.log(req.query)
+    let { search } = req.query;
+    console.log(search)
+    if (search) {
+      const thingTags = await db.ThingsToDoListTag.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${search}%`
+          }
+        }
+      })
+      await res.json(thingTags)
+
     } else {
-      throw new Error("Error finding the ThingsToDoListTags. Please try again");
+      const thingTags = await db.ThingsToDoListTag.findAll();
+      if (thingTags) {
+        res.json(thingTags);
+      } else {
+        throw new Error("Error finding the ThingsToDoListTags. Please try again");
+      }
     }
+
   })
 );
+
 
 router.get(
   "/:id",
