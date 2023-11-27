@@ -97,7 +97,15 @@ router.patch(
 		}
 
 		const updatedThingsToDoList = await db.ThingsToDoList.findByPk(
-			req.params.id
+			req.params.id,
+			{
+				include: [
+					{
+						model: db.ThingsToDoListTag,
+						through: { attributes: [] },
+					}
+				]
+			}
 		);
 
 		res.json(updatedThingsToDoList);
