@@ -5,12 +5,16 @@ import { fetchOneList, selectListById } from "../../../store/listSlice";
 import ListEntry from "./list-entry"
 import "./list.css"
 import Header from "../../shared/Section/headers/Header";
+import SearchBox from "../../user/forms/SearchBox";
 
 function IndividualList() {
   const dispatch = useDispatch();
   const params = useParams()
   const list = useSelector(state => state?.list?.lists.find(list => list.id === parseInt(params.id)));
-  const listComponents = list?.ThingsToDos?.length ? list.ThingsToDos.map(bliss => <ListEntry key={bliss.id} entryTitle={bliss.thingName} entryAdded={bliss.createdAt}/>) : <h3>Nothing...yet...</h3>
+  const listComponents = list?.ThingsToDos?.length ? 
+      list.ThingsToDos.map(bliss => <ListEntry key={bliss.id} entryTitle={bliss.thingName} entryAdded={bliss.createdAt}/>) 
+    : 
+      <h3>Nothing...yet...</h3>
   const title = (
     <>
       <h1>{list?.listName}</h1>
@@ -33,7 +37,9 @@ function IndividualList() {
       <Header 
         title={title}
         description={description}
+        searchBar={<SearchBox url={"/api/thingstodo/search"} />}
       />
+
       <div className="list-entry-container">
         {listComponents}
       </div>

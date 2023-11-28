@@ -11,81 +11,6 @@ const { Op } = require("sequelize");
 router.get(
 	"/",
 	expressAsyncHandler(async (req, res) => {
-		// if (Object.keys(req.body).length > 0) {
-		// 	let queryObj;
-
-		// if (req.body.exact) {
-		// 	if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
-		// 		throw new Error(
-		// 			"Malformed body. Either and or or can be set to true, not both"
-		// 		);
-		// 	} else if (req.body.and) {
-		// 		queryObj = {
-		// 			where: {
-		// 				[Op.and]: {
-		// 					thingName: req.body.thingName,
-		// 					thingDescription: req.body.thingDescription,
-		// 				},
-		// 			},
-		// 		};
-		// 	} else if (req.body.or) {
-		// 		queryObj = {
-		// 			where: {
-		// 				[Op.or]: {
-		// 					thingName: req.body.thingName,
-		// 					thingDescription: req.body.thingDescription,
-		// 				},
-		// 			},
-		// 		};
-		// 	}
-		// } else {
-		// 	if ((req.body.and && req.body.or) || (!req.body.and && !req.body.or)) {
-		// 		throw new Error(
-		// 			"Malformed body. Either and or or can be set to true, not both"
-		// 		);
-		// 	} else if (req.body.and) {
-		// 		queryObj = {
-		// 			where: {
-		// 				[Op.and]: {
-		// 					thingName: {
-		// 						[Op.substring]: req.body.thingName,
-		// 					},
-		// 					thingDescription: {
-		// 						[Op.substring]: req.body.thingDescription,
-		// 					},
-		// 				},
-		// 			},
-		// 		};
-		// 	} else if (req.body.or) {
-		// 		queryObj = {
-		// 			where: {
-		// 				[Op.or]: {
-		// 					thingName: {
-		// 						[Op.substring]: req.body.thingName,
-		// 					},
-		// 					thingDescription: {
-		// 						[Op.substring]: req.body.thingDescription,
-		// 					},
-		// 				},
-		// 			},
-		// 		};
-		// 	}
-		// }
-		// queryObj.include = [
-		// 	db.ThingRating,
-		// 	db.Experience,
-		// 	db.CustomDescription,
-		// 	db.Business,
-		// ];
-		// queryObj.limit = 10;
-		// const allThings = await db.ThingsToDo.findAll(queryObj);
-
-		// if (allThings) {
-		// 	res.json(allThings);
-		// } else {
-		// 	throw new Error("Cannot grab thingsToDo");
-		// }
-		// } else {
 		let { limit, offset, page } = req.query;
 		const allThings = await db.ThingsToDo.findAll({
 			limit,
@@ -121,6 +46,22 @@ router.get(
 		// }
 	})
 );
+
+router.get(
+	"/search",
+	expressAsyncHandler(async (req, res) => {
+		let { search } = req.query;
+		const allThings = await db.ThingsToDo.findAll({
+			where: {
+				thingName: {
+					[Op.like]: `%${search.toLowerCase()}%`
+				}
+			}
+		})
+
+		res.json(allThings);
+	})
+)
 
 router.get(
 	"/:id",

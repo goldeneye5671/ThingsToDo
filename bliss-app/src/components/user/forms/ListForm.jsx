@@ -88,13 +88,15 @@ const ListForm = ({list, buttonText, edit}) => {
           <div className={"test-label-container"}>
           </div>
           <div className='list-tags-container'>
-            {listTags?.map((tag) => (
-              <div className='list-tag-container' key={`tag-${tag?.id}`}>
-                <p className='list-tag-name'>{tag?.name}</p>
-                <button className='list-tag-remove-button' onClick={e => {e.preventDefault();handleRemove(tag);}}>x</button>
-              </div>
-            ))}
             <SearchBox url={"/api/thingtodolisttag"} handleSelect={handleAdd}/>
+            <div className="list-tags">
+              {listTags?.map((tag) => (
+                <div className='list-tag-container' key={`tag-${tag?.id}`}>
+                  <p className='list-tag-name'>{tag?.name}</p>
+                  <button className='list-tag-remove-button' onClick={e => {e.preventDefault();handleRemove(tag);}}>x</button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </>
@@ -118,6 +120,7 @@ const ListForm = ({list, buttonText, edit}) => {
      <button onClick={e => {e.preventDefault; setVisible(v => !v)}}>{buttonText}</button>
     </>
   )
+  // return null
 }
 
 export default ListForm
