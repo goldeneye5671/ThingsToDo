@@ -53,12 +53,13 @@ const ListForm = ({list, buttonText, edit}) => {
       }
     }
 
-    const handleAdd = async (t) => {
-      const res = await dispatch(addTagToUserList({
+    const handleAdd = (t) => {
+      const res = dispatch(addTagToUserList({
         listId: list?.id,
         id: t?.id
-      }))
-      setListTags(tags => [...res.payload.ThingsToDoListTags]);
+      })).then(data => {
+        setListTags(data?.payload?.ThingsToDoListTags);
+      })
     }
 
     const handleRemove = async (t) => {
@@ -86,7 +87,9 @@ const ListForm = ({list, buttonText, edit}) => {
         </div>
         <div>
           <div className={"test-label-container"}>
+            {!edit && <p>To add list tags, edit it after you save</p>}
           </div>
+          {edit && (
           <div className='list-tags-container'>
             <SearchBox url={"/api/thingtodolisttag"} handleSelect={handleAdd}/>
             <div className="list-tags">
@@ -98,6 +101,7 @@ const ListForm = ({list, buttonText, edit}) => {
               ))}
             </div>
           </div>
+          )}
         </div>
       </>
     )
