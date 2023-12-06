@@ -1,6 +1,8 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import { isProduction } from "../../utils/axiosInstance";
 
+console.log("isProduction", isProduction);
+
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: isProduction ? "https://things-to-do-rmqm.onrender.com/api" : "localhost:5000"}),
