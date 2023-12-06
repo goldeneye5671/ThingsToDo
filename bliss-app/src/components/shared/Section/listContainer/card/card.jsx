@@ -16,7 +16,7 @@ function Card({ id, to, image, title, content, model, showLink }) {
           <br></br>
           {showLink && (
 
-            <Link className="card" key={id} to={to} className="read-more">
+            <Link key={id} to={to} className="read-more card">
               Discover
               <span className="sr-only"></span>
               <svg
