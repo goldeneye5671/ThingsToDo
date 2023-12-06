@@ -5,6 +5,7 @@ import {
   useCreateBlissMutation,
   useUpdateBlissByIdMutation,
   useDeleteBlissByIdMutation,
+  apiSlice
 } from "../../features/api/apiSlice";
 
 import "./bliss-index.css";
@@ -15,11 +16,13 @@ import Loading from "../shared/Status/Loading";
 import Error from "../shared/Status/Error";
 import Card from "../shared/Section/listContainer/card/card";
 import { Link, Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function BlissPage({ home }) {
   const [page, setPage] =  useState(0);
   const [active, setActive] = useState("");
   const scrollableRef = useRef(null);
+  const dispatch = useDispatch();
 
   const {
     data: bliss,
@@ -27,7 +30,6 @@ function BlissPage({ home }) {
     isSuccess,
     isError,
     error,
-    refetch, 
     isFetching,
   } = useGetBlissQuery(page);
 
@@ -51,6 +53,7 @@ function BlissPage({ home }) {
       if(element) {
         element.removeEventListener('scroll', handleScroll)
       }
+      dispatch(apiSlice.util.invalidateTags(["getBliss"]));
     }
   }, [page, isFetching]);
 
@@ -99,20 +102,21 @@ function BlissPage({ home }) {
   return (
     <div className="content">
       {isSuccess && (
-        <div style={{ display: "flex" }}>
+        <div style={{display: "flex"}}>
+        <div style={{ display: "flex", flexDirection: "column", minWidth: "35%" }}>
+          {!home ? (
+            <Header
+              title={title}
+              searchBar={searchBar}
+              actionButtons={actionButtons}
+            />
+          ) : (
+            <Header title={title} />
+          )}
           <div
             style={{ overflowY: "scroll", maxHeight: "70vh", minWidth: "25%" }}
             ref={scrollableRef}
           >
-            {!home ? (
-              <Header
-                title={title}
-                searchBar={searchBar}
-                actionButtons={actionButtons}
-              />
-            ) : (
-              <Header title={title} />
-            )}
             {bliss?.allThings?.map((bliss) => (
               <div
                 onClick={(e) => handleComponentClick(bliss?.id)}
@@ -129,9 +133,10 @@ function BlissPage({ home }) {
               </div>
             ))}
           </div>
+        </div>
           <div
             style={{
-              height: "80vh",
+              height: "90svh",
               overflowY: "scroll",
             }}
           >

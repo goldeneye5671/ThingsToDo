@@ -12,7 +12,11 @@ export const apiSlice = createApi({
                 return endpointName
             },
             merge: (currentCache, newItems) => {
-                currentCache.allThings.push(...newItems.allThings)
+                const uniqueNewThings = newItems.allThings.filter(newThing => {
+                    // Check if the newThing is not already in the currentCache
+                    return !currentCache.allThings.some(existingThing => existingThing.id === newThing.id);
+                });
+                currentCache.allThings.push(...uniqueNewThings)
             },
             forceRefetch({currentArg, previousArg}) {
                 console.log(currentArg, previousArg)
