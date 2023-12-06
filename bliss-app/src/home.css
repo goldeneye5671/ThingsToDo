@@ -28,6 +28,7 @@
 }
 
 .home-main-header {
+  min-width: 100%;
   background: rgb(72, 82, 242);
   background: linear-gradient(
     50deg,
@@ -42,7 +43,6 @@
   border: solid lightgrey 1px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
   rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-  border-radius: 15px;
   padding: 25px 0px;
   margin: 15px auto;
 }
@@ -174,7 +174,7 @@ h2 {
 
 .content {
   margin: 0 auto;
-  width: 90%;
+
 }
 
 /* Mobile Screens */
