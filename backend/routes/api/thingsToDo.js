@@ -36,6 +36,7 @@ router.get(
 				},
 				db.Business,
 			],
+			order: [["id", "ASC"]]
 		});
 		if (allThings) {
 			offset = parseInt(offset) + parseInt(limit);
@@ -54,7 +55,7 @@ router.get(
 		const allThings = await db.ThingsToDo.findAll({
 			where: {
 				thingName: {
-					[Op.like]: `%${search.toLowerCase()}%`
+					[Op.iLike]: `%${search.toLowerCase()}%`
 				}
 			}
 		})

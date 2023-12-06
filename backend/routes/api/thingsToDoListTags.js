@@ -40,7 +40,7 @@ router.get(
       const thingTags = await db.ThingsToDoListTag.findAll({
         where: {
           name: {
-            [Op.like]: `%${search}%`
+            [Op.iLike]: `%${search}%`
           }
         }
       })

@@ -75,6 +75,15 @@ const ListForm = ({list, buttonText, edit}) => {
       setListTags(updatedList);
     }
 
+    const renderResults = (tag, visible) => {
+      return (
+        <>
+          <p style={{minWidth: "350px", color: "black"}}>{tag?.name}</p>
+          <button onClick={e => {e.preventDefault(); handleAdd(tag); visible(false)}}>+</button>
+        </>
+      )
+    }
+
     const children = (
       <>
         <div className={"test-label-container"}>
@@ -91,7 +100,7 @@ const ListForm = ({list, buttonText, edit}) => {
           </div>
           {edit && (
           <div className='list-tags-container'>
-            <SearchBox url={"/api/thingtodolisttag"} handleSelect={handleAdd}/>
+            <SearchBox url={"/api/thingtodolisttag"} renderResults={renderResults}/>
             <div className="list-tags">
               {listTags?.map((tag) => (
                 <div className='list-tag-container' key={`tag-${tag?.id}`}>
