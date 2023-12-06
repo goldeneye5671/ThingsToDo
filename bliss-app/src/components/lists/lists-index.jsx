@@ -24,14 +24,25 @@ function ListPage({home}) {
   let content = status === "fulfilled" && lists?.lists?.map((list) => {
     const children = (
       <>
-        <p>{list?.listDescription}</p>
-        <h3>List Tags</h3>
+        <p className="description">{list?.listDescription}</p>
         {
           list?.ThingsToDoListTags?.length ? 
             (
-              <div>
+              <div style={{
+                display: "flex",
+                flexDirection: "row",
+                overflowX: "scroll"
+              }}>
                 {list?.ThingsToDoListTags?.map(tag => {
-                  return <p>{tag?.name}</p>
+                  return (
+                    <span style={{
+                      border: "solid black 1px",
+                      borderRadius: "30px",
+                      padding: "0px 30px"
+                    }} key= {`tag-${tag?.id}`}>
+                      <p>{tag?.name}</p>
+                    </span>
+                  )
                 })}
               </div>
             )

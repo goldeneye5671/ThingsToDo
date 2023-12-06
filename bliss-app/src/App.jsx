@@ -9,17 +9,17 @@ import ListPage from "./components/lists/lists-index";
 import IndividualList from "./components/lists/individual-list/list";
 import Home from "./components/home/home-index";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { refreshUser } from "./store/sessionSlice";
+// import { useDispatch } from "react-redux";
+// import { refreshUser } from "./store/sessionSlice";
 import UserPage from "./components/user/user-index";
 
 function App() {
 
-	const dispatch = useDispatch()
+	// const dispatch = useDispatch()
 
 	useEffect(() => {
 		//get refresh token
-		dispatch(refreshUser());
+		// dispatch(refreshUser());
 	})
 
 	return (
@@ -29,8 +29,9 @@ function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/sign-up" element={<SignUp />}/>
 				<Route path="/sign-in" element={<SignIn />}/>
-				<Route path="/bliss" element={<BlissPage />} />
-				<Route path="/bliss/:id" element={<IndividualBliss/>}/>
+				<Route path="/bliss" element={<BlissPage />}>
+					<Route path="/bliss/:id" element={<IndividualBliss/>}/>
+				</Route>
 				<Route path="/businesses" element={<BusinessPage />} />
 				<Route path="/lists" element={<ListPage />} />
 				<Route path="/lists/:id" element={<IndividualList />}/>

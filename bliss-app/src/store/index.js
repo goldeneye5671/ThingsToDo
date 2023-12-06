@@ -5,6 +5,7 @@ import listSlice from "./listSlice";
 import userSlice from "./userSlice";
 import process from "process";
 import sessionSlice from "./sessionSlice";
+import { apiSlice } from "../features/api/apiSlice";
 //reducer imports
 
 export const store = configureStore({
@@ -14,7 +15,9 @@ export const store = configureStore({
 		list: listSlice,
 		user: userSlice,
 		session: sessionSlice,
+		[apiSlice.reducerPath]: apiSlice.reducer
 	},
+	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
 

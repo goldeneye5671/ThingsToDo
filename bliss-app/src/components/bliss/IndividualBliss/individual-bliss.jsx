@@ -1,21 +1,31 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  cleanBliss,
-  fetchOneBliss,
-  selectBlissById,
-} from "../../../store/blissSlice";
-
+// import {
+//   cleanBliss,
+//   fetchOneBliss,
+//   selectBlissById,
+// } from "../../../store/blissSlice";
+import { useGetBlissQuery, useGetOneBlissQuery } from "../../../features/api/apiSlice";
 import Business from "../../business/business-card";
 import ExperienceCard from "../../experience/experience-card";
 import CustomDescription from "../../custom-description/custom-description";
 import Header from "../../shared/Section/headers/Header";
 import DescriptionForm from "./Forms/DescriptionForm";
 import ExperiencesForm from "./Forms/ExperienceForm";
+import Loading from "../../shared/Status/Loading";
 
 function IndividualBliss() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const params = useParams();
+  const {
+    data: bliss,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetOneBlissQuery(parseInt(params.id));
+
   const [showDescriptions, setShowDescriptions] = useState(true);
   const [showExperiences, setShowExperiences] = useState(false);
   const [showBusinesses, setShowBusinesses] = useState(false);
@@ -41,10 +51,9 @@ function IndividualBliss() {
     setShowBusinesses(true);
   };
 
-  const params = useParams();
-  const bliss = useSelector((state) =>
-    selectBlissById(state, parseInt(params.id))
-  );
+  // const bliss = useSelector((state) =>
+  //   selectBlissById(state, parseInt(params.id))
+  // );
 
   const title = <h1>{bliss?.thingName}</h1>;
 
@@ -75,28 +84,28 @@ function IndividualBliss() {
     </div>
   );
 
-  useEffect(() => {
-    if (!bliss) {
-      dispatch(fetchOneBliss(parseInt(params.id)));
-    }
-    () => {
-      dispatch(cleanBliss());
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if (!bliss) {
+  //     dispatch(fetchOneBliss(parseInt(params.id)));
+  //   }
+  //   () => {
+  //     dispatch(cleanBliss());
+  //   };
+  // }, [dispatch]);
 
   let customDescriptionContent = bliss?.CustomDescriptions?.map((desc) => (
     <CustomDescription key={desc?.id} CustomDescription={desc} />
   ));
 
-  let experiencesContent = bliss?.Experiences?.map((exp) => (
+  let experiencesContent =  bliss?.Experiences?.map((exp) => (
     <ExperienceCard key={bliss?.id} experience={exp} />
   ));
 
-  let businessesContent = bliss?.Businesses?.map((business) => (
+  let businessesContent = isSuccess && bliss?.Businesses?.map((business) => (
     <Business key={business?.id} business={business} />
   ));
 
-  return (
+  return isSuccess ? (
     <div className="content">
       <Header
         title={title}
@@ -146,7 +155,7 @@ function IndividualBliss() {
         </div>
       )}
     </div>
-  );
+  ) : (<Loading />);
 }
 
 export default IndividualBliss;

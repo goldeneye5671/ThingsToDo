@@ -3,7 +3,7 @@ import axiosInstance from '../../../utils/axiosInstance';
 import Loading from '../../shared/Status/Loading'
 import Error from '../../shared/Status/Error'
 
-const SearchBox = ({url, handleSelect}) => {
+const SearchBox = ({url, renderResults}) => {
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false)
@@ -75,12 +75,10 @@ const SearchBox = ({url, handleSelect}) => {
                                     }
                                 }
                             >
-                                {searchResults.map(s => (
-                                    <>
-                                        <p>{s.name}</p>
-                                        <button onClick={e => {e.preventDefault(); handleSelect(s); setResVisible(false)}}>+</button>
-                                    </>
-                                ))}
+                                {searchResults.length && searchResults.map(s =>{
+                                    return renderResults(s, setResVisible);
+                                }
+                                )}
                             </div>) 
                             :
                             (<p>No results</p>)

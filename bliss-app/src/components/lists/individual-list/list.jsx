@@ -32,12 +32,25 @@ function IndividualList() {
     }
   })
 
+  const handleAdd = (bliss) => {
+    console.log(bliss)
+  }
+
+  const renderResults = (bliss, visible) => {
+    return (
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: "5px", borderRadius: "15px"}}>
+        <p style={{minWidth: "350px", color: "black"}}>{bliss?.thingName}</p>
+        <button onClick={e => {e.preventDefault(); handleAdd(bliss); visible(false)}}>+</button>
+      </div>
+    )
+  }
+
   return (
     <div className="content">
       <Header 
         title={title}
         description={description}
-        searchBar={<SearchBox url={"/api/thingstodo/search"} />}
+        searchBar={<SearchBox url={"/api/thingstodo/search"} renderResults={renderResults} />}
       />
 
       <div className="list-entry-container">
