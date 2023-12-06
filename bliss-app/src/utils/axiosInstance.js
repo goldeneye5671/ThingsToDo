@@ -5,3 +5,5 @@ export default axios.create({
     withCredentials: true,
     baseURL: process.env.NODE_ENV === "production" ? "/" :"http://localhost:5000"
 })
+
+export const isProduction = process.env.NODE_ENV === "production" ? true : false;
