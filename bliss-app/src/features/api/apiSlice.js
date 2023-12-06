@@ -5,7 +5,7 @@ console.log("isProduction", isProduction);
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({baseUrl: isProduction ? "https://things-to-do-rmqm.onrender.com/api" : "localhost:5000"}),
+    baseQuery: fetchBaseQuery({baseUrl: isProduction ? "https://things-to-do-rmqm.onrender.com/api" : "http://localhost:5000/api"}),
     tagTypes: ["Bliss"],
     endpoints: builder => ({
         getBliss: builder.query({

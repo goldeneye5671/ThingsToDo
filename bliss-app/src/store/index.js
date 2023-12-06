@@ -20,5 +20,3 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 	devTools: process.env.NODE_ENV !== 'production',
 });
-
-export const devURI = process.env.NODE_ENV === "development" ? `http://localhost:5000`:`` 
