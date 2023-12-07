@@ -169,12 +169,13 @@ h2 {
 }
 
 .control-buttons > button {
-  margin: 15px 15px;
+  margin: auto 5px;
+  padding: 3px 9px;
 }
 
 .content {
   margin: 0 auto;
-
+  max-height: 100svh;
 }
 
 /* Mobile Screens */

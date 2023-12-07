@@ -29,6 +29,7 @@ function IndividualBliss() {
   const [showDescriptions, setShowDescriptions] = useState(true);
   const [showExperiences, setShowExperiences] = useState(false);
   const [showBusinesses, setShowBusinesses] = useState(false);
+  const [showDescription, setShowDescription] = useState(false);
 
   const onDescriptionsClick = (e) => {
     e.preventDefault();
@@ -81,6 +82,14 @@ function IndividualBliss() {
       >
         Businesses
       </button>
+      <button
+        onClick={e => {
+          e.preventDefault();
+          setShowDescription(v => !v)
+        }}
+      >
+        ?
+      </button>
     </div>
   );
 
@@ -109,7 +118,7 @@ function IndividualBliss() {
     <div className="content">
       <Header
         title={title}
-        description={description}
+        description={showDescription ? description : null}
         actionButtons={actionButtons}
       />
 
