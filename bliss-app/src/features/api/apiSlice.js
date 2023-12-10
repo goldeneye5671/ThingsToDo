@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    // baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5000/api"}),
+//    baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5000/api"}),
     baseQuery: fetchBaseQuery({baseUrl: "https://things-to-do-rmqm.onrender.com/api"}),
     tagTypes: ["Bliss"],
     endpoints: builder => ({
@@ -71,6 +71,7 @@ export const apiSlice = createApi({
             },
             invalidatesTags: ["List"],
         }),
+
         getOneList: builder.query({
             query: (listId) => ({
                 url: `/thingsToDoLists/${listId}`,
