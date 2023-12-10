@@ -1,16 +1,21 @@
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchOneList, selectListById } from "../../../store/listSlice";
 import ListEntry from "./list-entry"
 import "./list.css"
 import Header from "../../shared/Section/headers/Header";
 import SearchBox from "../../user/forms/SearchBox";
+import { useGetListsQuery, useGetOneListQuery } from "../../../features/api/apiSlice";
 
 function IndividualList() {
   const dispatch = useDispatch();
   const params = useParams()
-  const list = useSelector(state => state?.list?.lists.find(list => list.id === parseInt(params.id)));
+  const {
+    data: list,
+    isLoading,
+    isError,
+    error
+  } = useGetOneListQuery(parseInt(params?.id))
   const listComponents = list?.ThingsToDos?.length ? 
       list.ThingsToDos.map(bliss => <ListEntry key={bliss.id} entryTitle={bliss.thingName} entryAdded={bliss.createdAt}/>) 
     : 
@@ -25,12 +30,6 @@ function IndividualList() {
   const description = (
     <p>{list?.listDescription}</p>
   )
-  
-  useEffect(() => {
-    if (!list) {
-      dispatch(fetchOneList(parseInt(params.id)))
-    }
-  })
 
   const handleAdd = (bliss) => {
     console.log(bliss)
@@ -50,7 +49,7 @@ function IndividualList() {
       <Header 
         title={title}
         description={description}
-        searchBar={<SearchBox url={"/api/thingstodo/search"} renderResults={renderResults} />}
+        // searchBar={<SearchBox url={"/api/thingstodo/search"} renderResults={renderResults} />}
       />
 
       <div className="list-entry-container">

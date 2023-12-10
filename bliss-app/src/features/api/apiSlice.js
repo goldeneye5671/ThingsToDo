@@ -71,6 +71,12 @@ export const apiSlice = createApi({
             },
             invalidatesTags: ["List"],
         }),
+        getOneList: builder.query({
+            query: (listId) => ({
+                url: `/thingsToDoLists/${listId}`,
+            }),
+            invalidatesTags: ["List"],
+        }),
     })
 })
 
@@ -80,5 +86,6 @@ export const {
     useUpdateBlissByIdMutation,
     useDeleteBlissByIdMutation,
     useGetOneBlissQuery,
-    useGetListsQuery
+    useGetListsQuery,
+    useGetOneListQuery
   } = apiSlice;
