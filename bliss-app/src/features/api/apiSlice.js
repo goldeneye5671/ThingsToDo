@@ -2,8 +2,8 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
     reducerPath: 'api',
-    // baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5000/api"}),
-    baseQuery: fetchBaseQuery({baseUrl: "https://things-to-do-rmqm.onrender.com/api"}),
+    baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5000/api"}),
+    // baseQuery: fetchBaseQuery({baseUrl: "https://things-to-do-rmqm.onrender.com/api"}),
     tagTypes: ["Bliss"],
     endpoints: builder => ({
         getBliss: builder.query({
@@ -19,7 +19,6 @@ export const apiSlice = createApi({
                 currentCache.allThings.push(...uniqueNewThings)
             },
             forceRefetch({currentArg, previousArg}) {
-                console.log(currentArg, previousArg)
                 const shouldRefetch = currentArg !== previousArg
                 return shouldRefetch;
             },
@@ -53,7 +52,25 @@ export const apiSlice = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ["Bliss"]
-        })
+        }),
+        getLists: builder.query({
+            query: (page) => `/thingsToDoLists?limit=${15}&offset=${page * 15}`,
+            serializeQueryArgs: ({endpointName}) => {
+                return endpointName
+            },
+            merge: (currentCache, newItems) => {
+                const uniqueNewList = newItems.filter(newList => {
+                    // Check if the newThing is not already in the currentCache
+                    return !currentCache.some(existingList => existingList.id === newList.id);
+                });
+                currentCache.push(...uniqueNewList)
+            },
+            forceRefetch({currentArg, previousArg}) {
+                const shouldRefetch = currentArg !== previousArg
+                return shouldRefetch;
+            },
+            invalidatesTags: ["List"],
+        }),
     })
 })
 
