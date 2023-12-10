@@ -75,7 +75,7 @@ const SearchBox = ({url, renderResults}) => {
                                     }
                                 }
                             >
-                                {searchResults.length && searchResults.map(s =>{
+                                {searchResults?.length && searchResults?.map(s =>{
                                     return renderResults(s, setResVisible);
                                 }
                                 )}
