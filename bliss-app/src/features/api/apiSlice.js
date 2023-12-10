@@ -62,5 +62,6 @@ export const {
     useCreateBlissMutation,
     useUpdateBlissByIdMutation,
     useDeleteBlissByIdMutation,
-    useGetOneBlissQuery
+    useGetOneBlissQuery,
+    useGetListsQuery
   } = apiSlice;
