@@ -37,3 +37,9 @@ background: linear-gradient(
 );
 color: white;
 }
+
+.main-content{
+    border: solid black 3px;
+    max-height: 90svh;
+    /* overflow-y: scroll; */
+  }

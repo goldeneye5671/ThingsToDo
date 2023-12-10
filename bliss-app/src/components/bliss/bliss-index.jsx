@@ -5,22 +5,20 @@ import {
   useCreateBlissMutation,
   useUpdateBlissByIdMutation,
   useDeleteBlissByIdMutation,
-  apiSlice
+  apiSlice,
 } from "../../features/api/apiSlice";
 
+import { useParams } from "react-router-dom";
+
 import "./bliss-index.css";
-import PageNavigation from "../shared/Section/pageNav/PageNavigation";
-import ListContainer from "../shared/Section/listContainer/ListContainer";
 import Header from "../shared/Section/headers/Header";
-import Loading from "../shared/Status/Loading";
-import Error from "../shared/Status/Error";
-import Card from "../shared/Section/listContainer/card/card";
 import { Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Loading from "../shared/Status/Loading";
 
 function BlissPage({ home }) {
-  const [page, setPage] =  useState(0);
-  const [active, setActive] = useState("");
+  const params = useParams();
+  const [page, setPage] = useState(0);
   const scrollableRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -36,37 +34,28 @@ function BlissPage({ home }) {
   useEffect(() => {
     const handleScroll = () => {
       const element = scrollableRef.current;
-      if(element) {
-        const scrolledToBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+      if (element) {
+        const scrolledToBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
         if (scrolledToBottom && !isFetching) {
-          console.log("fetching more data")
-          setPage(page + 1)
+          console.log("fetching more data");
+          setPage(page + 1);
+        } else {
+          console.log("Not at bottom");
         }
       }
-    }
+    };
     const element = scrollableRef.current;
     if (element) {
-      element.addEventListener('scroll', handleScroll);
+      element.addEventListener("scroll", handleScroll);
     }
     return () => {
       const element = scrollableRef.current;
-      if(element) {
-        element.removeEventListener('scroll', handleScroll)
+      if (element) {
+        element.removeEventListener("scroll", handleScroll);
       }
       dispatch(apiSlice.util.invalidateTags(["getBliss"]));
-    }
+    };
   }, [page, isFetching]);
-
-  const handleComponentClick = (componentId) => {
-    setActive(componentId);
-  };
-
-  const onAddBlissClick = (e) => {
-    e.preventDefault();
-    // setAddBliss(!addBliss);
-  };
-
-  const [addBliss, setAddBliss] = useState(false);
 
   const title = <h1>Bliss</h1>;
 
@@ -81,71 +70,55 @@ function BlissPage({ home }) {
     </div>
   );
 
-  const actionButtons = (
-    <>
-      <button onClick={onAddBlissClick}>Add Bliss</button>
-      {addBliss && <BlissCreateForm setVisible={setAddBliss} />}
-    </>
-  );
-
   let content = bliss?.allThings?.map((bliss) => (
-    <Card
-      key={bliss?.id}
-      id={bliss?.id}
-      to={`/bliss/${bliss?.id}`}
-      title={bliss?.thingName}
-      content={<p className="description">{bliss?.thingDescription}</p>}
-      showLink={true}
-    />
-  ));
+    <div
+      className={
+        parseInt(params?.id) === bliss?.id
+          ? "active bliss-link-container"
+          : "bliss-link-container"
+      }
+      key={`bliss-${bliss?.id}`}
+    >
+      <Link to={`/bliss/${bliss?.id}`}>
+        <h1>{bliss?.thingName}</h1>
+      </Link>
+    </div>
+  ))
 
   return (
-    <div className="content">
-      {isSuccess && (
-        <div style={{display: "flex"}}>
-        <div style={{ display: "flex", flexDirection: "column", minWidth: "35%" }}>
-          {!home ? (
-            <Header
-              title={title}
-              searchBar={searchBar}
-              actionButtons={actionButtons}
-            />
-          ) : (
-            <Header title={title} />
-          )}
-          <div
-            style={{ overflowY: "scroll", maxHeight: "70vh", minWidth: "25%" }}
-            ref={scrollableRef}
-          >
-            {bliss?.allThings?.map((bliss) => (
-              <div
-                onClick={(e) => handleComponentClick(bliss?.id)}
-                className={
-                  active === bliss?.id
-                    ? "active bliss-link-container"
-                    : "bliss-link-container"
-                }
-                key={`bliss-${bliss?.id}`}
-              >
-                <Link to={`/bliss/${bliss?.id}`}>
-                  <h1>{bliss?.thingName}</h1>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-          <div
-            style={{
-              height: "90svh",
-              overflowY: "scroll",
-            }}
-          >
-            <Outlet />
-          </div>
-        </div>
-      )}
-      {isLoading && <Loading />}
-      {isError && <Error error={error} />}
+
+    <div 
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      height: "90svh"
+    }} className="content">
+      <div 
+        style={{
+        height: "100%",
+        width: "30%",
+        overflowY: "scroll"
+      }}ref={scrollableRef} className="left">
+        <Header 
+          title={<h1>Bliss</h1>}
+          searchBar={<input type="text" placeholder="search"/>}
+        />
+        {content}
+        {isLoading && (<Loading />)}
+      </div>
+      <div 
+      style={{
+        width: "70%",
+        height: "100%",
+        overflowY: "scroll"
+      }}className="right">
+        {
+          params?.id ? (<Outlet />) : (<>
+            <h1>Please select content</h1>
+            <p>Choose a bliss from the right to see its content</p>
+          </>)
+        }
+      </div>
     </div>
   );
 }
