@@ -32,9 +32,10 @@ function App() {
 				<Route path="/bliss" element={<BlissPage />}>
 					<Route path="/bliss/:id" element={<IndividualBliss/>}/>
 				</Route>
-				<Route path="/businesses" element={<BusinessPage />} />
-				<Route path="/lists" element={<ListPage />} />
-				<Route path="/lists/:id" element={<IndividualList />}/>
+				<Route path="/businesses" element={<BusinessPage />}></Route>
+				<Route path="/lists" element={<ListPage />}>
+					<Route path={"/lists/:id"} element={<IndividualList />} />
+				</Route>
 				<Route path="/users/:id" element={<UserPage />}/>
 			</Routes>
 		</>

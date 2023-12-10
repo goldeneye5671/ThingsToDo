@@ -8,19 +8,17 @@ import {
   apiSlice,
 } from "../../features/api/apiSlice";
 
+import { useParams } from "react-router-dom";
+
 import "./bliss-index.css";
-import PageNavigation from "../shared/Section/pageNav/PageNavigation";
-import ListContainer from "../shared/Section/listContainer/ListContainer";
 import Header from "../shared/Section/headers/Header";
-import Loading from "../shared/Status/Loading";
-import Error from "../shared/Status/Error";
-import Card from "../shared/Section/listContainer/card/card";
 import { Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import Loading from "../shared/Status/Loading";
 
 function BlissPage({ home }) {
+  const params = useParams();
   const [page, setPage] = useState(0);
-  const [active, setActive] = useState("");
   const scrollableRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -38,8 +36,6 @@ function BlissPage({ home }) {
       const element = scrollableRef.current;
       if (element) {
         const scrolledToBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-        console.log(element.scrollHeight, element.scrollTop);
-        console.log(element.scrollHeight - element.scrollTop);
         if (scrolledToBottom && !isFetching) {
           console.log("fetching more data");
           setPage(page + 1);
@@ -61,17 +57,6 @@ function BlissPage({ home }) {
     };
   }, [page, isFetching]);
 
-  const handleComponentClick = (componentId) => {
-    setActive(componentId);
-  };
-
-  const onAddBlissClick = (e) => {
-    e.preventDefault();
-    // setAddBliss(!addBliss);
-  };
-
-  const [addBliss, setAddBliss] = useState(false);
-
   const title = <h1>Bliss</h1>;
 
   const searchBar = (
@@ -85,18 +70,10 @@ function BlissPage({ home }) {
     </div>
   );
 
-  const actionButtons = (
-    <>
-      {/* <button onClick={onAddBlissClick}>Add Bliss</button> */}
-      {/* {addBliss && <BlissCreateForm setVisible={setAddBliss} />} */}
-    </>
-  );
-
-  let content =bliss?.allThings?.map((bliss) => (
+  let content = bliss?.allThings?.map((bliss) => (
     <div
-      onClick={(e) => handleComponentClick(bliss?.id)}
       className={
-        active === bliss?.id
+        parseInt(params?.id) === bliss?.id
           ? "active bliss-link-container"
           : "bliss-link-container"
       }
@@ -109,44 +86,15 @@ function BlissPage({ home }) {
   ))
 
   return (
-    // <div className="main-content">
-    //   {isSuccess && (
-    //     <div style={{ display: "flex", height: "40svh"}}>
-    //       {/* <div
-    //         style={{
-    //           display: "flex",
-    //           flexDirection: "column",
-    //           minWidth: "35%",
-    //           maxHeight: "90svh",
-    //         }}
-    //       > */}
-    //         <div
-    //           style={{ overflow: "hidden", maxHeight: "60%", minWidth: "25%" }}
-    //           ref={scrollableRef}
-    //         >
-    //           {content}
-    //         </div>
-    //       {/* </div> */}
-    //       <div
-    //         style={{
-    //           height: "90svh",
-    //           overflowY: "scroll",
-    //         }}
-    //       >
-    //         <Outlet />
-    //       </div>
-    //     </div>
-    //   )}
-    //   {isLoading && <Loading />}
-    //   {isError && <Error error={error} />}
-    // </div>
 
-    <div style={{
+    <div 
+    style={{
       display: "flex",
       flexDirection: "row",
       height: "90svh"
     }} className="content">
-      <div style={{
+      <div 
+        style={{
         height: "100%",
         width: "30%",
         overflowY: "scroll"
@@ -156,13 +104,20 @@ function BlissPage({ home }) {
           searchBar={<input type="text" placeholder="search"/>}
         />
         {content}
+        {isLoading && (<Loading />)}
       </div>
-      <div style={{
+      <div 
+      style={{
         width: "70%",
         height: "100%",
         overflowY: "scroll"
       }}className="right">
-        <Outlet />
+        {
+          params?.id ? (<Outlet />) : (<>
+            <h1>Please select content</h1>
+            <p>Choose a bliss from the right to see its content</p>
+          </>)
+        }
       </div>
     </div>
   );

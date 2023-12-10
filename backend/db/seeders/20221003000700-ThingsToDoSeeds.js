@@ -6,10 +6,6 @@ const configuration = require("./generatrors/counter");
 const numberOfThings = configuration.maxThingsToDo;
 const generatedThings = [];
 
-// for (let i = 0; i < numberOfThings; i++) {
-// 	generatedThings.push(new ThingsToDo());
-// }
-
 generatedThings.push(
 		new ThingsToDo(
 			"Backpacking", 
@@ -266,7 +262,191 @@ generatedThings.push(
 		new ThingsToDo(
 			"Nerf Battle",
 			"A Nerf battle is a recreational activity where participants engage in mock combat using Nerf foam dart guns. Players strategize and dart around, attempting to eliminate opponents by hitting them with foam darts. Safety is a key element, as the soft foam darts minimize the risk of injury, allowing for energetic and enjoyable indoor or outdoor battles."
-		)
+		),
+		new ThingsToDo(
+			"Krosheying",
+			"A Nerf battle is a recreational activity where participants engage in mock combat using Nerf foam dart guns. Players strategize and dart around, attempting to eliminate opponents by hitting them with foam darts. Safety is a key element, as the soft foam darts minimize the risk of injury, allowing for energetic and enjoyable indoor or outdoor battles."
+		),
+		new ThingsToDo(
+			"Knitting",
+			"A Nerf battle is a recreational activity where participants engage in mock combat using Nerf foam dart guns. Players strategize and dart around, attempting to eliminate opponents by hitting them with foam darts. Safety is a key element, as the soft foam darts minimize the risk of injury, allowing for energetic and enjoyable indoor or outdoor battles."
+		),
+		new ThingsToDo(
+			"Rock Climbing",
+			"A Nerf battle is a recreational activity where participants engage in mock combat using Nerf foam dart guns. Players strategize and dart around, attempting to eliminate opponents by hitting them with foam darts. Safety is a key element, as the soft foam darts minimize the risk of injury, allowing for energetic and enjoyable indoor or outdoor battles."
+		),
+		new ThingsToDo(
+			"Meteorology",
+			"Meteorology is the scientific study of the Earth's atmosphere, weather patterns, and climatic conditions. Weather enthusiasts and meteorologists analyze atmospheric phenomena, study climate trends, and predict short-term and long-term weather changes. Meteorology combines elements of physics, mathematics, and environmental science to understand and forecast atmospheric dynamics."
+		),
+		new ThingsToDo(
+			"LARPing (Live Action Role-Playing)",
+			"Live Action Role-Playing (LARPing) involves participants physically portraying characters in a fictional setting. Players engage in collaborative storytelling, problem-solving, and combat scenarios, often in elaborate costumes and with prop weapons. LARPing provides an immersive and social experience, blending elements of theater, gaming, and creativity."
+		),
+		new ThingsToDo(
+			"Glassblowing",
+			"Glassblowing is a traditional craft that involves shaping molten glass using a blowpipe, molds, and various tools. Artisans create intricate glass objects, such as vases, sculptures, and ornaments, through a combination of skillful blowing, shaping, and cooling techniques. Glassblowing showcases the beauty and versatility of this captivating art form."
+		),
+		new ThingsToDo(
+			"Escape Room Challenges",
+			"Escape room challenges are interactive games where participants work together to solve puzzles, uncover clues, and accomplish tasks within a set time frame to 'escape' from a themed room. These immersive experiences foster teamwork, critical thinking, and creativity, providing an engaging and mentally stimulating activity for friends, family, or colleagues."
+		),
+		new ThingsToDo(
+			"Hot Air Ballooning",
+			"Hot air ballooning is a serene and adventurous activity that involves flying in a large balloon filled with hot air. Participants enjoy breathtaking aerial views as the balloon drifts with the wind. Hot air ballooning combines the thrill of flight with the tranquility of floating, creating a unique and memorable experience."
+		),
+		new ThingsToDo(
+			"Falconry",
+			"Falconry, or hawking, is the ancient art of training and hunting with birds of prey, such as falcons, hawks, and eagles. Falconers develop a bond with their birds, teaching them to hunt and return. Falconry is a cultural and historical practice that showcases the partnership between humans and these majestic raptors."
+		),
+		new ThingsToDo(
+			"Soap Making",
+			"Soap making is a creative and practical craft that involves producing soap from raw ingredients. Crafters mix oils, lye, and scents to create unique soap bars, often experimenting with colors and textures. Soap making allows for customization and produces handmade, artisanal products, making it both a satisfying hobby and potential small business venture."
+		),
+		new ThingsToDo(
+			"Telescope Making",
+			"Telescope making is a hands-on hobby where individuals construct their own telescopes for observing celestial objects. Enthusiasts grind and polish mirrors, assemble lenses, and build telescope mounts. Telescope making combines optics, engineering, and craftsmanship, providing a deeper connection to the night sky through personally crafted observing instruments."
+		),
+		new ThingsToDo(
+			"Genealogy Research",
+			"Genealogy research involves tracing one's ancestry and family history. Researchers explore historical records, documents, and databases to build family trees, uncover connections, and learn about the lives of their ancestors. Genealogy provides a fascinating journey into the past, connecting individuals to their roots and heritage."
+		),
+		new ThingsToDo(
+			"Metal Detecting",
+			"Metal detecting is a hobby where individuals use metal detectors to search for buried objects, artifacts, or treasures beneath the ground. Detectorists explore various locations, such as parks, beaches, or historical sites, uncovering items with historical, archaeological, or sentimental value. Metal detecting combines outdoor exploration with the excitement of discovery."
+		),
+		new ThingsToDo(
+			"Pottery",
+			"Pottery is the art of creating ceramic objects by shaping clay on a wheel or by hand. Artists mold and fire their creations, producing functional or decorative items such as bowls, vases, and sculptures. Pottery involves various techniques, glazes, and firing methods, resulting in unique and personalized ceramic pieces."
+		),
+		new ThingsToDo(
+			"Sailing",
+			"Sailing is a water-based activity that involves propelling a boat using wind as the primary source of power. Sailors manipulate sails and navigate watercraft, experiencing the thrill of harnessing natural forces for propulsion. Sailing offers a blend of skill, teamwork, and a deep connection with the open water and maritime environments."
+		),
+		new ThingsToDo(
+			"Scuba Diving",
+			"Scuba diving is an underwater activity where individuals use self-contained underwater breathing apparatus (SCUBA) to explore submerged environments. Divers experience the mesmerizing beauty of coral reefs, marine life, and underwater landscapes. Scuba diving combines adventure, exploration, and appreciation for the diverse ecosystems hidden beneath the ocean's surface."
+		),
+		new ThingsToDo(
+			"Kite Making and Flying",
+			"Kite making and flying involve crafting and launching kites into the sky. Enthusiasts create colorful kites with various designs and materials, enjoying the artistry of both making and piloting their creations. Kite flying provides a simple yet joyful outdoor activity, connecting individuals with the wind and the thrill of watching their kites soar."
+		),
+		new ThingsToDo(
+			"Amateur Radio",
+			"Amateur radio, or ham radio, is a hobby that allows individuals to communicate via radio waves. Operators use designated frequencies, equipment, and techniques to connect with other ham radio enthusiasts globally. Amateur radio combines technical skills, electronics, and a sense of community, fostering communication across borders and cultures."
+		),
+		new ThingsToDo(
+			"Creative Writing",
+			"Creative writing is the expression of thoughts, ideas, and stories through original prose, poetry, or fiction. Writers explore their imagination, emotions, and unique perspectives, creating compelling narratives. Creative writing serves as a means of self-expression, storytelling, and communication, offering a diverse and enriching outlet for literary creativity."
+		),
+		new ThingsToDo(
+			"Digital Art",
+			"Digital art involves creating visual art using digital tools, software, and devices. Artists use graphics tablets, digital pens, and software like Photoshop to produce illustrations, paintings, and designs. Digital art offers a versatile and dynamic medium for artistic expression, combining traditional art principles with the possibilities of technology."
+		),
+		new ThingsToDo(
+			"Candle Making",
+			"Candle making is a craft where individuals create candles from wax, wicks, and fragrances. Crafters mold and decorate candles, experimenting with shapes, colors, and scents. Candle making provides a therapeutic and rewarding experience, producing personalized candles for decoration, ambiance, or as thoughtful handmade gifts."
+		),
+		new ThingsToDo(
+			"Amateur Astronomy",
+			"Amateur astronomy involves observing celestial objects and phenomena using telescopes, binoculars, or the naked eye. Stargazers explore the night sky, identifying planets, stars, and other astronomical wonders. Amateur astronomy fosters a sense of wonder and curiosity, connecting enthusiasts with the vastness of the cosmos and the beauty of the universe."
+		),
+		new ThingsToDo(
+			"Aquaponics",
+			"Aquaponics is a sustainable farming method that combines aquaculture (raising fish) and hydroponics (cultivating plants in water). The nutrient-rich water from fish tanks provides an organic fertilizer for plants, and the plants naturally filter and purify the water for the fish. Aquaponics is a symbiotic system that showcases the integration of aquatic and plant life."
+		),
+		new ThingsToDo(
+			"Whittling",
+			"Whittling is the art of carving shapes, figures, or designs from wood using a knife. Whittlers create small sculptures or intricate designs by removing material from a piece of wood. Whittling is a relaxing and meditative hobby that requires patience and precision, producing handcrafted wooden objects with a personal touch."
+		),
+		new ThingsToDo(
+			"Hydroponics",
+			"Hydroponics is a soilless gardening method where plants grow in nutrient-rich water solutions. Enthusiasts use hydroponic systems to cultivate vegetables, herbs, and flowers, optimizing growing conditions and resource efficiency. Hydroponics allows for precise control over plant nutrition and encourages experimentation with different crops in diverse indoor or outdoor setups."
+		),
+		new ThingsToDo(
+			"Voice Acting",
+			"Voice acting involves using one's voice to portray characters in animated films, video games, audiobooks, and other media. Voice actors convey emotions, personalities, and narratives through vocal performance. Voice acting requires versatility, expression, and the ability to bring characters to life solely through the power of the spoken word."
+		),
+		new ThingsToDo(
+			"Blacksmithing",
+			"Blacksmithing is the ancient craft of forging and shaping metal, typically iron and steel, using heat and various tools. Blacksmiths create functional items such as tools, weapons, and decorative pieces through a combination of heating, hammering, and shaping. Blacksmithing combines traditional craftsmanship with artistic expression, highlighting the beauty and utility of metalwork."
+		),
+		new ThingsToDo(
+			"Permaculture",
+			"Permaculture is a holistic approach to sustainable living that integrates ecological design principles to create regenerative and self-sufficient systems. Practitioners design landscapes, gardens, and communities based on natural patterns, emphasizing biodiversity, resource efficiency, and resilience. Permaculture fosters harmony between human activities and the natural environment, promoting long-term sustainability."
+		),
+		new ThingsToDo(
+			"Sudoku",
+			"Sudoku is a popular number puzzle game that involves filling a 9x9 grid with digits from 1 to 9. The puzzle is divided into 3x3 subgrids, and players must complete the grid by ensuring each row, column, and subgrid contains every digit exactly once. Sudoku challenges logical thinking, pattern recognition, and problem-solving skills."
+		),
+		new ThingsToDo(
+			"Bonsai Cultivation",
+			"Bonsai cultivation is the art of growing and shaping miniature trees in containers. Bonsai artists meticulously prune, wire, and care for these tiny trees, creating aesthetically pleasing and natural-looking representations of full-sized trees. Bonsai cultivation requires patience, horticultural knowledge, and an appreciation for the beauty of small-scale nature."
+		),
+		new ThingsToDo(
+			"Photogrammetry",
+			"Photogrammetry is a technique that involves creating 3D models or maps of objects and environments using photographs. By analyzing the geometry and visual characteristics of overlapping photos, photogrammetry software reconstructs spatial information. Photogrammetry finds applications in surveying, archaeology, and virtual reality, providing a powerful tool for digital reconstruction and documentation."
+		),
+		new ThingsToDo(
+			"Origami",
+			"Origami is the traditional Japanese art of paper folding to create intricate and often delicate sculptures. Artists use a single sheet of paper and precise folding techniques to craft animals, flowers, and geometric shapes. Origami is a meditative and expressive art form that enhances focus, patience, and creativity."
+		),
+		new ThingsToDo(
+			"Horseback Riding",
+			"Horseback riding involves sitting on a horse's back and controlling its movements. It can be a leisurely trail ride through nature or more structured activities like dressage or show jumping. Horseback riding provides a unique connection with animals, promotes outdoor activity, and offers a blend of relaxation and adventure."
+		),
+		new ThingsToDo(
+			"Yoyoing",
+			"Yoyoing is the skillful and rhythmic art of manipulating a yoyo, a spinning toy consisting of two connected discs and an axle. Yoyoers perform various tricks, including throws, catches, and string maneuvers, showcasing creativity and dexterity. Yoyoing can be a playful hobby or a competitive sport, with a community that celebrates innovation and skill development."
+		),
+		new ThingsToDo(
+			"Yodeling",
+			"Yodeling is a vocal technique involving rapid changes between chest voice and falsetto, creating a distinctive and echoing melody. Originating in Alpine regions, yodeling has become a unique form of musical expression. Practitioners modulate their voices to produce high and low pitches, often accompanied by traditional folk music. Yodeling is both a cultural tradition and a joyful form of vocal artistry."
+		),
+		new ThingsToDo(
+			"Mosaic Art",
+			"Mosaic art involves creating images or patterns by arranging small, colored pieces of glass, tile, or other materials. Artists use adhesive to affix the pieces to a surface, forming a unique and visually appealing composition. Mosaic art can be applied to various surfaces, such as walls, floors, and decorative objects."
+		),
+		new ThingsToDo(
+			"Calligraphy",
+			"Calligraphy is the art of beautiful and expressive handwriting. Calligraphers use specialized pens or brushes to create decorative and stylized lettering. This traditional art form allows for creative exploration of different scripts, styles, and flourishes, producing visually striking and personalized written works."
+		),
+		new ThingsToDo(
+			"Lock Picking",
+			"Lock picking is a skill involving the manipulation of locks to open them without using the original key. Lock pickers use specialized tools and techniques to manipulate the lock's components and release the mechanism. While often associated with locksmithing, lock picking is also pursued as a hobby and a test of skill."
+		),
+		new ThingsToDo(
+			"Fermentation",
+			"Fermentation is the process of using microorganisms to convert sugars into alcohol or organic acids. Enthusiasts engage in fermentation to produce foods and beverages such as beer, wine, sauerkraut, and kimchi. Fermentation combines science and culinary arts, allowing individuals to create unique and flavorful homemade products."
+		),
+		new ThingsToDo(
+			"Leathercraft",
+			"Leathercraft is the art of working with leather to create functional and decorative items. Crafters use techniques such as cutting, stamping, and dyeing to shape and embellish leather into products like wallets, belts, and accessories. Leathercraft combines skill with creativity, offering a versatile and satisfying craft for enthusiasts."
+		),
+		new ThingsToDo(
+			"Soapbox Racing",
+			"Soapbox racing involves building and racing unpowered, homemade vehicles known as soapbox cars. Participants design and construct the cars, which are then raced downhill in a gravity-powered competition. Soapbox racing combines creativity, engineering, and the thrill of competition in a community event."
+		),
+		new ThingsToDo(
+			"Disc Golf",
+			"Disc golf is a sport similar to traditional golf, but players use specialized flying discs instead of balls and clubs. The objective is to complete a course in the fewest throws, aiming for metal baskets as targets. Disc golf combines outdoor recreation, strategy, and skill, providing a fun and accessible activity for all ages."
+		),
+		new ThingsToDo(
+			"Unicycling",
+			"Unicycling is a form of balance-driven transportation and recreation involving riding a unicycle. Riders develop balance, coordination, and skill in propelling the unicycle forward. Unicycling can be enjoyed as a casual activity or as a specialized sport, with various disciplines such as freestyle, distance, and mountain unicycling."
+		),
+		new ThingsToDo(
+			"Bookbinding",
+			"Bookbinding is the craft of assembling and securing the pages of a book within a cover. Bookbinders use techniques such as sewing, gluing, and folding to create durable and aesthetically pleasing books. This traditional craft allows for artistic expression and preservation of written works in a tangible form."
+		),
+		new ThingsToDo(
+			"Martial Arts",
+			"Martial arts encompass a variety of traditional and modern combat practices, emphasizing physical fitness, discipline, and self-defense"
+		),
+		new ThingsToDo(
+			"Lapidary",
+			"Lapidary is the art of cutting, shaping, and polishing gemstones and minerals to create jewelry, decorative items, or sculptures. Lapidaries use various tools such as saws, grinders, and polishers to transform raw stones into stunning pieces. This craft allows for the exploration of unique geological materials and the creation of intricate, personalized designs."
+		),
 	)
 
 module.exports = {
